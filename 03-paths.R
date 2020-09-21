@@ -3,12 +3,12 @@
 
 preamblePaths <- list(modulePath = 'modules',
                       inputPath = "inputs",
-                      cachePath = 'cache/preambleCache',
+                      cachePath = 'cache/cache_preamble',
                       outputPath = 'outputs')
 
 dataPrepPaths <- preamblePaths
-dataPrepPaths$cachePath <- "cache/dataPrepCache"
+dataPrepPaths$cachePath <- "cache/cache_dataPrep"
 
 #some of this will end up being cloudCache, I believe...
 dynamicPaths <-  preamblePaths
-dynamicPaths$cachePath <- 'cache/simCache'
+dynamicPaths$cachePath <- 'cache/cache_sim'

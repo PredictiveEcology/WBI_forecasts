@@ -19,3 +19,12 @@
 [submodule "modules/fireSense_SpreadPredict"]
 	path = modules/fireSense_SpreadPredict
 	url = https://github.com/PredictiveEcology/fireSense_SpreadPredict
+[submodule "modules/fireSense_dataPrepFit"]
+	path = modules/fireSense_dataPrepFit
+	url = https://github.com/PredictiveEcology/fireSense_dataPrepFit.git
+[submodule "modules/fireSense_dataPrepPredict"]
+	path = modules/fireSense_dataPrepPredict
+	url = https://github.com/PredictiveEcology/fireSense_dataPrepPredict.git
+[submodule "modules/WBI_dataPrep_studyArea"]
+	path = modules/WBI_dataPrep_studyArea
+	url = https://github.com/PredictiveEcology/WBI_dataPrep_studyArea.git

@@ -24,6 +24,8 @@ getPreambleObjects <- function(studyArea) {
     #get species objects
     #
 
+    #get climate objects - projectedMDC and historicalMDC
+
     return(list(studyArea = studyArea,
                 studyAreaLarge = studyAreaLarge
                 rasterToMatch = rasterToMatch
