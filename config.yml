@@ -1,0 +1,21 @@
+default:
+  batchmode: false
+  cachedb: "sqlite"
+  googleuser: ""
+  mapresfact: 1
+  paths:
+    cachedir: "cache"
+    scratchdir: "/tmp/scratch/WBI_fireSense"
+  plot: true
+
+production:
+  batchmode: true
+  plot: false
+
+alex:
+  inherits: production
+  cachedb: "postgresql"
+  googleuser: "achubaty@for-cast.ca"
+  paths:
+    scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast03") "/tmp/scratch/ON_RoF" else "/mnt/scratch/ON_RoF"
+  slackchannel: "@alex.chubaty"
