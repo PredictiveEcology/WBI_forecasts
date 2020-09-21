@@ -17,5 +17,5 @@ alex:
   cachedb: "postgresql"
   googleuser: "achubaty@for-cast.ca"
   paths:
-    scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast03") "/tmp/scratch/ON_RoF" else "/mnt/scratch/ON_RoF"
+    scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast03") "/tmp/scratch/WBI_fireSense" else "/mnt/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
