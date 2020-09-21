@@ -19,3 +19,10 @@ alex:
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast03") "/tmp/scratch/WBI_fireSense" else "/mnt/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
+
+ian:
+  cachedb: 'sqlite'
+  googleuser: 'ianmseddy@gmail.com'
+  paths:
+    scratchdir:  !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
+

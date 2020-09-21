@@ -1,0 +1,8 @@
+library(plyr); library(dplyr)
+library(data.table)
+library(magrittr)
+library(raster)
+library(SpaDES.core)
+library(LandR)
+library(pemisc)
+library(amc)
