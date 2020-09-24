@@ -1,4 +1,5 @@
-library(plyr); library(dplyr)
+library(plyr)
+library(dplyr)
 library(data.table)
 library(magrittr)
 library(raster)
