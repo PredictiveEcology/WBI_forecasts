@@ -12,3 +12,4 @@ dataPrep <- list(
   successionTimeStep = 10,
   useCache = TRUE)
 
+httr::timeout(seconds = 10)
