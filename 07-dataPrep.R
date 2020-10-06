@@ -76,7 +76,7 @@ biomassMaps2011 <- Cache(simInitAndSpades,
                          outputs = dataPrepOutputs2011,
                          userTags = c('dataPrep2011', studyAreaName))
 
-rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
+# rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
 
 #run fireSense_dataPrepFit
 dataPrepParams <- list(
@@ -87,21 +87,27 @@ dataPrepParams <- list(
   )
 )
 
+simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
+
 dataPrepObjects <- list(
+  'studyArea' = simOutPreamble$studyArea,
+  'rasterToMatch' = simOutPreamble$rasterToMatch, #this needs to be masked
   'historicalClimateRasters' = simOutPreamble$historicalClimateRasters,
   'pixelGroupMap2011' = biomassMaps2011$pixelGroupMap,
   'cohortData2011' = biomassMaps2011$cohortData,
   'pixelGroupMap2001' = biomassMaps2001$pixelGroupMap,
-  'cohortData2001' = biomassMaps2001$cohortDat) %>%
-  rbindlist(dataPrepObjects, .)
+  'cohortData2001' = biomassMaps2001$cohortDat
+  )
 
-rm(biomassMaps2011, biomassMaps2001) #no need to keep
+
+# rm(biomassMaps2011, biomassMaps2001) #no need to keep
 amc::.gc()
-
-simOutDataPrep <- simInitAndSpades(times =  list(start = 2011, end =2011),
+devtools::load_all("../../git/fireSenseUtils") #while testing new functions
+simDataPrep <- simInit(times =  list(start = 2011, end = 2011),
                                    params = dataPrepParams,
                                    objects = dataPrepObjects,
                                    paths = dataPrepPaths,
                                    modules = 'fireSense_dataPrepFit',
-                                   userTags = c("fireSense_dataPrepFit", studyAreaname)
-                                   )
+                                   # userTags = c("fireSense_dataPrepFit", studyAreaname)
+                                   ) #make this a simInitAndSpades once it is working
+simOutDataPrep <- spades(simDataPrep)
