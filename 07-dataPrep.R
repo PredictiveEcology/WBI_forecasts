@@ -29,12 +29,12 @@ dataPrepOutputs2001 <- data.frame(objectName = c("cohortData",
                                            "standAgeMap2001_borealDataPrep.rds",
                                            "rawBiomassMap2001_borealDataPrep.rds"))
 
-dataPrepObjects <- list(studyArea = simOutPreamble$studyArea,
-                        rasterToMatch = simOutPreamble$rasterToMatch,
-                        rasterToMatchLarge = simOutPreamble$rasterToMatchLarge,
-                        studyAreaLarge = simOutPreamble$studyAreaLarge,
-                        sppEquiv = simOutPreamble$sppEquiv,
-                        sppColorVect = simOutPreamble$sppColorVect)
+dataPrepObjects <- list('studyArea' = simOutPreamble$studyArea,
+                        'rasterToMatch' = simOutPreamble$rasterToMatch,
+                        'rasterToMatchLarge' = simOutPreamble$rasterToMatchLarge,
+                        'studyAreaLarge' = simOutPreamble$studyAreaLarge,
+                        'sppEquiv' = simOutPreamble$sppEquiv,
+                        'sppColorVect' = simOutPreamble$sppColorVect)
 
 
 biomassMaps2001 <- Cache(simInitAndSpades,
@@ -96,7 +96,8 @@ dataPrepObjects <- list(
   'pixelGroupMap2011' = biomassMaps2011$pixelGroupMap,
   'cohortData2011' = biomassMaps2011$cohortData,
   'pixelGroupMap2001' = biomassMaps2001$pixelGroupMap,
-  'cohortData2001' = biomassMaps2001$cohortDat
+  'cohortData2001' = biomassMaps2001$cohortData,
+  'rstLCC' = biomassMaps2001$rstLCC
   )
 
 

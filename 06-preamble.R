@@ -15,7 +15,6 @@ simOutPreamble <- Cache(simInitAndSpades,
                         modules = c("WBI_dataPrep_studyArea"),
                         objects = preambleObjects,
                         paths = preamblePaths,
-                        omitArgs = c("paths"),
                         userTags = c('WBI_dataPrep_studyArea', studyAreaName),
                         useCloud = useCloudCache,
                         cloudFolderID = cloudCacheFolderID)
