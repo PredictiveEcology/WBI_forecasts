@@ -1,0 +1,9 @@
+#sourceScript
+studyAreaName <- 'RIA'
+source('01-init.R')
+source('02-packages.R')
+source('03-paths.R')
+source('04-options.R')
+source('05-objects.R')
+source('06-preamble.R')
+source('07-dataPrep.R')
