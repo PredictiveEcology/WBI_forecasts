@@ -104,11 +104,12 @@ dataPrepObjects <- list(
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep
 amc::.gc()
 devtools::load_all("../../git/fireSenseUtils") #while testing new functions
-simDataPrep <- simInit(times =  list(start = 2011, end = 2011),
-                                   params = dataPrepParams,
-                                   objects = dataPrepObjects,
-                                   paths = dataPrepPaths,
-                                   modules = 'fireSense_dataPrepFit',
-                                   # userTags = c("fireSense_dataPrepFit", studyAreaname)
-                                   ) #make this a simInitAndSpades once it is working
-simOutDataPrep <- spades(simDataPrep)
+simDataPrep <- Cache(simInitAndSpades,
+                     times =  list(start = 2011, end = 2011),
+                     params = dataPrepParams,
+                     objects = dataPrepObjects,
+                     paths = dataPrepPaths,
+                     modules = 'fireSense_dataPrepFit',
+                     userTags = c("fireSense_dataPrepFit", studyAreaName)
+                     )
+
