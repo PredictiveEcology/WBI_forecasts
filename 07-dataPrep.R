@@ -76,7 +76,7 @@ biomassMaps2011 <- Cache(simInitAndSpades,
                          outputs = dataPrepOutputs2011,
                          userTags = c('dataPrep2011', studyAreaName))
 
-# rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
+rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
 
 #run fireSense_dataPrepFit
 dataPrepParams <- list(
@@ -86,6 +86,10 @@ dataPrepParams <- list(
     'fireYears' = 1991:2017
   )
 )
+
+if (studyAreaName == 'RIA'){ #this is probably the wrong way to do this, I'll wait for Alex to get mad
+    dataPrepParams$fireSense_dataPrepFit$minBufferSize <- 300 #RIA fires are smaller on average
+  }
 
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 

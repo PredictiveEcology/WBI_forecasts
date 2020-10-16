@@ -9,6 +9,8 @@ preamblePaths <- list(modulePath = 'modules',
 dataPrepPaths <- preamblePaths
 dataPrepPaths$cachePath <- "cache/cache_dataPrep"
 
+spreadFitPaths <- dataPrepPaths
+spreadFitPaths$cachePath <- 'cache/cache_spreadFit' #this is likely to be cloudCache, at some point
 #some of this will end up being cloudCache, I believe...
 dynamicPaths <-  preamblePaths
 dynamicPaths$cachePath <- 'cache/cache_sim'
