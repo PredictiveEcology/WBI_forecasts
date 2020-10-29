@@ -8,7 +8,6 @@ preambleParams <- list(
   )
 )
 
-
 simOutPreamble <- Cache(simInitAndSpades,
                         times = list(start = 0, end = 1),
                         params = preambleParams,

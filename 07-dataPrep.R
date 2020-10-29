@@ -104,7 +104,6 @@ dataPrepObjects <- list(
   'rstLCC' = biomassMaps2001$rstLCC
   )
 
-
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep
 amc::.gc()
 devtools::load_all("../../git/fireSenseUtils") #while testing new functions

@@ -2,12 +2,12 @@ do.call(setPaths, spreadFitPaths)
 
 
 spreadFitObjects <- list(
-    fireSense_fitCovariates = simOutDataPrep$fireSenseCovariates,
-    firePolys = simOutDataPrep$firePolys,
-    firePoints = simOutDataPrep$firePoints,
-    flammableMap = simOutDataPrep$flammableMap,
-    studyArea = simOutDataPrep$studyArea,
-    rasterToMatch = simOutDataPrep$rasterToMatch
+    fireSense_fitCovariates = simDataPrep$fireSense_fitCovariates,
+    firePolys = simDataPrep$firePolys,
+    firePoints = simDataPrep$firePoints,
+    flammableMap = simDataPrep$flammableMap,
+    studyArea = simDataPrep$studyArea,
+    rasterToMatch = simDataPrep$rasterToMatch
 )
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
