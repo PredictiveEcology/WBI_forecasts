@@ -23,11 +23,12 @@ dataPrepOutputs2001 <- data.frame(objectName = c("cohortData",
                                                  "standAgeMap",
                                                  "rawBiomassMap"),
                                   saveTime = 2001,
-                                  file = c("cohortData2001_fireSense.rds",
-                                           "pixelGroupMap2001_fireSense.rds",
-                                           "speciesLayers2001_fireSense.rds",
-                                           "standAgeMap2001_borealDataPrep.rds",
-                                           "rawBiomassMap2001_borealDataPrep.rds"))
+                                  file = paste0(studyAreaName, "_",
+                                                c("cohortData2001_fireSense.rds",
+                                                  "pixelGroupMap2001_fireSense.rds",
+                                                  "speciesLayers2001_fireSense.rds",
+                                                  "standAgeMap2001_borealDataPrep.rds",
+                                                  "rawBiomassMap2001_borealDataPrep.rds")))
 
 dataPrepObjects <- list('studyArea' = simOutPreamble$studyArea,
                         'rasterToMatch' = simOutPreamble$rasterToMatch,
@@ -40,7 +41,7 @@ dataPrepObjects <- list('studyArea' = simOutPreamble$studyArea,
 biomassMaps2001 <- Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001),
                          params = dataPrepParams2001,
-                         modules = list("Biomass_speciesData", "Biomass_borealDataPrep"),
+                         modules = list("Biomass_speciesData", "Biomass_borealDataPrep"), ## TODO: separate to use different caches
                          objects = dataPrepObjects,
                          paths = getPaths(),
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
@@ -87,9 +88,9 @@ dataPrepParams <- list(
   )
 )
 
-if (studyAreaName == 'RIA'){ #this is probably the wrong way to do this, I'll wait for Alex to get mad
+if (studyAreaName == 'RIA') { #this is probably the wrong way to do this, I'll wait for Alex to get mad
     dataPrepParams$fireSense_dataPrepFit$minBufferSize <- 300 #RIA fires are smaller on average
-  }
+}
 
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 
@@ -102,7 +103,7 @@ dataPrepObjects <- list(
   'pixelGroupMap2001' = biomassMaps2001$pixelGroupMap,
   'cohortData2001' = biomassMaps2001$cohortData,
   'rstLCC' = biomassMaps2001$rstLCC
-  )
+)
 
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep
 amc::.gc()
@@ -114,33 +115,4 @@ simDataPrep <- Cache(simInitAndSpades,
                      paths = dataPrepPaths,
                      modules = 'fireSense_dataPrepFit',
                      userTags = c("fireSense_dataPrepFit", studyAreaName)
-                     )
-
-################################################################################
-
-do.call(setPaths, spreadFitPaths)
-
-
-spreadFitObjects <- list(
-    fireSense_fitCovariates = simDataPrep$fireSense_fitCovariates,
-    firePolys = simDataPrep$firePolys,
-    firePoints = simDataPrep$firePoints,
-    flammableMap = simDataPrep$flammableMap,
-    studyArea = simDataPrep$studyArea,
-    rasterToMatch = simDataPrep$rasterToMatch
 )
-spreadFitParams <- list(
-  fireSense_SpreadFit = list(
-    # I don't know what will go here yet
-    # likely a bunch of DEOptim things and cloudCache params
-  )
-)
-
-devtools::load_all("../fireSenseUtils") #during development
-spreadSim <- simInit(times = list(start = 0, end =1),
-                     params = spreadFitParams,
-                     modules = 'fireSense_SpreadFit',
-                     paths = spreadFitPaths,
-                     objects = spreadFitObjects)
-spreadOut <- spades(spreadSim)
-
