@@ -87,10 +87,6 @@ dataPrepParams <- list(
   )
 )
 
-if (studyAreaName == 'RIA'){ #this is probably the wrong way to do this, I'll wait for Alex to get mad
-    dataPrepParams$fireSense_dataPrepFit$minBufferSize <- 300 #RIA fires are smaller on average
-  }
-
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 
 dataPrepObjects <- list(
@@ -118,29 +114,29 @@ simDataPrep <- Cache(simInitAndSpades,
 
 ################################################################################
 
-do.call(setPaths, spreadFitPaths)
+# do.call(setPaths, spreadFitPaths)
 
 
-spreadFitObjects <- list(
-    fireSense_fitCovariates = simDataPrep$fireSense_fitCovariates,
-    firePolys = simDataPrep$firePolys,
-    firePoints = simDataPrep$firePoints,
-    flammableMap = simDataPrep$flammableMap,
-    studyArea = simDataPrep$studyArea,
-    rasterToMatch = simDataPrep$rasterToMatch
-)
-spreadFitParams <- list(
-  fireSense_SpreadFit = list(
-    # I don't know what will go here yet
-    # likely a bunch of DEOptim things and cloudCache params
-  )
-)
-
-devtools::load_all("../fireSenseUtils") #during development
-spreadSim <- simInit(times = list(start = 0, end =1),
-                     params = spreadFitParams,
-                     modules = 'fireSense_SpreadFit',
-                     paths = spreadFitPaths,
-                     objects = spreadFitObjects)
-spreadOut <- spades(spreadSim)
+# spreadFitObjects <- list(
+#     fireSense_fitCovariates = simDataPrep$fireSense_fitCovariates,
+#     firePolys = simDataPrep$firePolys,
+#     firePoints = simDataPrep$firePoints,
+#     flammableMap = simDataPrep$flammableMap,
+#     studyArea = simDataPrep$studyArea,
+#     rasterToMatch = simDataPrep$rasterToMatch
+# )
+# spreadFitParams <- list(
+#   fireSense_SpreadFit = list(
+#     # I don't know what will go here yet
+#     # likely a bunch of DEOptim things and cloudCache params
+#   )
+# )
+#
+# devtools::load_all("../fireSenseUtils") #during development
+# spreadSim <- simInit(times = list(start = 0, end = 1),
+#                      params = spreadFitParams,
+#                      modules = 'fireSense_SpreadFit',
+#                      paths = spreadFitPaths,
+#                      objects = spreadFitObjects)
+# spreadOut <- spades(spreadSim)
 
