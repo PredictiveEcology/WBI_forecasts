@@ -22,4 +22,3 @@ spreadSim <- simInit(times = list(start = 0, end = 1),
                      paths = spreadFitPaths,
                      objects = spreadFitObjects)
 spreadOut <- spades(spreadSim)
-
