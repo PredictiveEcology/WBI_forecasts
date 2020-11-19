@@ -114,32 +114,4 @@ simDataPrep <- simInitAndSpades(
                      )
 
 
-################################################################################
-
-do.call(setPaths, spreadFitPaths)
-
-spreadFitObjects <- list(
-    fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
-    fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
-    firePolys = simDataPrep$firePolys,
-    firePoints = simDataPrep$firePoints,
-    flammableRTM = simDataPrep$flammableRTM,
-    studyArea = simDataPrep$studyArea,
-    rasterToMatch = simDataPrep$rasterToMatch,
-    fireSense_formula = simDataPrep$fireSense_formula
-)
-
-spreadFitParams <- list(
-  fireSense_SpreadFit = list(
-    lower = c(.01, 0, .1, .3, .001, .001),
-    upper = c(.20, .1, 10, 4., .300, .300)
-))
-#
-devtools::load_all("../fireSenseUtils") #during development
-spreadSim <- simInit(times = list(start = 0, end = 1),
-                     params = spreadFitParams,
-                     modules = 'fireSense_SpreadFit',
-                     paths = spreadFitPaths,
-                     objects = spreadFitObjects)
-spreadOut <- spades(spreadSim)
 
