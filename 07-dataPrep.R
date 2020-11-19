@@ -84,7 +84,8 @@ dataPrepParams <- list(
   'fireSense_dataPrepFit' = list(
     'whichModulesToPrepare' = 'fireSense_SpreadFit', #for Now
     'useCentroids' = TRUE,
-    'fireYears' = 1991:2017
+    'fireYears' = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC))
+    , '.studyAreaName' = studyAreaName
   )
 )
 
@@ -102,10 +103,10 @@ dataPrepObjects <- list(
   'rstLCC' = biomassMaps2001$rstLCC
 )
 
-# rm(biomassMaps2011, biomassMaps2001) #no need to keep
+# rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
 amc::.gc()
 devtools::load_all("../../git/fireSenseUtils") #while testing new functions
-simDataPrep <- Cache(simInitAndSpades,
+simDataPrep <- simInitAndSpades(
                      times =  list(start = 2011, end = 2011),
                      params = dataPrepParams,
                      objects = dataPrepObjects,
