@@ -3,8 +3,9 @@
 do.call(setPaths, preamblePaths)
 
 preambleParams <- list(
-  WBI_dataprep_studyArea = list(
-    'studyAreaName' = studyAreaName
+  WBI_dataPrep_studyArea = list(
+    'studyAreaName' = studyAreaName,
+    "historicalFireYears" = 1991:2019 #RIA is now same as everywhere else
   )
 )
 
@@ -16,4 +17,5 @@ simOutPreamble <- Cache(simInitAndSpades,
                         paths = preamblePaths,
                         userTags = c('WBI_dataPrep_studyArea', studyAreaName),
                         useCloud = useCloudCache,
-                        cloudFolderID = cloudCacheFolderID)
+                        cloudFolderID = cloudCacheFolderID
+)

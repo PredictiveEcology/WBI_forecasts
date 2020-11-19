@@ -83,13 +83,10 @@ dataPrepParams <- list(
   'fireSense_dataPrepFit' = list(
     'whichModulesToPrepare' = 'fireSense_SpreadFit', #for Now
     'useCentroids' = TRUE,
-    'fireYears' = 1991:2017
+    'fireYears' = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC))
+    , '.studyAreaName' = studyAreaName
   )
 )
-
-if (studyAreaName == 'RIA'){ #this is probably the wrong way to do this, I'll wait for Alex to get mad
-    dataPrepParams$fireSense_dataPrepFit$minBufferSize <- 300 #RIA fires are smaller on average
-  }
 
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 
@@ -104,10 +101,10 @@ dataPrepObjects <- list(
   'rstLCC' = biomassMaps2001$rstLCC
   )
 
-# rm(biomassMaps2011, biomassMaps2001) #no need to keep
+# rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
 amc::.gc()
 devtools::load_all("../../git/fireSenseUtils") #while testing new functions
-simDataPrep <- Cache(simInitAndSpades,
+simDataPrep <- simInitAndSpades(
                      times =  list(start = 2011, end = 2011),
                      params = dataPrepParams,
                      objects = dataPrepObjects,
@@ -116,28 +113,30 @@ simDataPrep <- Cache(simInitAndSpades,
                      userTags = c("fireSense_dataPrepFit", studyAreaName)
                      )
 
+
 ################################################################################
 
 do.call(setPaths, spreadFitPaths)
 
-
 spreadFitObjects <- list(
-    fireSense_fitCovariates = simDataPrep$fireSense_fitCovariates,
+    fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
+    fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
     firePolys = simDataPrep$firePolys,
     firePoints = simDataPrep$firePoints,
-    flammableMap = simDataPrep$flammableMap,
+    flammableRTM = simDataPrep$flammableRTM,
     studyArea = simDataPrep$studyArea,
-    rasterToMatch = simDataPrep$rasterToMatch
-)
-spreadFitParams <- list(
-  fireSense_SpreadFit = list(
-    # I don't know what will go here yet
-    # likely a bunch of DEOptim things and cloudCache params
-  )
+    rasterToMatch = simDataPrep$rasterToMatch,
+    fireSense_formula = simDataPrep$fireSense_formula
 )
 
+spreadFitParams <- list(
+  fireSense_SpreadFit = list(
+    lower = c(.01, 0, .1, .3, .001, .001),
+    upper = c(.20, .1, 10, 4., .300, .300)
+))
+#
 devtools::load_all("../fireSenseUtils") #during development
-spreadSim <- simInit(times = list(start = 0, end =1),
+spreadSim <- simInit(times = list(start = 0, end = 1),
                      params = spreadFitParams,
                      modules = 'fireSense_SpreadFit',
                      paths = spreadFitPaths,
