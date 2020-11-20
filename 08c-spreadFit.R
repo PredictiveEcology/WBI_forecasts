@@ -27,6 +27,14 @@ upperParams <- c(32, 32, 32, 32, 32, 32)
 lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.29, 10, upperParams)
 
+if (!isRstudioServer()) {
+  cores <- pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
+                                                ipEnd = c(97, 189, 220, 106, 217),
+                                                localHostEndIp = 97,
+                                                availableRAM = c(500, 500, 500, 250, 250),
+                                                availableCores = c(24, 25, 25, 13, 13))
+}
+
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
     'lower' = lower,
@@ -43,22 +51,12 @@ spreadFitParams <- list(
     "verbose" = TRUE,
     "trace" = 1,
     "visualizeDEoptim" = TRUE,
-    #initialpop = if (exists("aa")) aa$member$pop else NULL#[sample(seq_len(NROW(aa$member$pop)), length(cores)),]
-    # "40927e9ca42d33b3", "56769e2b2edfe8ab",  "c3af84b504e99a5d", # This is NWT DEoptim Cache, newer to older
-    "cacheId_DE" = runNamesList()[RunName == runName,
-                                  DEoptimCache], # This is NWT DEoptim Cache
-    "cloudFolderID_DE" = "1kUZczPyArGIIkbl-4_IbtJWBhVDveZFZ",
+    "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
+    "cloudFolderID_DE" = CloudFolderID,
     "useCloud_DE" = TRUE
   ))
 
-# Setting up IP's for paralelizing
-cores <- pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
-                                              ipEnd = c(97, 189, 220, 106, 217),
-                                              localHostEndIp = 97,
-                                              availableCores = c(24, 25, 25, 13, 13))
 
-#
-devtools::load_all("../fireSenseUtils") #during development
 spreadSim <- simInit(times = list(start = 0, end = 1),
                      params = spreadFitParams,
                      modules = 'fireSense_SpreadFit',
