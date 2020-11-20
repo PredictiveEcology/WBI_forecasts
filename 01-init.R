@@ -1,8 +1,7 @@
 .starttime <- Sys.time()
 studyAreaName <- 'RIA'
 #BC AB SK MB YK NWT
-useCloudCache<- FALSE
-cloudCacheFolderID <- NULL
+useCloudCache <- TRUE
 
 #this will be passed to the dataprep parameters when preparing cohortData for fitting -
 #they are potentially different from the dynamic run of biomass_borealDataPrep

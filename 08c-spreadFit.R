@@ -52,7 +52,7 @@ spreadFitParams <- list(
     "trace" = 1,
     "visualizeDEoptim" = TRUE,
     "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
-    "cloudFolderID_DE" = CloudFolderID,
+    "cloudFolderID_DE" = cloudCacheFolderID,
     "useCloud_DE" = TRUE
   ))
 
