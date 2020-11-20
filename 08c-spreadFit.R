@@ -35,6 +35,8 @@ if (!isRstudioServer()) {
                                                 availableCores = c(24, 25, 25, 13, 13))
 }
 
+cloudCacheFolderID <- drive_mkdir(name = paste0('spreadFit_', studyAreaName),
+                                  path = as_id('https://drive.google.com/drive/folders/18aXrRWI3sc6WUG56qaTaa8YXMlCWFS6m?usp=sharing'))
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
     'lower' = lower,
