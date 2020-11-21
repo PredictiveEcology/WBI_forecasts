@@ -13,17 +13,20 @@ spreadFitObjects <- list(
   fireSense_formula = simDataPrep$fireSense_formula,
 )
 
-#  lower asymptote, upper asymptote, (inflection point), slope at inflection pt, asymmetry
-#Note this is not from the fireSense_tutorial. No defaults on params yet...
-lowerParams <- c(-16, -16, -16, -16, -16, -16)
-upperParams <- c(32, 32, 32, 32, 32, 32)
+#so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
+#but the maximum is 27000! In theory these are symmetrical
+#so for safety, -35000 to 35000. need more info
+lowerParams <- rep(-35000, times = c(ncol(simDataPrep$fireSense_annualSpreadFitCovariates[[1]]) +
+                                     ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]])
+                   - 2))
+upperParams <- rep(35000, times = length(lowerParams))
+
 # Spread log function bounds
 
 # for logistic3p
 #lower <- c(0.22, 0.001, 0.001, lowerParams)
 #upper <- c(0.29, 10, 10, upperParams)
 
-#this is study area specific and might be be retrieved by WBI_dataPrep_studyArea?
 lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.29, 10, upperParams)
 
@@ -52,6 +55,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "verbose" = TRUE,
     "trace" = 1,
+    'debugMode' = TRUE,
     "visualizeDEoptim" = TRUE,
     "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
