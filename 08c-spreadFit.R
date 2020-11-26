@@ -20,6 +20,7 @@ spreadFitObjects <- list(
 lowerParams <- rep(-35000, times = c(ncol(simDataPrep$fireSense_annualSpreadFitCovariates[[1]]) +
                                      ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]])
                    - 2))
+
 upperParams <- rep(35000, times = length(lowerParams))
 
 # Spread log function bounds
@@ -44,7 +45,8 @@ spreadFitParams <- list(
   fireSense_SpreadFit = list(
     "lower" = lower,
     "upper" = upper,
-    "cores" = if (isRstudioServer()) NULL else cores, #rep("localhost", 40), #cores,
+    'cores' = cores,
+    # "cores" = if (isRstudioServer()) NULL else cores, #rep("localhost", 40), #cores,
     "iterDEoptim" = 150,
     "iterStep" = 150,
     "rescaleAll" = TRUE,
@@ -54,15 +56,17 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "verbose" = TRUE,
     "trace" = 1,
-    "debugMode" = if (isRstudioServer()) TRUE else FALSE, # DEoptim may spawn many machines via PSOCK --> may be better from cmd line
+    # "debugMode" = if (isRstudioServer()) TRUE else FALSE, # DEoptim may spawn many machines via PSOCK --> may be better from cmd line
+    'debugMode' = FALSE,
     "visualizeDEoptim" = TRUE,
     "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
-    "useCloud_DE" = TRUE
+    "useCloud_DE" = FALSE
   ))
 
-# devtools::load_all("../fireSenseUtils") #install development fireSense
+devtools::load_all("../fireSenseUtils") #install development fireSense
 #add tags when it stabilizes
+# rm(biomassMaps2001, biomassMaps2011)
 spreadSim <- simInit(times = list(start = 0, end = 1),
                      params = spreadFitParams,
                      modules = 'fireSense_SpreadFit',
