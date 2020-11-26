@@ -3,6 +3,7 @@
 do.call(setPaths, spreadFitPaths)
 
 spreadFitObjects <- list(
+  fireBufferedListDT = simDataPrep$fireBufferedListDT,
   fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
   fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
   firePolys = simDataPrep$firePolys,
@@ -10,7 +11,7 @@ spreadFitObjects <- list(
   flammableRTM = simDataPrep$flammableRTM,
   studyArea = simDataPrep$studyArea,
   rasterToMatch = simDataPrep$rasterToMatch,
-  fireSense_formula = simDataPrep$fireSense_formula,
+  fireSense_formula = simDataPrep$fireSense_formula
 )
 
 #so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
@@ -30,24 +31,22 @@ upperParams <- rep(35000, times = length(lowerParams))
 lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.29, 10, upperParams)
 
-if (!isRstudioServer()) {
-  cores <- pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
+cores <- pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
                                                 ipEnd = c(97, 189, 220, 106, 217),
                                                 localHostEndIp = 97,
                                                 availableRAM = c(500, 500, 500, 250, 250),
                                                 availableCores = c(24, 25, 25, 13, 13))
-}
+
 
 cloudCacheFolderID <- drive_mkdir(name = paste0('spreadFit_', studyAreaName),
                                   path = as_id('https://drive.google.com/drive/folders/18aXrRWI3sc6WUG56qaTaa8YXMlCWFS6m?usp=sharing'))
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
-    'lower' = lower,
-    'upper' = upper,
+    "lower" = lower,
+    "upper" = upper,
     "cores" = if (isRstudioServer()) NULL else cores, #rep("localhost", 40), #cores,
     "iterDEoptim" = 150,
     "iterStep" = 150,
-    "debugMode" = FALSE, # DEoptim may spawn many machines via PSOCK --> may be better from cmd line
     "rescaleAll" = TRUE,
     "NP" = length(cores),
     "objFunCoresInternal" = 3L,
@@ -55,14 +54,15 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "verbose" = TRUE,
     "trace" = 1,
-    'debugMode' = TRUE,
+    "debugMode" = if (isRstudioServer()) TRUE else FALSE, # DEoptim may spawn many machines via PSOCK --> may be better from cmd line
     "visualizeDEoptim" = TRUE,
     "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "useCloud_DE" = TRUE
   ))
 
-
+# devtools::load_all("../fireSenseUtils") #install development fireSense
+#add tags when it stabilizes
 spreadSim <- simInit(times = list(start = 0, end = 1),
                      params = spreadFitParams,
                      modules = 'fireSense_SpreadFit',
