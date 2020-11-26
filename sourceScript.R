@@ -12,4 +12,4 @@ source('04-options.R')
 source('05-objects.R')
 source('06-studyArea.R')
 source('07-dataPrep.R')
-# source('08-spreadFit.R') #this is out of order, for now
+source('08-spreadFit.R') #this is out of order, for now
