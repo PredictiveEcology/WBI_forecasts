@@ -64,7 +64,7 @@ spreadFitParams <- list(
     # "debugMode" = if (isRstudioServer()) TRUE else FALSE, # DEoptim may spawn many machines via PSOCK --> may be better from cmd line
     'debugMode' = FALSE,
     "visualizeDEoptim" = TRUE,
-    "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
+    # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "useCloud_DE" = FALSE
   ))
