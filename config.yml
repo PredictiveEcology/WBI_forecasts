@@ -32,7 +32,7 @@ ian:
   cloud:
     cachedir: ""
     googleuser: 'ianmseddy@gmail.com'
-    usecloud: true
+    usecloud: false
   paths:
     scratchdir:  !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
 
