@@ -106,11 +106,11 @@ dataPrepObjects <- list(
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
 amc::.gc()
 simDataPrep <- simInitAndSpades(
-                     times =  list(start = 2011, end = 2011),
-                     params = dataPrepParams,
-                     objects = dataPrepObjects,
-                     paths = dataPrepPaths,
-                     modules = 'fireSense_dataPrepFit',
-                     userTags = c("fireSense_dataPrepFit", studyAreaName)
-                     )
+  times =  list(start = 2011, end = 2011),
+  params = dataPrepParams,
+  objects = dataPrepObjects,
+  paths = dataPrepPaths,
+  modules = 'fireSense_dataPrepFit',
+  userTags = c("fireSense_dataPrepFit", studyAreaName)
+)
 # rm(biomassMaps2001, biomassMaps2011) #Don't do this until this works 100%
