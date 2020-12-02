@@ -1,14 +1,16 @@
 .starttime <- Sys.time()
-studyAreaName <- 'RIA'
-#BC AB SK MB YK NWT
-useCloudCache <- TRUE
 
-#this will be passed to the dataprep parameters when preparing cohortData for fitting -
-#they are potentially different from the dynamic run of biomass_borealDataPrep
-dataPrep <- list(
-  subsetDataBiomassModel = 50,
-  pixelGroupAgeClass = 20,
-  successionTimeStep = 10,
-  useCache = TRUE)
+if (file.exists(".Renviron")) readRenviron(".Renviron")
 
-httr::timeout(seconds = 10)
+library(config)
+
+cacheDir <- config::get("paths")[["cachedir"]]
+cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
+cloudCacheFolderID <- NULL ## TODO: Spread expects a character arg for cloudFolderID, but Cache accepts a dribble.
+                           ##        if using the character, we need to set the reproducible.cloudFolderID option. Not sure which is better
+
+scratchDir <- config::get("paths")[["scratchdir"]]
+studyAreaName <- config::get("studyarea")
+useCloudCache <- config::get("cloud")[["usecloud"]]
+usePlot <- config::get("plot")
+.plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA

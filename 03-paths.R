@@ -1,17 +1,29 @@
+################################################################################
+## Set paths for each part of the simulation
+################################################################################
 
-#I assume we want a different cache for aspects that are only run once in advance (e.g. the 2011/2001 biomassBorealDataPreps)
+defaultPaths <- list(
+  cachePath = cacheDir,
+  modulePath = "modules",
+  inputPath = "inputs",
+  outputPath = file.path("outputs", studyAreaName)
+)
 
-preamblePaths <- list(modulePath = 'modules',
-                      inputPath = "inputs",
-                      cachePath = 'cache/cache_preamble',
-                      outputPath = 'outputs')
+preamblePaths <- defaultPaths
+preamblePaths[["cachePath"]] <- file.path(cacheDir, "cache_preamble")
 
-dataPrepPaths <- preamblePaths
-dataPrepPaths$cachePath <- "cache/cache_dataPrep"
+dataPrepPaths <- defaultPaths
+dataPrepPaths[["cachePath"]] <- file.path(cacheDir, "cache_dataPrep")
 
-spreadFitPaths <- dataPrepPaths
-spreadFitPaths$cachePath <- 'cache/cache_spreadFit' #this is likely to be cloudCache, at some point
-#some of this will end up being cloudCache, I believe...
-dynamicPaths <-  preamblePaths
-dynamicPaths$cachePath <- 'cache/cache_sim'
+ignitionFitPaths <- defaultPaths
+ignitionFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_ignitionFit")
 
+escapeFitPaths <- defaultPaths
+escapeFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_escapeFit")
+
+spreadFitPaths <- defaultPaths
+spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit")
+
+## main (dynamic) simulation
+dynamicPaths <-  defaultPaths
+dynamicPaths$cachePath <- file.path(cacheDir, "cache_sim")

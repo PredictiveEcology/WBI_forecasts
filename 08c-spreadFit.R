@@ -33,14 +33,13 @@ lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.29, 10, upperParams)
 
 cores <- pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
-                                                ipEnd = c(97, 189, 220, 106, 217),
-                                                localHostEndIp = 97,
-                                                availableRAM = c(500, 500, 500, 250, 250),
-                                                availableCores = c(24, 25, 25, 13, 13))
+                                              ipEnd = c(97, 189, 220, 106, 217),
+                                              localHostEndIp = 97,
+                                              availableRAM = c(500, 500, 500, 250, 250),
+                                              availableCores = c(24, 25, 25, 13, 13))
 
 cloudCacheFolderID <- drive_mkdir(name = paste0('spreadFit_', studyAreaName),
                                   path = as_id('https://drive.google.com/drive/folders/18aXrRWI3sc6WUG56qaTaa8YXMlCWFS6m?usp=sharing'))
-
 
 # NPar <- length(lower)
 # NP <- NPar * 10

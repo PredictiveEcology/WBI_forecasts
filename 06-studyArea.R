@@ -1,5 +1,3 @@
-#this should call the study area module
-
 do.call(setPaths, preamblePaths)
 
 preambleParams <- list(
