@@ -17,4 +17,5 @@ cache/
 
 # R Environment Variables
 .Renviron
-/outputs
+inputs/
+outputs/
