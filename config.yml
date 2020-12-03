@@ -2,7 +2,7 @@ default:
   batchmode: false
   cachedb: "sqlite"
   cloud:
-    cachedir: ""
+    cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
     googleuser: ""
     usecloud: false
   mapresfact: 1
