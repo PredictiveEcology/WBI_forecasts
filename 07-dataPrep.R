@@ -3,14 +3,24 @@ do.call(setPaths, dataPrepPaths)
 
 dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
-    "sppEquivCol" = simOutPreamble$sppEquivCol,
-    "successionTimeStep" = dataPrep$successionTimeStep,
-    "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
-    ".useCache" = c(".inputObjects", "init"),
-    ".useCache" = dataPrep$useCache,
-    "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel,
+    #"biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
+    "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
+                                        (logAge + cover + speciesCode | ecoregionGroup))),
+    "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
     "exportModels" = "all",
-    '.studyAreaName' = paste0(studyAreaName, 2001)
+    "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
+    "LCCClassesToReplaceNN" = 34:36,
+    "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
+    "speciesUpdateFunction" = list(
+      quote(LandR::speciesTableUpdate(sim$species, sim$speciesTable, sim$sppEquiv, P(sim)$sppEquivCol)),
+      quote(LandR::updateSpeciesTable(sim$species, sim$speciesParams))
+    ),
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel,
+    "successionTimeStep" = dataPrep$successionTimeStep,
+    "useCloudCacheForStats" = useCloudCache,
+    '.studyAreaName' = paste0(studyAreaName, 2001),
+    ".useCache" = c(".inputObjects", "init")
   ),
   Biomass_speciesData = list(
     'sppEquivCol' = simOutPreamble$sppEquivCol,
@@ -36,7 +46,6 @@ dataPrepObjects <- list('studyArea' = simOutPreamble$studyArea,
                         'studyAreaLarge' = simOutPreamble$studyAreaLarge,
                         'sppEquiv' = simOutPreamble$sppEquiv,
                         'sppColorVect' = simOutPreamble$sppColorVect)
-
 
 biomassMaps2001 <- Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001),
