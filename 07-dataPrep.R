@@ -9,7 +9,7 @@ dataPrepParams2001 <- list(
     "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
     "exportModels" = "all",
     "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
-    "LCCClassesToReplaceNN" = 34:36,
+    "LCCClassesToReplaceNN" = 34:35,
     "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
     "speciesUpdateFunction" = list(
       quote(LandR::speciesTableUpdate(sim$species, sim$speciesTable, sim$sppEquiv, P(sim)$sppEquivCol)),
