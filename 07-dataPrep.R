@@ -93,7 +93,8 @@ dataPrepParams <- list(
   'fireSense_dataPrepFit' = list(
     'whichModulesToPrepare' = 'fireSense_SpreadFit', #for Now
     'useCentroids' = TRUE,
-    'fireYears' = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC))
+    'fireYears' = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
+    'sppEquivCol' = simOutPreamble$sppEquivCol
     , '.studyAreaName' = studyAreaName
   )
 )
@@ -109,7 +110,8 @@ dataPrepObjects <- list(
   'cohortData2011' = biomassMaps2011$cohortData,
   'pixelGroupMap2001' = biomassMaps2001$pixelGroupMap,
   'cohortData2001' = biomassMaps2001$cohortData,
-  'rstLCC' = biomassMaps2001$rstLCC
+  'rstLCC' = biomassMaps2001$rstLCC,
+  'sppEquiv' = simOutPreamble$sppEquiv
 )
 
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development

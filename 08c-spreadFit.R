@@ -11,7 +11,7 @@ spreadFitObjects <- list(
   flammableRTM = simDataPrep$flammableRTM,
   studyArea = simDataPrep$studyArea,
   rasterToMatch = simDataPrep$rasterToMatch,
-  fireSense_formula = simDataPrep$fireSense_formula
+  fireSense_spreadFormula = simDataPrep$fireSense_spreadFormula
 )
 
 #so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
