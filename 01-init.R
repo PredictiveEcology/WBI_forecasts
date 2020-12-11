@@ -6,8 +6,6 @@ library(config)
 
 cacheDir <- config::get("paths")[["cachedir"]]
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
-cloudCacheFolderID <- NULL ## TODO: Spread expects a character arg for cloudFolderID, but Cache accepts a dribble.
-                           ##        if using the character, we need to set the reproducible.cloudFolderID option. Not sure which is better
 
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
