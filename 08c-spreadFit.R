@@ -7,7 +7,7 @@ spreadFitObjects <- list(
   fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
   fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
   firePolys = simDataPrep$firePolys,
-  firePoints = simDataPrep$firePoints,
+  spreadFirePoints = simDataPrep$spreadFirePoints,
   flammableRTM = simDataPrep$flammableRTM,
   studyArea = simDataPrep$studyArea,
   rasterToMatch = simDataPrep$rasterToMatch,
