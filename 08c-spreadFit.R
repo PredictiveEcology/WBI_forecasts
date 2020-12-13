@@ -6,12 +6,12 @@ spreadFitObjects <- list(
   fireBufferedListDT = simDataPrep$fireBufferedListDT,
   fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
   fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
+  fireSense_spreadFormula = simDataPrep$fireSense_spreadFormula,
   firePolys = simDataPrep$firePolys,
-  spreadFirePoints = simDataPrep$spreadFirePoints,
   flammableRTM = simDataPrep$flammableRTM,
+  spreadFirePoints = simDataPrep$spreadFirePoints,
   studyArea = simDataPrep$studyArea,
-  rasterToMatch = simDataPrep$rasterToMatch,
-  fireSense_spreadFormula = simDataPrep$fireSense_spreadFormula
+  rasterToMatch = simDataPrep$rasterToMatch
 )
 
 #so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
@@ -32,14 +32,21 @@ upperParams <- rep(32, times = length(lowerParams))
 lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.29, 10, upperParams)
 
-cores <- pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
-                                              ipEnd = c(97, 189, 220, 106, 217),
-                                              localHostEndIp = 97,
-                                              availableRAM = c(500, 500, 500, 250, 250),
-                                              availableCores = c(24, 25, 25, 13, 13))
-
-cloudCacheFolderID <- drive_mkdir(name = paste0('spreadFit_', studyAreaName),
-                                  path = as_id('https://drive.google.com/drive/folders/18aXrRWI3sc6WUG56qaTaa8YXMlCWFS6m?usp=sharing'))
+cores <- if (peutils::user("ieddy")) {
+  pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
+                                       ipEnd = c(97, 189, 220, 106, 217),
+                                       localHostEndIp = 97,
+                                       availableRAM = c(500, 500, 500, 250, 250),
+                                       availableCores = c(24, 25, 25, 13, 13))
+} else if (peutils::user("achubaty")) {
+  pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
+                                       ipEnd = c(220, 223, 224),
+                                       localHostEndIp = 223,
+                                       availableRAM = c(500, 64, 500),
+                                       availableCores = c(64, 16, 96))
+} else {
+  stop("please specify machines to use for spread fit")
+}
 
 # NPar <- length(lower)
 # NP <- NPar * 10

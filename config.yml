@@ -20,7 +20,7 @@ alex:
   inherits: production
   cachedb: "postgresql"
   cloud:
-    cachedir: ""
+    #cachedir: ""
     googleuser: "achubaty@for-cast.ca"
     usecloud: false ## TODO: use cloud cache
   paths:
@@ -30,9 +30,8 @@ alex:
 ian:
   cachedb: "sqlite"
   cloud:
-    cachedir: ""
+    #cachedir: ""
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   paths:
-    scratchdir:  !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
-
+    scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'

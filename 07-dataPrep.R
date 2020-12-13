@@ -19,12 +19,12 @@ dataPrepParams2001 <- list(
     "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel,
     "successionTimeStep" = dataPrep$successionTimeStep,
     "useCloudCacheForStats" = useCloudCache,
-    '.studyAreaName' = paste0(studyAreaName, 2001),
+    ".studyAreaName" = paste0(studyAreaName, 2001),
     ".useCache" = c(".inputObjects", "init")
   ),
   Biomass_speciesData = list(
-    'sppEquivCol' = simOutPreamble$sppEquivCol,
-    '.studyAreaName' = paste0(studyAreaName, 2001)
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    ".studyAreaName" = paste0(studyAreaName, 2001)
   )
 )
 dataPrepOutputs2001 <- data.frame(objectName = c("cohortData",
@@ -40,12 +40,12 @@ dataPrepOutputs2001 <- data.frame(objectName = c("cohortData",
                                                   "standAgeMap2001_borealDataPrep.rds",
                                                   "rawBiomassMap2001_borealDataPrep.rds")))
 
-dataPrepObjects <- list('studyArea' = simOutPreamble$studyArea,
-                        'rasterToMatch' = simOutPreamble$rasterToMatch,
-                        'rasterToMatchLarge' = simOutPreamble$rasterToMatchLarge,
-                        'studyAreaLarge' = simOutPreamble$studyAreaLarge,
-                        'sppEquiv' = simOutPreamble$sppEquiv,
-                        'sppColorVect' = simOutPreamble$sppColorVect)
+dataPrepObjects <- list("studyArea" = simOutPreamble$studyArea,
+                        "rasterToMatch" = simOutPreamble$rasterToMatch,
+                        "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
+                        "studyAreaLarge" = simOutPreamble$studyAreaLarge,
+                        "sppEquiv" = simOutPreamble$sppEquiv,
+                        "sppColorVect" = simOutPreamble$sppColorVect)
 
 biomassMaps2001 <- Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001),
@@ -58,7 +58,7 @@ biomassMaps2001 <- Cache(simInitAndSpades,
                          userTags = c("dataPrep2001", studyAreaName))
 
 dataPrepParams2011 <- dataPrepParams2001
-dataPrepParams2011$Biomass_speciesData$types <- 'KNN2011'
+dataPrepParams2011$Biomass_speciesData$types <- "KNN2011"
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
 
@@ -84,18 +84,18 @@ biomassMaps2011 <- Cache(simInitAndSpades,
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          clearSimEnv = TRUE,
                          outputs = dataPrepOutputs2011,
-                         userTags = c('dataPrep2011', studyAreaName))
+                         userTags = c("dataPrep2011", studyAreaName))
 
 rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
 
 #run fireSense_dataPrepFit
 dataPrepParams <- list(
-  'fireSense_dataPrepFit' = list(
-    'whichModulesToPrepare' = 'fireSense_SpreadFit', #for Now
-    'useCentroids' = TRUE,
-    'fireYears' = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
-    'sppEquivCol' = simOutPreamble$sppEquivCol
-    , '.studyAreaName' = studyAreaName
+  "fireSense_dataPrepFit" = list(
+    "whichModulesToPrepare" = "fireSense_SpreadFit", #for Now
+    "useCentroids" = TRUE,
+    "fireYears" = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
+    "sppEquivCol" = simOutPreamble$sppEquivCol
+    , ".studyAreaName" = studyAreaName
   )
 )
 
@@ -103,15 +103,15 @@ dataPrepParams <- list(
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 
 dataPrepObjects <- list(
-  'studyArea' = simOutPreamble$studyArea,
-  'rasterToMatch' = simOutPreamble$rasterToMatch, #this needs to be masked
-  'historicalClimateRasters' = simOutPreamble$historicalClimateRasters,
-  'pixelGroupMap2011' = biomassMaps2011$pixelGroupMap,
-  'cohortData2011' = biomassMaps2011$cohortData,
-  'pixelGroupMap2001' = biomassMaps2001$pixelGroupMap,
-  'cohortData2001' = biomassMaps2001$cohortData,
-  'rstLCC' = biomassMaps2001$rstLCC,
-  'sppEquiv' = simOutPreamble$sppEquiv
+  "cohortData2001" = biomassMaps2001$cohortData,
+  "cohortData2011" = biomassMaps2011$cohortData,
+  "historicalClimateRasters" = simOutPreamble$historicalClimateRasters,
+  "pixelGroupMap2011" = biomassMaps2011$pixelGroupMap,
+  "pixelGroupMap2001" = biomassMaps2001$pixelGroupMap,
+  "rasterToMatch" = simOutPreamble$rasterToMatch, #this needs to be masked
+  "rstLCC" = biomassMaps2001$rstLCC,
+  "sppEquiv" = simOutPreamble$sppEquiv,
+  "studyArea" = simOutPreamble$studyArea
 )
 
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
@@ -121,7 +121,7 @@ simDataPrep <- simInitAndSpades(
   params = dataPrepParams,
   objects = dataPrepObjects,
   paths = dataPrepPaths,
-  modules = 'fireSense_dataPrepFit',
+  modules = "fireSense_dataPrepFit",
   userTags = c("fireSense_dataPrepFit", studyAreaName)
 )
 # rm(biomassMaps2001, biomassMaps2011) #Don't do this until this works 100%
