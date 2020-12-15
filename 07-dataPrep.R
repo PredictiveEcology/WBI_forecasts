@@ -3,9 +3,9 @@ do.call(setPaths, dataPrepPaths)
 
 dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
-    #"biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
+    # "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
-                                        (logAge + cover + speciesCode | ecoregionGroup))),
+                                       (logAge + cover | ecoregionGroup))),
     "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
     "exportModels" = "all",
     "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
@@ -33,10 +33,10 @@ dataPrepOutputs2001 <- data.frame(
                  "pixelGroupMap",
                  "speciesLayers",
                  "standAgeMap",
-                                                 "rawBiomassMap"),
-                                  saveTime = 2001,
-                                  file = paste0(studyAreaName, "_",
-                                                c("cohortData2001_fireSense.rds",
+                 "rawBiomassMap"),
+  saveTime = 2001,
+  file = paste0(studyAreaName, "_",
+                c("cohortData2001_fireSense.rds",
                   "pixelGroupMap2001_fireSense.rds",
                   "speciesLayers2001_fireSense.rds",
                   "standAgeMap2001_borealDataPrep.rds",
@@ -70,9 +70,9 @@ dataPrepOutputs2011 <- data.frame(
                  "pixelGroupMap",
                  "speciesLayers",
                  "standAgeMap",
-                                                 "rawBiomassMap"),
-                                  saveTime = 2011,
-                                  file = c("cohortData2011_fireSense.rds",
+                 "rawBiomassMap"),
+  saveTime = 2011,
+  file = c("cohortData2011_fireSense.rds",
            "pixelGroupMap2011_fireSense.rds",
            "speciesLayers2011_fireSense.rds",
            "standAgeMap2011_borealDataPrep.rds",
