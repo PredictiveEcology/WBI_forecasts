@@ -5,7 +5,7 @@ dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
     # "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
-                                       (logAge + cover | ecoregionGroup))),
+                                        (logAge + cover | ecoregionGroup))),
     "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
     "exportModels" = "all",
     "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
@@ -58,6 +58,8 @@ biomassMaps2001 <- Cache(simInitAndSpades,
                          paths = getPaths(),
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          outputs = dataPrepOutputs2001,
+                         useCloud = useCloudCache,
+                         cloudFolderID = cloudCacheFolderID,
                          userTags = c("dataPrep2001", studyAreaName))
 
 dataPrepParams2011 <- dataPrepParams2001
@@ -88,6 +90,8 @@ biomassMaps2011 <- Cache(simInitAndSpades,
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          clearSimEnv = TRUE,
                          outputs = dataPrepOutputs2011,
+                         useCloud = useCloudCache,
+                         cloudFolderID = cloudCacheFolderID,
                          userTags = c("dataPrep2011", studyAreaName))
 
 rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
