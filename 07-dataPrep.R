@@ -65,18 +65,19 @@ dataPrepParams2011$Biomass_speciesData$types <- "KNN2011"
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
 
-dataPrepOutputs2011 <- data.frame(objectName = c("cohortData",
-                                                 "pixelGroupMap",
-                                                 "speciesLayers",
-                                                 "standAgeMap",
+dataPrepOutputs2011 <- data.frame(
+  objectName = c("cohortData",
+                 "pixelGroupMap",
+                 "speciesLayers",
+                 "standAgeMap",
                                                  "rawBiomassMap"),
                                   saveTime = 2011,
                                   file = c("cohortData2011_fireSense.rds",
-                                           "pixelGroupMap2011_fireSense.rds",
-                                           "speciesLayers2011_fireSense.rds",
-                                           "standAgeMap2011_borealDataPrep.rds",
-                                           "rawBiomassMap2011_borealDataPrep.rds")) # Currently not needed
-
+           "pixelGroupMap2011_fireSense.rds",
+           "speciesLayers2011_fireSense.rds",
+           "standAgeMap2011_borealDataPrep.rds",
+           "rawBiomassMap2011_borealDataPrep.rds") # Currently not needed
+)
 
 biomassMaps2011 <- Cache(simInitAndSpades,
                          times = list(start = 2011, end = 2011),
