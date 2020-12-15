@@ -27,18 +27,21 @@ dataPrepParams2001 <- list(
     ".studyAreaName" = paste0(studyAreaName, 2001)
   )
 )
-dataPrepOutputs2001 <- data.frame(objectName = c("cohortData",
-                                                 "pixelGroupMap",
-                                                 "speciesLayers",
-                                                 "standAgeMap",
+
+dataPrepOutputs2001 <- data.frame(
+  objectName = c("cohortData",
+                 "pixelGroupMap",
+                 "speciesLayers",
+                 "standAgeMap",
                                                  "rawBiomassMap"),
                                   saveTime = 2001,
                                   file = paste0(studyAreaName, "_",
                                                 c("cohortData2001_fireSense.rds",
-                                                  "pixelGroupMap2001_fireSense.rds",
-                                                  "speciesLayers2001_fireSense.rds",
-                                                  "standAgeMap2001_borealDataPrep.rds",
-                                                  "rawBiomassMap2001_borealDataPrep.rds")))
+                  "pixelGroupMap2001_fireSense.rds",
+                  "speciesLayers2001_fireSense.rds",
+                  "standAgeMap2001_borealDataPrep.rds",
+                  "rawBiomassMap2001_borealDataPrep.rds"))
+)
 
 dataPrepObjects <- list("studyArea" = simOutPreamble$studyArea,
                         "rasterToMatch" = simOutPreamble$rasterToMatch,
