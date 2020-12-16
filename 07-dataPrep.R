@@ -99,11 +99,11 @@ rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2
 #run fireSense_dataPrepFit
 dataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
-    "whichModulesToPrepare" = "fireSense_SpreadFit", #for Now
-    "useCentroids" = TRUE,
+    ".studyAreaName" = studyAreaName,
     "fireYears" = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
-    "sppEquivCol" = simOutPreamble$sppEquivCol
-    , ".studyAreaName" = studyAreaName
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "useCentroids" = TRUE,
+    "whichModulesToPrepare" = "fireSense_SpreadFit" #for Now
   )
 )
 
