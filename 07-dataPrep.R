@@ -103,10 +103,9 @@ dataPrepParams <- list(
     "fireYears" = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
-    "whichModulesToPrepare" = "fireSense_SpreadFit" #for Now
+    "whichModulesToPrepare" = "fireSense_SpreadFit" ## TODO: run for ignition and escape too
   )
 )
-
 
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 
