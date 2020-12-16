@@ -3,9 +3,9 @@ do.call(setPaths, dataPrepPaths)
 
 dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
-    #"biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
+    # "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
-                                        (logAge + cover + speciesCode | ecoregionGroup))),
+                                        (logAge + cover | ecoregionGroup))),
     "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
     "exportModels" = "all",
     "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
@@ -33,10 +33,10 @@ dataPrepOutputs2001 <- data.frame(
                  "pixelGroupMap",
                  "speciesLayers",
                  "standAgeMap",
-                                                 "rawBiomassMap"),
-                                  saveTime = 2001,
-                                  file = paste0(studyAreaName, "_",
-                                                c("cohortData2001_fireSense.rds",
+                 "rawBiomassMap"),
+  saveTime = 2001,
+  file = paste0(studyAreaName, "_",
+                c("cohortData2001_fireSense.rds",
                   "pixelGroupMap2001_fireSense.rds",
                   "speciesLayers2001_fireSense.rds",
                   "standAgeMap2001_borealDataPrep.rds",
@@ -58,6 +58,8 @@ biomassMaps2001 <- Cache(simInitAndSpades,
                          paths = getPaths(),
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          outputs = dataPrepOutputs2001,
+                         useCloud = useCloudCache,
+                         cloudFolderID = cloudCacheFolderID,
                          userTags = c("dataPrep2001", studyAreaName))
 
 dataPrepParams2011 <- dataPrepParams2001
@@ -65,18 +67,19 @@ dataPrepParams2011$Biomass_speciesData$types <- "KNN2011"
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
 
-dataPrepOutputs2011 <- data.frame(objectName = c("cohortData",
-                                                 "pixelGroupMap",
-                                                 "speciesLayers",
-                                                 "standAgeMap",
-                                                 "rawBiomassMap"),
-                                  saveTime = 2011,
-                                  file = c("cohortData2011_fireSense.rds",
-                                           "pixelGroupMap2011_fireSense.rds",
-                                           "speciesLayers2011_fireSense.rds",
-                                           "standAgeMap2011_borealDataPrep.rds",
-                                           "rawBiomassMap2011_borealDataPrep.rds")) # Currently not needed
-
+dataPrepOutputs2011 <- data.frame(
+  objectName = c("cohortData",
+                 "pixelGroupMap",
+                 "speciesLayers",
+                 "standAgeMap",
+                 "rawBiomassMap"),
+  saveTime = 2011,
+  file = c("cohortData2011_fireSense.rds",
+           "pixelGroupMap2011_fireSense.rds",
+           "speciesLayers2011_fireSense.rds",
+           "standAgeMap2011_borealDataPrep.rds",
+           "rawBiomassMap2011_borealDataPrep.rds") # Currently not needed
+)
 
 biomassMaps2011 <- Cache(simInitAndSpades,
                          times = list(start = 2011, end = 2011),
@@ -87,6 +90,8 @@ biomassMaps2011 <- Cache(simInitAndSpades,
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          clearSimEnv = TRUE,
                          outputs = dataPrepOutputs2011,
+                         useCloud = useCloudCache,
+                         cloudFolderID = cloudCacheFolderID,
                          userTags = c("dataPrep2011", studyAreaName))
 
 rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
@@ -94,11 +99,11 @@ rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2
 #run fireSense_dataPrepFit
 dataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
-    "whichModulesToPrepare" = "fireSense_SpreadFit", #for Now
-    "useCentroids" = TRUE,
+    ".studyAreaName" = studyAreaName,
     "fireYears" = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
-    "sppEquivCol" = simOutPreamble$sppEquivCol
-    , ".studyAreaName" = studyAreaName
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "useCentroids" = TRUE,
+    "whichModulesToPrepare" = "fireSense_SpreadFit" #for Now
   )
 )
 

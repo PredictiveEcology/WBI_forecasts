@@ -41,7 +41,7 @@ cores <- if (peutils::user("ieddy")) {
 } else if (peutils::user("achubaty")) {
   pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
                                        ipEnd = c(220, 223, 224),
-                                       localHostEndIp = 223,
+                                       localHostEndIp = 224,
                                        availableRAM = c(500, 64, 500),
                                        availableCores = c(64, 16, 96))
 } else {
