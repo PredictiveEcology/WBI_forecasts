@@ -14,36 +14,44 @@ spreadFitObjects <- list(
   rasterToMatch = simDataPrep$rasterToMatch
 )
 
-#so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
-#but the maximum is 27000! In theory these are symmetrical
-#so for safety, -35000 to 35000. need more info
+## so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
+## but the maximum is 27000! In theory these are symmetrical
+## so for safety, -35000 to 35000. need more info
 lowerParams <- rep(-16, times = c(ncol(simDataPrep$fireSense_annualSpreadFitCovariates[[1]]) +
                                      ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]])
                    - 2))
 
 upperParams <- rep(32, times = length(lowerParams))
 
-# Spread log function bounds
+## Spread log function bounds
 
-# for logistic3p
-#lower <- c(0.22, 0.001, 0.001, lowerParams)
-#upper <- c(0.29, 10, 10, upperParams)
+## for logistic3p
+# lower <- c(0.22, 0.001, 0.001, lowerParams)
+# upper <- c(0.29, 10, 10, upperParams)
 
 lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.29, 10, upperParams)
 
 cores <- if (peutils::user("ieddy")) {
-  pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
-                                       ipEnd = c(97, 189, 220, 106, 217),
-                                       localHostEndIp = 97,
-                                       availableRAM = c(500, 500, 500, 250, 250),
-                                       availableCores = c(24, 25, 25, 13, 13))
+  pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
+                                   ipEnd = c(97, 189, 220, 106, 217),
+                                   localHostEndIp = 97,
+                                   availableCores = c(24, 25, 25, 13, 13),
+                                   availableRAM = c(500, 500, 500, 250, 250),
+                                   proc = "cores",
+                                   nProcess = 8,
+                                   internalProcesses = 10,
+                                   sizeGbEachProcess = 10)
 } else if (peutils::user("achubaty")) {
-  pemisc::makeIpsForClustersBoreaCloud(module = "fireSense",
-                                       ipEnd = c(220, 223, 224),
-                                       localHostEndIp = 224,
-                                       availableRAM = c(500, 64, 500),
-                                       availableCores = c(64, 16, 96))
+  pemisc::makeIpsForNetworkCluster(ipStart = "192.168.0",
+                                   ipEnd = c(220, 223, 224),
+                                   localHostEndIp = 224,
+                                   availableRAM = c(500, 64, 500),
+                                   availableCores = c(64, 16, 96),
+                                   proc = "cores",
+                                   nProcess = 8,
+                                   internalProcesses = 10,
+                                   sizeGbEachProcess = 10)
 } else {
   stop("please specify machines to use for spread fit")
 }
@@ -73,7 +81,8 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "useCloud_DE" = FALSE
-  ))
+  )
+)
 
 devtools::load_all("../fireSenseUtils") #install development fireSense
 #add tags when it stabilizes
