@@ -3,7 +3,7 @@ default:
   cachedb: "sqlite"
   cloud:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
-    googleuser: ""
+    googleuser: "eliotmcintire@gmail.com"
     usecloud: false
   mapresfact: 1
   paths:

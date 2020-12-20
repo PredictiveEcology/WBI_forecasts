@@ -19,3 +19,4 @@ cache/
 .Renviron
 inputs/
 outputs/
+.Rprofile
