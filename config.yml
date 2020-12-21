@@ -1,6 +1,7 @@
 default:
   batchmode: false
   cachedb: "sqlite"
+  cacheformat: "qs"
   cloud:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
     googleuser: ""
@@ -19,6 +20,7 @@ production:
 alex:
   inherits: production
   cachedb: "postgresql"
+  cacheformat: "qs"
   cloud:
     #cachedir: ""
     googleuser: "achubaty@for-cast.ca"
@@ -29,6 +31,7 @@ alex:
 
 ian:
   cachedb: "sqlite"
+  cacheformat: "rds"
   cloud:
     #cachedir: ""
     googleuser: 'ianmseddy@gmail.com'
@@ -38,6 +41,7 @@ ian:
 
 eliot:
   cachedb: "sqlite"
+  cacheformat: "qs"
   cloud:
     #cachedir: ""
     googleuser: 'eliotmcintire@gmail.com'

@@ -24,7 +24,7 @@ opts <- options(
   "rasterMaxMemory" = maxMemory,
   "rasterTmpDir" = scratchDir,
   "reproducible.cachePath" = file.path(scratchDir, "cache"),
-  "reproducible.cacheSaveFormat" = "qs",
+  "reproducible.cacheSaveFormat" = cacheFormat,
   "reproducible.conn" = cacheDBconn,
   "reproducible.destinationPath" = normPath(defaultPaths[["inputPath"]]),
   "reproducible.inputPaths" = NULL,
@@ -37,12 +37,12 @@ opts <- options(
   "reproducible.useGDAL" = FALSE, ## TODO: can't use true until system call bugs are resolved
   "reproducible.useMemoise" = FALSE,
   "reproducible.useNewDigestAlgorithm" = TRUE,
-  "reproducible.useRequire" = TRUE,
-  "spades.moduleCodeChecks" = FALSE, ## TODO: resolve problems & set to false before production runs
+  "reproducible.useRequire" = ifelse(pemisc::user("emcintir"), TRUE, FALSE),
+  "spades.moduleCodeChecks" = ifelse(pemisc::user("emcintir"), FALSE, TRUE), ## TODO: resolve problems & set to false before production runs
   "spades.nThreads" = 4,
   "spades.recoveryMode" = FALSE,
   "spades.restartR.restartDir" = defaultPaths[["outputPath"]],
-  "spades.useRequire" = TRUE ## don't use Require... meaning assume all pkgs installed
+  "spades.useRequire" = ifelse(pemisc::user("emcintir"), TRUE, FALSE)
 )
 
 library(googledrive)

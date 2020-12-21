@@ -5,6 +5,7 @@ if (file.exists(".Renviron")) readRenviron(".Renviron")
 library(config)
 
 cacheDir <- config::get("paths")[["cachedir"]]
+cacheFormat <- config::get("paths")[["cacheformat"]]
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 
 scratchDir <- config::get("paths")[["scratchdir"]]
