@@ -35,3 +35,12 @@ ian:
     usecloud: false
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
+
+eliot:
+  cachedb: "sqlite"
+  cloud:
+    #cachedir: ""
+    googleuser: 'eliotmcintire@gmail.com'
+    usecloud: false
+  paths:
+    scratchdir: "/tmp/scratch/WBI_fireSense"

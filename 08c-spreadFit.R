@@ -30,7 +30,7 @@ upperParams <- rep(32, times = length(lowerParams))
 # upper <- c(0.29, 10, 10, upperParams)
 
 lower <- c(0.22, 0.001, lowerParams)
-upper <- c(0.29, 10, upperParams)
+upper <- c(0.28, 10, upperParams)
 
 cores <- if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
@@ -52,6 +52,8 @@ cores <- if (peutils::user("ieddy")) {
                                    nProcess = 8,
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 10)
+} else if (peutils::user("emcintir")) {
+  rep("localhost", 36)
 } else {
   stop("please specify machines to use for spread fit")
 }
@@ -70,8 +72,8 @@ spreadFitParams <- list(
     "iterStep" = 150,
     "rescaleAll" = TRUE,
     "NP" = length(cores),
-    "objFunCoresInternal" = 3L,
-    "maxFireSpread" = 0.3,
+    "objFunCoresInternal" = 1L,
+    "maxFireSpread" = 0.28,
     "objfunFireReps" = 100,
     "verbose" = TRUE,
     "trace" = 1,
@@ -84,7 +86,21 @@ spreadFitParams <- list(
   )
 )
 
-devtools::load_all("../fireSenseUtils") #install development fireSense
+# Because fireSenseUtils MUST be the same version locally as in the cluster,
+#   there is no point in installing it via local. This means that local changes
+#   must be pushed to github -- can change from development to a working branch,
+#   if desired
+devtools::install_github("PredictiveEcology/fireSenseUtils@development", dependencies = FALSE, upgrade = FALSE)
+# Only install fireSenseUtils if changed
+# pathToFireSenseUtils <- "../fireSenseUtils"
+# curDigest <- digest::digest(lapply(dir(pathToFireSenseUtils, recursive = TRUE, full.names = TRUE), function(file) digest::digest(file = file)))
+# fsud <- file.path(spreadFitPaths$cachePath, "fireSpreadUtilsDigest")
+# prevDigest <- readRDS(fsud)
+# if (!identical(prevDigest, curDigest)) {
+#   saveRDS(curDigest, file = fsud)
+#   devtools::install, pathToFireSenseUtils, upgrade = FALSE, dependencies = FALSE) #install development fireSense
+# }
+
 #add tags when it stabilizes
 # rm(biomassMaps2001, biomassMaps2011)
 spreadSim <- simInit(times = list(start = 0, end = 1),
