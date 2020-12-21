@@ -42,15 +42,7 @@ cores <- if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 2)
 } else if (peutils::user("achubaty")) {
-  pemisc::makeIpsForNetworkCluster(ipStart = "192.168.0",
-                                   ipEnd = 224,
-                                   localHostEndIp = 224,
-                                   availableRAM = 500,
-                                   availableCores = 96,
-                                   proc = "cores",
-                                   nProcess = 8,
-                                   internalProcesses = 10,
-                                   sizeGbEachProcess = 2)
+  rep("localhost", 80)
 } else if (peutils::user("emcintir")) {
   rep("localhost", 36)
 } else {
