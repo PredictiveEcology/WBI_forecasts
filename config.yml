@@ -6,15 +6,18 @@ default:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
     googleuser: ""
     usecloud: false
+  codechecks: true
   mapresfact: 1
   paths:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU
+  userequire: false
 
 production:
   batchmode: true
+  codechecks: false
   plot: false
 
 alex:
@@ -25,6 +28,7 @@ alex:
     #cachedir: ""
     googleuser: "achubaty@for-cast.ca"
     usecloud: false ## TODO: use cloud cache
+  codechecks: true ## TODO: set false after all fixed
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast01") "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
@@ -36,6 +40,7 @@ ian:
     #cachedir: ""
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
+  codechecks: true ## TODO: set false after all fixed
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
 
@@ -48,3 +53,4 @@ eliot:
     usecloud: false
   paths:
     scratchdir: "/tmp/scratch/WBI_fireSense"
+  userequire: false

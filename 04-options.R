@@ -37,12 +37,12 @@ opts <- options(
   "reproducible.useGDAL" = FALSE, ## TODO: can't use true until system call bugs are resolved
   "reproducible.useMemoise" = FALSE,
   "reproducible.useNewDigestAlgorithm" = TRUE,
-  "reproducible.useRequire" = ifelse(pemisc::user("emcintir"), TRUE, FALSE),
-  "spades.moduleCodeChecks" = ifelse(pemisc::user("emcintir"), FALSE, TRUE), ## TODO: resolve problems & set to false before production runs
+  "reproducible.useRequire" = useRequire,
+  "spades.moduleCodeChecks" = codeChecks,
   "spades.nThreads" = 4,
   "spades.recoveryMode" = FALSE,
   "spades.restartR.restartDir" = defaultPaths[["outputPath"]],
-  "spades.useRequire" = ifelse(pemisc::user("emcintir"), TRUE, FALSE)
+  "spades.useRequire" = useRequire
 )
 
 library(googledrive)
