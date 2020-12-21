@@ -81,7 +81,8 @@ spreadFitParams <- list(
 #   there is no point in installing it via local. This means that local changes
 #   must be pushed to github -- can change from development to a working branch,
 #   if desired
-devtools::install_github("PredictiveEcology/fireSenseUtils@development", dependencies = FALSE, upgrade = FALSE)
+devtools::install_github("PredictiveEcology/fireSenseUtils@development", dependencies = FALSE, upgrade = FALSE) ## TODO: remove
+
 # Only install fireSenseUtils if changed
 # pathToFireSenseUtils <- "../fireSenseUtils"
 # curDigest <- digest::digest(lapply(dir(pathToFireSenseUtils, recursive = TRUE, full.names = TRUE), function(file) digest::digest(file = file)))
@@ -92,8 +93,9 @@ devtools::install_github("PredictiveEcology/fireSenseUtils@development", depende
 #   devtools::install, pathToFireSenseUtils, upgrade = FALSE, dependencies = FALSE) #install development fireSense
 # }
 
-#add tags when it stabilizes
+## add tags when it stabilizes
 # rm(biomassMaps2001, biomassMaps2011)
+
 spreadSim <- simInit(times = list(start = 0, end = 1),
                      params = spreadFitParams,
                      modules = "fireSense_SpreadFit",
