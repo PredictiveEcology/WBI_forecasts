@@ -20,7 +20,6 @@ spreadFitObjects <- list(
 lowerParams <- rep(-16, times = c(ncol(simDataPrep$fireSense_annualSpreadFitCovariates[[1]]) +
                                      ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]])
                    - 2))
-
 upperParams <- rep(32, times = length(lowerParams))
 
 ## Spread log function bounds
@@ -41,22 +40,24 @@ cores <- if (peutils::user("ieddy")) {
                                    proc = "cores",
                                    nProcess = 8,
                                    internalProcesses = 10,
-                                   sizeGbEachProcess = 10)
+                                   sizeGbEachProcess = 2)
 } else if (peutils::user("achubaty")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "192.168.0",
-                                   ipEnd = c(220, 223, 224),
+                                   ipEnd = 224,
                                    localHostEndIp = 224,
-                                   availableRAM = c(500, 64, 500),
-                                   availableCores = c(64, 16, 96),
+                                   availableRAM = 500,
+                                   availableCores = 96,
                                    proc = "cores",
                                    nProcess = 8,
                                    internalProcesses = 10,
-                                   sizeGbEachProcess = 10)
+                                   sizeGbEachProcess = 2)
 } else if (peutils::user("emcintir")) {
   rep("localhost", 36)
 } else {
   stop("please specify machines to use for spread fit")
 }
+
+cores <- rep("localhost", 10) ## TODO: remove this after testing
 
 # NPar <- length(lower)
 # NP <- NPar * 10
@@ -66,8 +67,7 @@ spreadFitParams <- list(
   fireSense_SpreadFit = list(
     "lower" = lower,
     "upper" = upper,
-    'cores' = cores,
-    # "cores" = if (isRstudioServer()) NULL else cores, #rep("localhost", 40), #cores,
+    "cores" = cores,
     "iterDEoptim" = 150,
     "iterStep" = 150,
     "rescaleAll" = TRUE,
@@ -77,12 +77,11 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "verbose" = TRUE,
     "trace" = 1,
-    # "debugMode" = if (isRstudioServer()) TRUE else FALSE, # DEoptim may spawn many machines via PSOCK --> may be better from cmd line
     'debugMode' = FALSE,
     "visualizeDEoptim" = TRUE,
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
-    "useCloud_DE" = FALSE
+    "useCloud_DE" = useCloudCache
   )
 )
 
@@ -105,7 +104,7 @@ devtools::install_github("PredictiveEcology/fireSenseUtils@development", depende
 # rm(biomassMaps2001, biomassMaps2011)
 spreadSim <- simInit(times = list(start = 0, end = 1),
                      params = spreadFitParams,
-                     modules = 'fireSense_SpreadFit',
+                     modules = "fireSense_SpreadFit",
                      paths = spreadFitPaths,
                      objects = spreadFitObjects)
 spreadOut <- spades(spreadSim)
