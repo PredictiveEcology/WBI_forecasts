@@ -72,7 +72,7 @@ spreadFitParams <- list(
     "iterStep" = 150,
     "rescaleAll" = TRUE,
     "NP" = length(cores),
-    "objFunCoresInternal" = 3L,
+    "objFunCoresInternal" = 1L,
     "maxFireSpread" = 0.28,
     "objfunFireReps" = 100,
     "verbose" = TRUE,
