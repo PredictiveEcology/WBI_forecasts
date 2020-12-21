@@ -24,6 +24,7 @@ opts <- options(
   "rasterMaxMemory" = maxMemory,
   "rasterTmpDir" = scratchDir,
   "reproducible.cachePath" = file.path(scratchDir, "cache"),
+  "reproducible.cacheSaveFormat" = "qs",
   "reproducible.conn" = cacheDBconn,
   "reproducible.destinationPath" = normPath(defaultPaths[["inputPath"]]),
   "reproducible.inputPaths" = NULL,
@@ -36,12 +37,12 @@ opts <- options(
   "reproducible.useGDAL" = FALSE, ## TODO: can't use true until system call bugs are resolved
   "reproducible.useMemoise" = FALSE,
   "reproducible.useNewDigestAlgorithm" = TRUE,
-  "reproducible.useRequire" = FALSE,
-  "spades.moduleCodeChecks" = TRUE, ## TODO: resolve problems & set to false before production runs
+  "reproducible.useRequire" = TRUE,
+  "spades.moduleCodeChecks" = FALSE, ## TODO: resolve problems & set to false before production runs
   "spades.nThreads" = 4,
   "spades.recoveryMode" = FALSE,
   "spades.restartR.restartDir" = defaultPaths[["outputPath"]],
-  "spades.useRequire" = FALSE ## don't use Require... meaning assume all pkgs installed
+  "spades.useRequire" = TRUE ## don't use Require... meaning assume all pkgs installed
 )
 
 library(googledrive)

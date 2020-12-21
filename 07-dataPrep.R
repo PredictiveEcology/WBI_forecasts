@@ -100,7 +100,7 @@ rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2
 dataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
     ".studyAreaName" = studyAreaName,
-    "fireYears" = 1991:(1990 + nlayers(simOutPreamble$historicalClimateRasters$MDC)),
+    "fireYears" = 2001:2019, #this will be fixed to post kNN only
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
     "whichModulesToPrepare" = "fireSense_SpreadFit" ## TODO: run for ignition and escape too

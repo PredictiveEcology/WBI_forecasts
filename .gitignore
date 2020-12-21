@@ -19,3 +19,5 @@ cache/
 .Renviron
 inputs/
 outputs/
+.Rprofile
+all.qs
