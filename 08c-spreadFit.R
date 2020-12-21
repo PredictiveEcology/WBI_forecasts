@@ -90,7 +90,7 @@ spreadFitParams <- list(
 #   there is no point in installing it via local. This means that local changes
 #   must be pushed to github -- can change from development to a working branch,
 #   if desired
-devtools::install_github("PredictiveEcology/fireSenseUtils@development", dependencies = TRUE)
+devtools::install_github("PredictiveEcology/fireSenseUtils@development", dependencies = FALSE, upgrade = FALSE)
 # Only install fireSenseUtils if changed
 # pathToFireSenseUtils <- "../fireSenseUtils"
 # curDigest <- digest::digest(lapply(dir(pathToFireSenseUtils, recursive = TRUE, full.names = TRUE), function(file) digest::digest(file = file)))
