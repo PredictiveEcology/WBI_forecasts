@@ -1,3 +1,8 @@
+if (!require("Require", quietly = TRUE)) {
+  install.packages("Require")
+  library(Require)
+}
+
 Require("config")
 
 saveOrLoad <- "" # type "load" here to do a manual override of Cache
