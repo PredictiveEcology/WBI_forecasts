@@ -13,7 +13,7 @@ default:
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU
-  userequire: false
+  userequire: true
 
 production:
   batchmode: true
@@ -53,4 +53,3 @@ eliot:
     usecloud: false
   paths:
     scratchdir: "/tmp/scratch/WBI_fireSense"
-  userequire: false

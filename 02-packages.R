@@ -1,14 +1,16 @@
-library(DBI)
-library(plyr); library(dplyr) ## ensure plyr loaded before dplyr or there will be problems
-library(data.table)
-library(magrittr)
-library(parallel)
-library(qs)
+Require(c("plyr", "dplyr")) ## ensure plyr loaded before dplyr or there will be problems
 
-library(sf)
-library(raster)
-library(SpaDES.core)
-library(pemisc)
-library(LandR)
-library(fireSenseUtils)
-library(amc)
+Require(c(
+  "achubaty/amc@development",
+  "data.table",
+  "DBI",
+  "magrittr",
+  "parallel",
+  "qs",
+  "sf",
+  "raster",
+  "PredictiveEcology/fireSenseUtils@development",
+  "PredictiveEcology/LandR@development",
+  "PredictiveEcology/SpaDES.core@development",
+  "PredictiveEcology/pemisc@development"
+))
