@@ -1,3 +1,5 @@
+Require("config")
+
 saveOrLoad <- "" # type "load" here to do a manual override of Cache
 switch(peutils::user(),
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),

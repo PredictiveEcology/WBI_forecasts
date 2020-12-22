@@ -40,7 +40,7 @@ cores <- if (peutils::user("ieddy")) {
                                    proc = "cores",
                                    nProcess = 8,
                                    internalProcesses = 10,
-                                   sizeGbEachProcess = 2)
+                                   sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty")) {
   rep("localhost", 80)
 } else if (peutils::user("emcintir")) {
@@ -49,51 +49,34 @@ cores <- if (peutils::user("ieddy")) {
   stop("please specify machines to use for spread fit")
 }
 
-cores <- rep("localhost", 10) ## TODO: remove this after testing
-
 # NPar <- length(lower)
 # NP <- NPar * 10
 # initialpop <- matrix(ncol = NPar, nrow = NP)
 
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
-    "lower" = lower,
-    "upper" = upper,
-    "cores" = cores,
-    "iterDEoptim" = 150,
-    "iterStep" = 150,
-    "rescaleAll" = TRUE,
-    "NP" = length(cores),
-    "objFunCoresInternal" = 1L,
-    "maxFireSpread" = 0.28,
-    "objfunFireReps" = 100,
-    "verbose" = TRUE,
-    "trace" = 1,
-    'debugMode' = FALSE,
-    "visualizeDEoptim" = TRUE,
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
-    "useCloud_DE" = useCloudCache
+    "cores" = cores,
+    "debugMode" = FALSE,
+    "iterDEoptim" = 150,
+    "iterStep" = 150,
+    "lower" = lower,
+    "maxFireSpread" = 0.28,
+    "NP" = length(cores),
+    "objFunCoresInternal" = 1L,
+    "objfunFireReps" = 100,
+    "rescaleAll" = TRUE,
+    "trace" = 1,
+    "upper" = upper,
+    "verbose" = TRUE,
+    "visualizeDEoptim" = FALSE,
+    "useCloud_DE" = useCloudCache,
+    ".plotSize" = list(height = 1600, width = 2000)
   )
 )
 
-# Because fireSenseUtils MUST be the same version locally as in the cluster,
-#   there is no point in installing it via local. This means that local changes
-#   must be pushed to github -- can change from development to a working branch,
-#   if desired
-devtools::install_github("PredictiveEcology/fireSenseUtils@development", dependencies = FALSE, upgrade = FALSE) ## TODO: remove
-
-# Only install fireSenseUtils if changed
-# pathToFireSenseUtils <- "../fireSenseUtils"
-# curDigest <- digest::digest(lapply(dir(pathToFireSenseUtils, recursive = TRUE, full.names = TRUE), function(file) digest::digest(file = file)))
-# fsud <- file.path(spreadFitPaths$cachePath, "fireSpreadUtilsDigest")
-# prevDigest <- readRDS(fsud)
-# if (!identical(prevDigest, curDigest)) {
-#   saveRDS(curDigest, file = fsud)
-#   devtools::install, pathToFireSenseUtils, upgrade = FALSE, dependencies = FALSE) #install development fireSense
-# }
-
-## add tags when it stabilizes
+#add tags when it stabilizes
 # rm(biomassMaps2001, biomassMaps2011)
 
 spreadSim <- simInit(times = list(start = 0, end = 1),
