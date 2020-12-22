@@ -35,7 +35,7 @@ alex:
 
 ian:
   cachedb: "sqlite"
-  cacheformat: "rds"
+  cacheformat: "qs"
   cloud:
     #cachedir: ""
     googleuser: 'ianmseddy@gmail.com'
