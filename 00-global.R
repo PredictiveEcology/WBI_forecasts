@@ -20,15 +20,14 @@ source("02-packages.R")
 source("03-paths.R")
 source("04-options.R")
 source("05-objects.R")
-if (!saveOrLoad %in% c("load")) {
+if (!saveOrLoad %in% "load") {
   source("06-studyArea.R")
   source("07-dataPrep.R")
   #source("08a-ignitionFit.R") ## TODO
   #source("08b-escapeFit.R") ## TODO
   a <- mget(ls())
   system.time(qs::qsave(x = a, preset = "fast", file = theData, nthreads = 2))
-}
-if (saveOrLoad == "load") {
+} else if (saveOrLoad == "load") {
   system.time(qs::qload(file = theData, nthreads = 2))
 }
 
