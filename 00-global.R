@@ -14,12 +14,13 @@ switch(peutils::user(),
 )
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
-theData <- "all.qs"
 source("01-init.R")
 source("02-packages.R")
 source("03-paths.R")
 source("04-options.R")
 source("05-objects.R")
+
+theData <- paste0("all", studyAreaName, ".qs")
 if (!saveOrLoad %in% "load") {
   source("06-studyArea.R")
   source("07-dataPrep.R")
