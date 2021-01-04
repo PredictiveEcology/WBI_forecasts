@@ -43,12 +43,12 @@ dataPrepOutputs2001 <- data.frame(
                   "rawBiomassMap2001_borealDataPrep.rds"))
 )
 
-dataPrepObjects <- list("studyArea" = simOutPreamble$studyArea,
-                        "rasterToMatch" = simOutPreamble$rasterToMatch,
+dataPrepObjects <- list("rasterToMatch" = simOutPreamble$rasterToMatch,
                         "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
-                        "studyAreaLarge" = simOutPreamble$studyAreaLarge,
+                        "sppColorVect" = simOutPreamble$sppColorVect,
                         "sppEquiv" = simOutPreamble$sppEquiv,
-                        "sppColorVect" = simOutPreamble$sppColorVect)
+                        "studyArea" = simOutPreamble$studyArea,
+                        "studyAreaLarge" = simOutPreamble$studyAreaLarge)
 
 biomassMaps2001 <- Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001),
