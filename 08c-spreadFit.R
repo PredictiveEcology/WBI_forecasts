@@ -41,7 +41,7 @@ cores <- if (peutils::user("ieddy")) {
                                    nProcess = 8,
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
-} else if (peutils::user("achubaty")) {
+} else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
   rep("localhost", 80)
 } else if (peutils::user("emcintir")) {
   rep("localhost", 36)
