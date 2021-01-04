@@ -1,10 +1,10 @@
 do.call(setPaths, preamblePaths)
 
 preambleParams <- list(
-  WBI_dataprep_studyArea = list(
-    "studyAreaName" = studyAreaName,
+  WBI_dataPrep_studyArea = list(
     ".useCache" = TRUE,
-    "historicalFireYears" = 1991:2019 #RIA is now same as everywhere else
+    "historicalFireYears" = 1991:2019,
+    "studyAreaName" = studyAreaName
   )
 )
 
