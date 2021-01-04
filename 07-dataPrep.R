@@ -81,11 +81,14 @@ dataPrepOutputs2011 <- data.frame(
            "rawBiomassMap2011_borealDataPrep.rds") # Currently not needed
 )
 
+dataPrepObjects2011 <- dataPrepObjects
+dataPrepObjects2011$standAgeMap <- simOutPreamble$standAgeMap2011
+
 biomassMaps2011 <- Cache(simInitAndSpades,
                          times = list(start = 2011, end = 2011),
                          params = dataPrepParams2011,
                          modules = list("Biomass_speciesData", "Biomass_borealDataPrep"),
-                         objects = dataPrepObjects,
+                         objects = dataPrepObjects2011,
                          paths = getPaths(),
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          clearSimEnv = TRUE,
@@ -118,7 +121,9 @@ dataPrepObjects <- list(
   "rasterToMatch" = simOutPreamble$rasterToMatch, #this needs to be masked
   "rstLCC" = biomassMaps2001$rstLCC,
   "sppEquiv" = simOutPreamble$sppEquiv,
-  "studyArea" = simOutPreamble$studyArea
+  "studyArea" = simOutPreamble$studyArea,
+  'standAgeMap2001' = biomassMaps2001$standAgeMap,
+  'standAgeMap2011' = biomassMaps2011$standAgeMap
 )
 
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
