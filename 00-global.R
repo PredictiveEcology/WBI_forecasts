@@ -20,7 +20,7 @@ source("03-paths.R")
 source("04-options.R")
 source("05-objects.R")
 
-theData <- paste0("all", studyAreaName, ".qs")
+theData <- file.path("outputs", paste0("all_", studyAreaName, ".qs"))
 if (!saveOrLoad %in% "load") {
   source("06-studyArea.R")
   source("07-dataPrep.R")
