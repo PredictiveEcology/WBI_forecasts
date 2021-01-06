@@ -121,9 +121,9 @@ dataPrepObjects <- list(
   "rasterToMatch" = simOutPreamble$rasterToMatch, #this needs to be masked
   "rstLCC" = biomassMaps2001$rstLCC,
   "sppEquiv" = simOutPreamble$sppEquiv,
-  "studyArea" = simOutPreamble$studyArea,
-  'standAgeMap2001' = biomassMaps2001$standAgeMap,
-  'standAgeMap2011' = biomassMaps2011$standAgeMap
+  "standAgeMap2001" = biomassMaps2001$standAgeMap,
+  "standAgeMap2011" = biomassMaps2011$standAgeMap,
+  "studyArea" = simOutPreamble$studyArea
 )
 
 # rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
