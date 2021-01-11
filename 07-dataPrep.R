@@ -1,6 +1,13 @@
 #this script will run Biomass_borealDataPrep + Biomass_speciesData twice, to generate some objects for fitting
 do.call(setPaths, dataPrepPaths)
 
+dataPrep <- list(
+  subsetDataBiomassModel = 50,
+  pixelGroupAgeClass = 20,
+  successionTimeStep = 10,
+  useCache = TRUE
+)
+
 dataPrepParams2001 <- list(
   Biomass_borealDataPrep = list(
     # "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
