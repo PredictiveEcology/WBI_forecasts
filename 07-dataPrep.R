@@ -99,8 +99,7 @@ biomassMaps2011 <- Cache(simInitAndSpades,
 
 rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2001)
 
-#run fireSense_dataPrepFit
-dataPrepParams <- list(
+fSdataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
     ".studyAreaName" = studyAreaName,
     "fireYears" = 2001:2019, #this will be fixed to post kNN only
@@ -111,8 +110,7 @@ dataPrepParams <- list(
 )
 
 simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
-
-dataPrepObjects <- list(
+fSdataPrepObjects <- list(
   "cohortData2001" = biomassMaps2001$cohortData,
   "cohortData2011" = biomassMaps2011$cohortData,
   "historicalClimateRasters" = simOutPreamble$historicalClimateRasters,
@@ -131,8 +129,8 @@ amc::.gc()
 simDataPrep <- Cache(
   simInitAndSpades,
   times =  list(start = 2011, end = 2011),
-  params = dataPrepParams,
-  objects = dataPrepObjects,
+  params = fSdataPrepParams,
+  objects = fSdataPrepObjects,
   paths = dataPrepPaths,
   modules = "fireSense_dataPrepFit",
   userTags = c("fireSense_dataPrepFit", studyAreaName)
