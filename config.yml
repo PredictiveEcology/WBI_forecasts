@@ -12,7 +12,7 @@ default:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
-  studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU
+  studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
   userequire: true
 
 production:

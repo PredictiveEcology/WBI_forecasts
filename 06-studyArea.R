@@ -1,5 +1,7 @@
 do.call(setPaths, preamblePaths)
 
+preambleObjects <- list()
+
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
     ".useCache" = TRUE,
