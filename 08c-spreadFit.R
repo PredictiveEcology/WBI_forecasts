@@ -70,7 +70,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_test" = 550L, ## TODO: tweak this for each study area !!
+    "SNLL_FS_thresh" = 450L, ## TODO: tweak this for each study area !!
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
