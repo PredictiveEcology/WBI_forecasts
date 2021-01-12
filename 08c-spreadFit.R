@@ -63,6 +63,7 @@ spreadFitParams <- list(
     "debugMode" = FALSE,
     "iterDEoptim" = 150,
     "iterStep" = 150,
+    "iterThresh" = 96L,
     "lower" = lower,
     "maxFireSpread" = 0.28,
     "NP" = length(cores),
@@ -70,7 +71,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = 450L, ## TODO: tweak this for each study area !!
+    "SNLL_FS_thresh" = NULL, ## NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
