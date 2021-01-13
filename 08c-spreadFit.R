@@ -63,7 +63,7 @@ spreadFitParams <- list(
     "debugMode" = FALSE,
     "iterDEoptim" = 150,
     "iterStep" = 150,
-    "iterThresh" = 96L,
+    "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = 0.28,
     "NP" = length(cores),
