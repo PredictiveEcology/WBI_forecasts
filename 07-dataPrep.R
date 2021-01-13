@@ -121,8 +121,8 @@ fSdataPrepObjects <- list(
   "cohortData2001" = biomassMaps2001$cohortData,
   "cohortData2011" = biomassMaps2011$cohortData,
   "historicalClimateRasters" = simOutPreamble$historicalClimateRasters,
-  "pixelGroupMap2011" = biomassMaps2011$pixelGroupMap,
   "pixelGroupMap2001" = biomassMaps2001$pixelGroupMap,
+  "pixelGroupMap2011" = biomassMaps2011$pixelGroupMap,
   "rasterToMatch" = simOutPreamble$rasterToMatch, #this needs to be masked
   "rstLCC" = biomassMaps2001$rstLCC,
   "sppEquiv" = simOutPreamble$sppEquiv,
