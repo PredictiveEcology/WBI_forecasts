@@ -54,7 +54,8 @@ dataPrepObjects <- list("rasterToMatch" = simOutPreamble$rasterToMatch,
                         "sppColorVect" = simOutPreamble$sppColorVect,
                         "sppEquiv" = simOutPreamble$sppEquiv,
                         "studyArea" = simOutPreamble$studyArea,
-                        "studyAreaLarge" = simOutPreamble$studyAreaLarge)
+                        "studyAreaLarge" = simOutPreamble$studyAreaLarge,
+                        "studyAreaReporting" = simOutPreamble$studyAreaReporting)
 
 biomassMaps2001 <- Cache(simInitAndSpades,
                          times = list(start = 2001, end = 2001),
