@@ -24,7 +24,6 @@ dataPrepParams2001 <- list(
     ),
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel,
-    "successionTimeStep" = dataPrep$successionTimeStep,
     "useCloudCacheForStats" = useCloudCache,
     ".studyAreaName" = paste0(studyAreaName, 2001),
     ".useCache" = c(".inputObjects", "init")
