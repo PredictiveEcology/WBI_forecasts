@@ -17,7 +17,7 @@ spreadFitObjects <- list(
 ## so far the minimum PCA value is -9000 (e.g. 9 standard deviations x1000)
 ## but the maximum is 27000! In theory these are symmetrical
 ## so for safety, -35000 to 35000. need more info
-lowerParamsNonAnnual <- rep(-16, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]] - 1))
+lowerParamsNonAnnual <- rep(-16, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) -1)
 lowerParamsAnnual <- c(0, -16)
 upperParamsNonAnnual <- rep(32, times = length(lowerParamsNonAnnual))
 upperParamsAnnual <- c(1, 32)
