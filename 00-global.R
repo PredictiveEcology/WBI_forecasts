@@ -1,9 +1,9 @@
-if (!require("Require", quietly = TRUE)) {
+if (!suppressWarnings(require("Require"))) {
   install.packages("Require")
   library(Require)
 }
 
-Require("config")
+Require(c("config", "PredictiveEcology/peutils"))
 
 saveOrLoad <- "" # type "load" here to do a manual override of Cache
 switch(peutils::user(),
