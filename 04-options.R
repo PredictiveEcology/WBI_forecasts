@@ -27,7 +27,7 @@ opts <- options(
   "reproducible.cacheSaveFormat" = cacheFormat,
   "reproducible.conn" = cacheDBconn,
   "reproducible.destinationPath" = normPath(defaultPaths[["inputPath"]]),
-  "reproducible.inputPaths" = NULL,
+  "reproducible.inputPaths" = config::get("inputpaths"),
   "reproducible.nThreads" = 2,
   "reproducible.overwrite" = TRUE,
   "reproducible.quick" = FALSE,
