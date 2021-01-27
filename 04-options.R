@@ -30,6 +30,7 @@ opts <- options(
   "reproducible.inputPaths" = NULL,
   "reproducible.nThreads" = 2,
   "reproducible.overwrite" = TRUE,
+  "reproducible.polygonShortcut" = FALSE,
   "reproducible.quick" = FALSE,
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCache" = TRUE,
