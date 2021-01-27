@@ -15,8 +15,8 @@ switch(peutils::user(),
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
 source("01-init.R")
-source("02-packages.R")
-source("03-paths.R")
+source("02-paths.R")
+source("03-packages.R")
 source("04-options.R")
 source("05-objects.R")
 
