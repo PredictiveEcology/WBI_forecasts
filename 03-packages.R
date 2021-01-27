@@ -2,7 +2,7 @@ Require(c("plyr", "dplyr"), upgrade = FALSE) ## ensure plyr loaded before dplyr 
 Require("PredictiveEcology/SpaDES.core@development",
         which = c("Suggests", "Imports", "Depends"), upgrade = FALSE) # need Suggests in SpaDES.core
 needed <- reqdPkgs(module = dir(preamblePaths$modulePath), modulePath = preamblePaths$modulePath)
-Require(unique(unlist(needed)), require = FALSE, upgrade = FALSE)
+Require(unique(unlist(needed)), upgrade = FALSE)
 # Require(c(
 #   "achubaty/amc@development",
 #   "data.table",
