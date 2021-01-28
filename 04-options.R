@@ -27,7 +27,7 @@ opts <- options(
   "reproducible.cacheSaveFormat" = cacheFormat,
   "reproducible.conn" = cacheDBconn,
   "reproducible.destinationPath" = normPath(defaultPaths[["inputPath"]]),
-  "reproducible.inputPaths" = config::get("inputpaths"),
+  "reproducible.inputPaths" = userInputPaths,
   "reproducible.nThreads" = 2,
   "reproducible.overwrite" = TRUE,
   "reproducible.polygonShortcut" = FALSE,
