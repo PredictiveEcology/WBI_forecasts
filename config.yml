@@ -7,12 +7,14 @@ default:
     googleuser: ""
     usecloud: false
   codechecks: true
+  inputpaths: null
   mapresfact: 1
   paths:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  usememoise: false
   userequire: true
 
 production:
@@ -51,5 +53,8 @@ eliot:
     #cachedir: ""
     googleuser: 'eliotmcintire@gmail.com'
     usecloud: false
+  codechecks: false
+  inputpaths: ~/data
   paths:
     scratchdir: "/tmp/scratch/WBI_fireSense"
+  usememoise: true
