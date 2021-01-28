@@ -36,7 +36,7 @@ opts <- options(
   "reproducible.useCache" = TRUE,
   "reproducible.useCloud" = TRUE,
   "reproducible.useGDAL" = FALSE, ## TODO: can't use true until system call bugs are resolved
-  "reproducible.useMemoise" = config::get("usememoise"),
+  "reproducible.useMemoise" = useMemoise,
   "reproducible.useNewDigestAlgorithm" = TRUE,
   "reproducible.useRequire" = useRequire,
   "spades.moduleCodeChecks" = codeChecks,

@@ -11,6 +11,7 @@ codeChecks <- config::get("codechecks")
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
 useCloudCache <- config::get("cloud")[["usecloud"]]
+useMemoise <- config::get("usememoise")
 usePlot <- config::get("plot")
 useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
