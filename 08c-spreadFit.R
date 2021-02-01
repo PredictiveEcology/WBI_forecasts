@@ -12,10 +12,11 @@ spreadFitObjects <- list(
   rasterToMatch = simDataPrep$rasterToMatch
 )
 
-lowerParamsNonAnnual <- rep(-16, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
-lowerParamsAnnual <- c(-16, -16)
-upperParamsNonAnnual <- rep(32, times = length(lowerParamsNonAnnual))
-upperParamsAnnual <- c(32, 32)
+extremeVals <- 4
+lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
+lowerParamsAnnual <- c(-extremeVals, -extremeVals)
+upperParamsNonAnnual <- rep(extremeVals, times = length(lowerParamsNonAnnual))
+upperParamsAnnual <- c(extremeVals, extremeVals)
 lowerParams <- c(lowerParamsAnnual, lowerParamsNonAnnual)
 upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 
