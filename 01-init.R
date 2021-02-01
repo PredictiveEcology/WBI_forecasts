@@ -2,7 +2,7 @@
 
 if (file.exists(".Renviron")) readRenviron(".Renviron")
 
-library(config)
+Require::Require("config")
 
 cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
