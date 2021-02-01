@@ -17,7 +17,7 @@ cacheDBconn <- if (config::get("cachedb") == "sqlite") {
 
 maxMemory <- 5e+12
 
-rasterOptions(default = TRUE)
+raster::rasterOptions(default = TRUE)
 opts <- options(
   "LandR.assertions" = FALSE,
   "LandR.verbose" = 1,

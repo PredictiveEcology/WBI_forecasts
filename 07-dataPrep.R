@@ -116,7 +116,7 @@ fSdataPrepParams <- list(
   )
 )
 
-simOutPreamble$rasterToMatch <- mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
+simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 fSdataPrepObjects <- list(
   "cohortData2001" = biomassMaps2001$cohortData,
   "cohortData2011" = biomassMaps2011$cohortData,
