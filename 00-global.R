@@ -3,10 +3,8 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
-Require(c("config", "PredictiveEcology/peutils"))
-
-saveOrLoad <- "" # type "load" here to do a manual override of Cache
-switch(peutils::user(),
+saveOrLoad <- "load" # type "load" here to do a manual override of Cache
+switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
        "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
