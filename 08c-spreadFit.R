@@ -29,20 +29,24 @@ upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 lower <- c(0.22, 0.001, lowerParams)
 upper <- c(0.28, 10, upperParams)
 
-cores <- if (peutils::user("ieddy")) {
+localHostEndIp <-
+  switch(peutils::user(),
+         "ieddy" = 97,
+         "emcintir" = 189 )
+cores <-  if (peutils::user("ieddy") || peutils::user("emcintir")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    ipEnd = c(97, 189, 220, 106, 217),
-                                   localHostEndIp = 97,
-                                   availableCores = c(24, 25, 25, 13, 13),
+                                   localHostEndIp = localHostEndIp,
+                                   availableCores = c(40, 40, 40, 28, 28),
                                    availableRAM = c(500, 500, 500, 250, 250),
                                    proc = "cores",
-                                   nProcess = 8,
+                                   nProcess = length(lower),
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
   rep("localhost", 80)
-} else if (peutils::user("emcintir")) {
-  rep("localhost", 36)
+# } else if (peutils::user("emcintir")) {
+#   rep("localhost", 45)
 } else {
   stop("please specify machines to use for spread fit")
 }
