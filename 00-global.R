@@ -3,6 +3,7 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
+
 saveOrLoad <- "load" # type "load" here to do a manual override of Cache
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
@@ -22,9 +23,17 @@ theData <- file.path("outputs", paste0("all_", studyAreaName, ".qs"))
 if (!saveOrLoad %in% "load") {
   source("06-studyArea.R")
   source("07-dataPrep.R")
-  a <- mget(ls())
+  if (identical(Sys.info()[["user"]], "emcintir")) {
+    objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
+    simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
+    a <- list("simDataPrep" = simDataPrep)
+  } else {
+    a <- mget(ls())
+  }
+
   system.time(qs::qsave(x = a, preset = "fast", file = theData, nthreads = 2))
 } else if (saveOrLoad == "load") {
+  message("Loading data from ", theData)
   system.time(qs::qload(file = theData, nthreads = 2))
 }
 
