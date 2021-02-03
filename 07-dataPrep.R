@@ -112,6 +112,7 @@ fSdataPrepParams <- list(
     "fireYears" = 2001:2019, #this will be fixed to post kNN only
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
+    ".useCache" = ".inputObjects",
     "whichModulesToPrepare" = c("fireSense_SpreadFit") ## TODO: run for escape too , "fireSense_IgnitionFit"
   )
 )
