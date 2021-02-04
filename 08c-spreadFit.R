@@ -47,7 +47,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
-  rep("localhost", 80)
+  rep("localhost", 90)
 } else if (peutils::user("emcintir")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    #ipEnd = c(97, 189, 220, 106, 217),
