@@ -109,7 +109,7 @@ rm(dataPrepOutputs2011, dataPrepParams2011, dataPrepOutputs2001, dataPrepParams2
 fSdataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
     ".studyAreaName" = studyAreaName,
-    "fireYears" = 2001:2019, #this will be fixed to post kNN only
+    "fireYears" = 2001:2019, # this will be fixed to post kNN only
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
     ".useCache" = ".inputObjects",
@@ -132,9 +132,8 @@ fSdataPrepObjects <- list(
   "studyArea" = simOutPreamble$studyArea
 )
 
-# rm(biomassMaps2011, biomassMaps2001) #no need to keep except during development
 amc::.gc()
-simDataPrep <- Cache(
+simDataPrep <- Cache( ## TODO: rename simDataPrep ==> fSsimDataPrep to match params, objects above
   simInitAndSpades,
   times =  list(start = 2011, end = 2011),
   params = fSdataPrepParams,

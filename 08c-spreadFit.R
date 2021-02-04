@@ -32,10 +32,10 @@ dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
 
-localHostEndIp <-
-  switch(peutils::user(),
-         "ieddy" = 97,
-         "emcintir" = 189 )
+localHostEndIp <- switch(peutils::user(),
+                         "ieddy" = 97,
+                         "emcintir" = 189 )
+
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    ipEnd = c(97, 189, 220, 106, 217),
@@ -47,7 +47,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
-  rep("localhost", 80)
+  rep("localhost", 90)
 } else if (peutils::user("emcintir")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    #ipEnd = c(97, 189, 220, 106, 217),
