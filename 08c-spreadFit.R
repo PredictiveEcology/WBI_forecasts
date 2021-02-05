@@ -9,10 +9,11 @@ spreadFitObjects <- list(
   flammableRTM = simDataPrep$flammableRTM,
   spreadFirePoints = simDataPrep$spreadFirePoints,
   studyArea = simDataPrep$studyArea,
+  # parsKnown = sim2$DE[[1]]$optim$bestmem,
   rasterToMatch = simDataPrep$rasterToMatch
 )
 
-extremeVals <- 10
+extremeVals <- 3
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
 upperParamsNonAnnual <- rep(extremeVals, times = length(lowerParamsNonAnnual))
@@ -26,8 +27,8 @@ upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 # lower <- c(0.22, 0.001, 0.001, lowerParams)
 # upper <- c(0.29, 10, 10, upperParams)
 
-lower <- c(0.22, 0.001, lowerParams)
-upper <- c(0.286, 10, upperParams)
+lower <- c(0.25, 0.2, lowerParams)
+upper <- c(0.286, 2, upperParams)
 dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
@@ -51,12 +52,12 @@ cores <-  if (peutils::user("ieddy")) {
 } else if (peutils::user("emcintir")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    #ipEnd = c(97, 189, 220, 106, 217),
-                                   #ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
-                                   #availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
-                                   #availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
-                                   ipEnd = c(106, 217, 213, 184),
-                                   availableCores = c(22, 22, 40, 22),
-                                   availableRAM = c(250, 250, 500, 250),
+                                   ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
+                                   availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
+                                   availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
+                                   # ipEnd = c(106, 217, 213, 184),
+                                   # availableCores = c(22, 22, 40, 22),
+                                   # availableRAM = c(250, 250, 500, 250),
                                    localHostEndIp = localHostEndIp,
                                    proc = "cores",
                                    nProcess = length(lower),
@@ -77,7 +78,7 @@ spreadFitParams <- list(
     "cores" = cores,
     "debugMode" = FALSE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 150 else 150,
+    "iterStep" = if (peutils::user("emcintir")) 25 else 150,
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
@@ -86,7 +87,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 546 else NULL, # NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 640 else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
