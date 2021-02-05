@@ -32,10 +32,17 @@ dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
 
+<<<<<<< Updated upstream
 localHostEndIp <- switch(peutils::user(),
                          "ieddy" = 97,
                          "emcintir" = 189 )
 
+=======
+localHostEndIp <-
+  switch(peutils::user(),
+         "ieddy" = 97,
+         "emcintir" = 213 )
+>>>>>>> Stashed changes
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    ipEnd = c(97, 189, 220, 106, 217),
@@ -55,7 +62,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    #availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
                                    #availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
                                    ipEnd = c(106, 217, 213, 184),
-                                   availableCores = c(20, 24, 46, 28),
+                                   availableCores = c(22, 22, 40, 22),
                                    availableRAM = c(250, 250, 500, 250),
                                    localHostEndIp = localHostEndIp,
                                    proc = "cores",
@@ -75,9 +82,9 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = TRUE,
-    "iterDEoptim" = if (peutils::user("emcintir")) 300 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 300 else 150,
+    "debugMode" = FALSE,
+    "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
+    "iterStep" = if (peutils::user("emcintir")) 150 else 150,
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
@@ -86,7 +93,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 505 else NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
