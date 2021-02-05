@@ -32,17 +32,11 @@ dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
 
-<<<<<<< Updated upstream
-localHostEndIp <- switch(peutils::user(),
-                         "ieddy" = 97,
-                         "emcintir" = 189 )
-
-=======
 localHostEndIp <-
   switch(peutils::user(),
          "ieddy" = 97,
          "emcintir" = 213 )
->>>>>>> Stashed changes
+
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    ipEnd = c(97, 189, 220, 106, 217),
