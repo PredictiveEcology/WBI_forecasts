@@ -87,7 +87,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 546 else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
