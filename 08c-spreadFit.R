@@ -9,6 +9,8 @@ spreadFitObjects <- list(
   flammableRTM = simDataPrep$flammableRTM,
   spreadFirePoints = simDataPrep$spreadFirePoints,
   studyArea = simDataPrep$studyArea,
+  #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
+  #              2.696902, 1.371227,   -2.801110,    0.122434),
   # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
   #               1.376089,    0.877090,   -1.229922,   -1.370468),
   #parsKnown = c(0.254833,    1.699242,    2.247987,    0.335981,    -1.798538,
@@ -88,7 +90,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = if (peutils::user("emcintir")) FALSE else FALSE,
+    "debugMode" = if (peutils::user("emcintir")) TRUE else FALSE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 25 else 150,
     "iterThresh" = 192L,
