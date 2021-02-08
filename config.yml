@@ -44,6 +44,7 @@ ian:
     googleuser: 'ianmseddy@gmail.com'
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
+  reproduciblealgorithm: 2 #use old digest
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
 
