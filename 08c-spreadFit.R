@@ -39,9 +39,11 @@ dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
 
-localHostEndIp <- switch(peutils::user(),
+localHostEndIp <- as.numeric(gsub("spades", "", system("hostname", intern = TRUE)))
+if (is.na(localHostEndIp))
+  localHostEndIp <- switch(peutils::user(),
                          "ieddy" = 97,
-                         "emcintir" = 213 )
+                         "emcintir" = 189 )
 
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
@@ -56,27 +58,24 @@ cores <-  if (peutils::user("ieddy")) {
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
   rep("localhost", 90)
 } else if (peutils::user("emcintir")) {
-  rep("localhost", 45)
+  # rep("localhost", 45)
 
-  # pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
-  #                                  #ipEnd = c(97, 189, 220, 106, 217),
-  #                                  # ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
-  #                                  # availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
-  #                                  # availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
-  #                                  # ipEnd = c(106, 217, 213, 184),
-  #                                  # availableCores = c(22, 22, 40, 22),
-  #                                  # availableRAM = c(250, 250, 500, 250),
-  #                                  # ipEnd = c(217, 213, 184, 97),
-  #                                  # availableCores = c(22, 40, 22, 40),
-  #                                  # availableRAM = c(250, 500, 250, 500),
-  #                                  ipEnd = c(213),
-  #                                  availableCores = c(56),
-  #                                  availableRAM = c(500),
-  #                                  localHostEndIp = localHostEndIp,
-  #                                  proc = "cores",
-  #                                  nProcess = length(lower),
-  #                                  internalProcesses = 10,
-  #                                  sizeGbEachProcess = 1)
+  pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
+                                   #ipEnd = c(97, 189, 220, 106, 217),
+                                   # ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
+                                   # availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
+                                   # availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
+                                   # ipEnd = c(106, 217, 213, 184),
+                                   # availableCores = c(22, 22, 40, 22),
+                                   # availableRAM = c(250, 250, 500, 250),
+                                   ipEnd = c(213, 189, 97),
+                                   availableCores = c(40, 40, 40),
+                                   availableRAM = c(500, 500, 500),
+                                   localHostEndIp = localHostEndIp,
+                                   proc = "cores",
+                                   nProcess = length(lower),
+                                   internalProcesses = 10,
+                                   sizeGbEachProcess = 1)
 } else {
   stop("please specify machines to use for spread fit")
 }
@@ -90,9 +89,9 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = if (peutils::user("emcintir")) TRUE else FALSE,
+    "debugMode" = if (peutils::user("emcintir")) FALSE else FALSE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 25 else 150,
+    "iterStep" = if (peutils::user("emcintir")) 150 else 150,
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
