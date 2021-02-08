@@ -9,7 +9,13 @@ spreadFitObjects <- list(
   flammableRTM = simDataPrep$flammableRTM,
   spreadFirePoints = simDataPrep$spreadFirePoints,
   studyArea = simDataPrep$studyArea,
-  # parsKnown = sim2$DE[[1]]$optim$bestmem,
+  #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
+  #              2.696902, 1.371227,   -2.801110,    0.122434),
+  # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
+  #               1.376089,    0.877090,   -1.229922,   -1.370468),
+  #parsKnown = c(0.254833,    1.699242,    2.247987,    0.335981,    -1.798538,
+  #              2.440666,    -0.845427, -2.186069,    1.879606),
+  #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
   rasterToMatch = simDataPrep$rasterToMatch
 )
 
@@ -27,15 +33,17 @@ upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 # lower <- c(0.22, 0.001, 0.001, lowerParams)
 # upper <- c(0.29, 10, 10, upperParams)
 
-lower <- c(0.25, 0.2, lowerParams)
-upper <- c(0.286, 2, upperParams)
+lower <- c(0.25, 0.2, 0.1, lowerParams)
+upper <- c(0.286, 2, 4, upperParams)
 dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
 
-localHostEndIp <- switch(peutils::user(),
+localHostEndIp <- as.numeric(gsub("spades", "", system("hostname", intern = TRUE)))
+if (is.na(localHostEndIp))
+  localHostEndIp <- switch(peutils::user(),
                          "ieddy" = 97,
-                         "emcintir" = 213 )
+                         "emcintir" = 189 )
 
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
@@ -50,19 +58,24 @@ cores <-  if (peutils::user("ieddy")) {
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
   rep("localhost", 90)
 } else if (peutils::user("emcintir")) {
-  pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
-                                   #ipEnd = c(97, 189, 220, 106, 217),
-                                   ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
-                                   availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
-                                   availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
-                                   # ipEnd = c(106, 217, 213, 184),
-                                   # availableCores = c(22, 22, 40, 22),
-                                   # availableRAM = c(250, 250, 500, 250),
-                                   localHostEndIp = localHostEndIp,
-                                   proc = "cores",
-                                   nProcess = length(lower),
-                                   internalProcesses = 10,
-                                   sizeGbEachProcess = 1)
+   rep("localhost", 45)
+
+  # pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
+  #                                  #ipEnd = c(97, 189, 220, 106, 217),
+  #                                  # ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
+  #                                  # availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
+  #                                  # availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
+  #                                  # ipEnd = c(106, 217, 213, 184),
+  #                                  # availableCores = c(22, 22, 40, 22),
+  #                                  # availableRAM = c(250, 250, 500, 250),
+  #                                  ipEnd = c(213, 189, 97),
+  #                                  availableCores = c(40, 40, 40),
+  #                                  availableRAM = c(500, 500, 500),
+  #                                  localHostEndIp = localHostEndIp,
+  #                                  proc = "cores",
+  #                                  nProcess = length(lower),
+  #                                  internalProcesses = 10,
+  #                                  sizeGbEachProcess = 1)
 } else {
   stop("please specify machines to use for spread fit")
 }
@@ -76,9 +89,10 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = FALSE,
+    "debugMode" = if (peutils::user("emcintir")) TRUE else FALSE,
+    "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 25 else 150,
+    "iterStep" = if (peutils::user("emcintir")) 150 else 150,
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
@@ -87,7 +101,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 640 else NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
