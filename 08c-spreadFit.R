@@ -42,8 +42,8 @@ Require:::messageDF(dfT)
 localHostEndIp <- as.numeric(gsub("spades", "", system("hostname", intern = TRUE)))
 if (is.na(localHostEndIp))
   localHostEndIp <- switch(peutils::user(),
-                         "ieddy" = 97,
-                         "emcintir" = 189 )
+                           "ieddy" = 97,
+                           "emcintir" = 189)
 
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
@@ -56,9 +56,9 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
-  rep("localhost", 90)
+  c(rep("localhost", 90), rep("forcast01.local", 10))
 } else if (peutils::user("emcintir")) {
-   rep("localhost", 45)
+  rep("localhost", 45)
 
   # pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
   #                                  #ipEnd = c(97, 189, 220, 106, 217),
