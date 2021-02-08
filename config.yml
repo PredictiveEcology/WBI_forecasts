@@ -13,6 +13,7 @@ default:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
+  reproduciblealgorithm: 1
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: false
   userequire: true
@@ -57,4 +58,5 @@ eliot:
   inputpaths: ~/data
   paths:
     scratchdir: "/tmp/scratch/WBI_fireSense"
+  reproduciblealgorithm: 2
   usememoise: true

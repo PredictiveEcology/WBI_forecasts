@@ -8,6 +8,7 @@ cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
+reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
 useCloudCache <- config::get("cloud")[["usecloud"]]
