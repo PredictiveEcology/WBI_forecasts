@@ -25,6 +25,7 @@ if (!saveOrLoad %in% "load") {
   source("07-dataPrep.R")
   if (identical(Sys.info()[["user"]], "emcintir")) {
     objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
+    objsNeeded <- setdiff(objsNeeded, "parsKnown")
     simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
     a <- list("simDataPrep" = simDataPrep)
   } else {
