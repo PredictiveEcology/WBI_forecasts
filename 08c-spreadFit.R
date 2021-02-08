@@ -58,24 +58,24 @@ cores <-  if (peutils::user("ieddy")) {
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
   c(rep("localhost", 90), rep("forcast01.local", 10))
 } else if (peutils::user("emcintir")) {
-  rep("localhost", 45)
+  # rep("localhost", 45)
 
-  # pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
-  #                                  #ipEnd = c(97, 189, 220, 106, 217),
-  #                                  # ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
-  #                                  # availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
-  #                                  # availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
-  #                                  # ipEnd = c(106, 217, 213, 184),
-  #                                  # availableCores = c(22, 22, 40, 22),
-  #                                  # availableRAM = c(250, 250, 500, 250),
-  #                                  ipEnd = c(213, 189, 97),
-  #                                  availableCores = c(40, 40, 40),
-  #                                  availableRAM = c(500, 500, 500),
-  #                                  localHostEndIp = localHostEndIp,
-  #                                  proc = "cores",
-  #                                  nProcess = length(lower),
-  #                                  internalProcesses = 10,
-  #                                  sizeGbEachProcess = 1)
+  pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
+                                   #ipEnd = c(97, 189, 220, 106, 217),
+                                   # ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
+                                   # availableCores = c(46, 46, 46, 28),#, 28, 28, 56, 28),
+                                   # availableRAM = c(500, 500, 500, 250),#, 250, 250, 500, 250),
+                                   ipEnd = c(106, 217, 213, 220),
+                                   availableCores = c(15, 25, 40, 40),
+                                   availableRAM = c(250, 250, 500, 500),
+                                   # ipEnd = c(213, 189, 97),
+                                   # availableCores = c(40, 40, 40),
+                                   # availableRAM = c(500, 500, 500),
+                                   localHostEndIp = localHostEndIp,
+                                   proc = "cores",
+                                   nProcess = length(lower),
+                                   internalProcesses = 10,
+                                   sizeGbEachProcess = 1)
 } else {
   stop("please specify machines to use for spread fit")
 }
@@ -89,7 +89,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = if (peutils::user("emcintir")) TRUE else FALSE,
+    "debugMode" = if (peutils::user("emcintir")) FALSE else FALSE,
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
@@ -101,7 +101,7 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 860 else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
