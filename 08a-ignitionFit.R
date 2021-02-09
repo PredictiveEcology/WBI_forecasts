@@ -10,7 +10,7 @@ ignitionFitParams <- list(
 )
 
 ignitionFitObjects <- list(
-  fireSense_ignitionCovariates = simDataPrep$fireSense_ignitionCovariates,
+  fireSense_ignitionCovariates = simDataPrep$fireSense_ignitionCovariates
 )
 
 
