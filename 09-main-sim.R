@@ -12,7 +12,7 @@ dynamicObjects <- list(climateComponentsTouse = simDataPrep$climateComponentsToU
                        projectedClimateLayers = simOutPreamble$projectedClimateRasters,
                        sppEquiv = simDataPrep$sppEquiv,
                        terrainDT = simDataPrep$terrainDT,
-                       vegComponentsToUse = simDataPrep$vegComponfentsToUse)
+                       vegComponentsToUse = simDataPrep$vegComponentsToUse)
 
 dynamicParams <- list(
   fireSense_dataPrepPredict = list(
@@ -22,8 +22,7 @@ dynamicParams <- list(
     'missingLCCgroup' = simDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   )
 )
-devtools::load_all("../fireSenseUtils")
-mySim <- simInit(times = list(start = 2011, end = 2012),
+mySim <- simInit(times = list(start = 2011, end = 2011),
                  modules = dynamicModules,
                  objects = dynamicObjects,
                  params = dynamicParams,
