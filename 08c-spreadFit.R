@@ -89,7 +89,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = if (peutils::user("emcintir")) FALSE else FALSE,
+    "debugMode" = if (peutils::user("emcintir")) TRUE else FALSE,
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
@@ -120,12 +120,13 @@ spreadSim <- simInit(times = list(start = 0, end = 1),
                      paths = spreadFitPaths,
                      objects = spreadFitObjects)
 spreadOut <- spades(spreadSim)
-saveSimList(Copy(spreadOut), fs_SpreadFit_file) ## TODO: fix issue loading simList
-
 if (peutils::user("emcintir")) {
   saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
                      spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
                      "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
                      "_", SpaDES.core::rndstr(1, 6))
   saveRDS(spreadOut, file = saveName)
+
+} else {
+  saveSimList(Copy(spreadOut), fs_SpreadFit_file) ## TODO: fix issue loading simList
 }
