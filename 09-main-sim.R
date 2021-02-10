@@ -3,7 +3,7 @@ do.call(setPaths, dynamicPaths)
 dynamicModules <- list("fireSense_dataPrepPredict") #Biomass_core, etc will be added
 dynamicObjects <- list(climateComponentsTouse = simDataPrep$climateComponentsToUse,
                        cohortData = simDataPrep$cohortData2011,
-                       flammabelRTM = simDataPrep$flammableRTM,
+                       flammableRTM = simDataPrep$flammableRTM,
                        landcoverDT = simDataPrep$landcoverDT,
                        nonForest_timeSinceDisturbance = simDataPrep$nonForest_timeSinceDisturbance,
                        #this is the 2011 TSD - perhaps I should rename it in dataPrepFit to make it explicit?
@@ -12,7 +12,7 @@ dynamicObjects <- list(climateComponentsTouse = simDataPrep$climateComponentsToU
                        projectedClimateLayers = simOutPreamble$projectedClimateRasters,
                        sppEquiv = simDataPrep$sppEquiv,
                        terrainDT = simDataPrep$terrainDT,
-                       vegComponentsToUse = simDataPrep$vegComponfentsToUse)
+                       vegComponentsToUse = simDataPrep$vegComponentsToUse)
 
 dynamicParams <- list(
   fireSense_dataPrepPredict = list(
@@ -22,8 +22,7 @@ dynamicParams <- list(
     'missingLCCgroup' = simDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   )
 )
-devtools::load_all("../fireSenseUtils")
-mySim <- simInit(times = list(start = 2011, end = 2012),
+mySim <- simInit(times = list(start = 2011, end = 2011),
                  modules = dynamicModules,
                  objects = dynamicObjects,
                  params = dynamicParams,
