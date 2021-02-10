@@ -89,7 +89,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "debugMode" = if (peutils::user("emcintir")) TRUE else FALSE,
+    "mode" = if (peutils::user("emcintir")) "fit" else "fit",
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
@@ -101,11 +101,14 @@ spreadFitParams <- list(
     "objfunFireReps" = 100,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = if (peutils::user("emcintir")) 860 else NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
+    "urlDEOptimObject" = NULL,#"spreadOut_2021-02-10_Limit3_150_SNLL_FS_thresh_cNG42y",
     "useCloud_DE" = useCloudCache,
+    "onlyLoadDEOptim" = FALSE,
+    ".plot" = TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
@@ -114,19 +117,18 @@ spreadFitParams <- list(
 # rm(biomassMaps2001, biomassMaps2011)
 
 fs_SpreadFit_file <- file.path(Paths$outputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
-spreadSim <- simInit(times = list(start = 0, end = 1),
+spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
                      params = spreadFitParams,
                      modules = "fireSense_SpreadFit",
                      paths = spreadFitPaths,
                      objects = spreadFitObjects)
-spreadOut <- spades(spreadSim)
+
 if (peutils::user("emcintir")) {
   saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
                      spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
                      "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
                      "_", SpaDES.core::rndstr(1, 6))
   saveRDS(spreadOut, file = saveName)
-
 } else {
   saveSimList(Copy(spreadOut), fs_SpreadFit_file) ## TODO: fix issue loading simList
 }
