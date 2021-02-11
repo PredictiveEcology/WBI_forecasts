@@ -136,3 +136,11 @@ if (peutils::user("emcintir") && spreadOut@params$fireSense_SpreadFit$mode %in% 
 } else {
   saveSimList(Copy(spreadOut), fs_SpreadFit_file) ## TODO: fix issue loading simList
 }
+
+if (requireNamespace("slackr") & file.exists("~/.slackr")) {
+  slackr::slackr_setup()
+  slackr::text_slackr(
+    paste0("`fireSense_SpreadFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
+    channel = config::get("slackchannel"), preformatted = FALSE
+  )
+}
