@@ -89,7 +89,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "mode" = if (peutils::user("emcintir")) "fit" else "fit",
+    "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
@@ -103,16 +103,13 @@ spreadFitParams <- list(
     #"onlyLoadDEOptim" = FALSE,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
     "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
-    #"urlDEOptimObject" = "spreadOut_2021-02-11_Limit3_150_SNLL_FS_thresh_K6qTxX",
+    #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCloud_DE" = useCloudCache,
-    # "onlyLoadDEOptim" = FALSE,
     ".plot" = TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
