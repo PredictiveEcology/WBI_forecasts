@@ -89,7 +89,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "mode" = if (peutils::user("emcintir")) "debug" else "fit",
+    "mode" = if (peutils::user("emcintir")) "visualize" else "fit",
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
