@@ -19,7 +19,7 @@ spreadFitObjects <- list(
   rasterToMatch = simDataPrep$rasterToMatch
 )
 
-extremeVals <- 3
+extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
 upperParamsNonAnnual <- rep(extremeVals, times = length(lowerParamsNonAnnual))
@@ -89,6 +89,7 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
+    "mode" = if (peutils::user("emcintir")) "fit" else "fit",
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
@@ -105,7 +106,7 @@ spreadFitParams <- list(
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    "urlDEOptimObject" = "spreadOut_2021-02-10_Limit3_150_SNLL_FS_thresh_cNG42y", ## TODO: by studyArea
+    # "urlDEOptimObject" = "spreadOut_2021-02-11_Limit3_150_SNLL_FS_thresh_K6qTxX",
     "useCloud_DE" = useCloudCache,
     # "onlyLoadDEOptim" = FALSE,
     ".plot" = TRUE,
@@ -123,12 +124,15 @@ spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
                               paths = spreadFitPaths,
                               objects = spreadFitObjects)
 
-if (peutils::user("emcintir")) {
-  # saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
-  #                    spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
-  #                    "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
-  #                    "_", SpaDES.core::rndstr(1, 6))
-  # saveRDS(spreadOut, file = saveName)
+if (peutils::user("emcintir") && spreadOut@params$fireSense_SpreadFit$mode %in% "fit") {
+  saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
+                     spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
+                     "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
+                     "_", SpaDES.core::rndstr(1, 6))
+  objsNeeded <- setdiff(ls(spreadOut), outputObjects(module = "fireSense_SpreadFit",
+                                                  path = spreadFitPaths$modulePath)[[1]]$objectName)
+  rm(list = objsNeeded, envir = spreadOut)
+  saveRDS(spreadOut, file = saveName)
 } else {
   saveSimList(Copy(spreadOut), fs_SpreadFit_file) ## TODO: fix issue loading simList
 }
