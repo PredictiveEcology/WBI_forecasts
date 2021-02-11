@@ -89,13 +89,13 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "mode" = if (peutils::user("emcintir")) "visualize" else "fit",
     "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
+    "mode" = if (peutils::user("emcintir")) "visualize" else "fit", ## one of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -105,7 +105,7 @@ spreadFitParams <- list(
     "upper" = upper,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    "urlDEOptimObject" = "spreadOut_2021-02-10_Limit3_150_SNLL_FS_thresh_cNG42y",
+    "urlDEOptimObject" = "spreadOut_2021-02-10_Limit3_150_SNLL_FS_thresh_cNG42y", ## TODO: by studyArea
     "useCloud_DE" = useCloudCache,
     # "onlyLoadDEOptim" = FALSE,
     ".plot" = TRUE,
@@ -116,12 +116,12 @@ spreadFitParams <- list(
 #add tags when it stabilizes
 # rm(biomassMaps2001, biomassMaps2011)
 
-fs_SpreadFit_file <- file.path(Paths$outputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
+fs_SpreadFit_file <- file.path(Paths$inputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
 spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
-                     params = spreadFitParams,
-                     modules = "fireSense_SpreadFit",
-                     paths = spreadFitPaths,
-                     objects = spreadFitObjects)
+                              params = spreadFitParams,
+                              modules = "fireSense_SpreadFit",
+                              paths = spreadFitPaths,
+                              objects = spreadFitObjects)
 
 if (peutils::user("emcintir")) {
   # saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
