@@ -96,6 +96,7 @@ spreadFitParams <- list(
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
+    "mode" = if (peutils::user("emcintir")) "visualize" else "fit", ## one of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -116,12 +117,12 @@ spreadFitParams <- list(
 #add tags when it stabilizes
 # rm(biomassMaps2001, biomassMaps2011)
 
-fs_SpreadFit_file <- file.path(Paths$outputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
+fs_SpreadFit_file <- file.path(Paths$inputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
 spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
-                     params = spreadFitParams,
-                     modules = "fireSense_SpreadFit",
-                     paths = spreadFitPaths,
-                     objects = spreadFitObjects)
+                              params = spreadFitParams,
+                              modules = "fireSense_SpreadFit",
+                              paths = spreadFitPaths,
+                              objects = spreadFitObjects)
 
 if (peutils::user("emcintir") && spreadOut@params$fireSense_SpreadFit$mode %in% "fit") {
   saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
