@@ -21,3 +21,6 @@ cache/
 all.qs
 inputs/
 outputs/
+
+# saved simLists
+spreadOut*
