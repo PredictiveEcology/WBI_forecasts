@@ -10,6 +10,7 @@
 *_cache/
 /cache/
 cache/
+.channel_cache
 
 # Temporary files created by R markdown
 *.utf8.md
