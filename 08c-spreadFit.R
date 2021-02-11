@@ -100,16 +100,15 @@ spreadFitParams <- list(
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
+    #"onlyLoadDEOptim" = FALSE,
     "rescaleAll" = TRUE,
     "trace" = 1,
     "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
+    #"urlDEOptimObject" = "spreadOut_2021-02-11_Limit3_150_SNLL_FS_thresh_K6qTxX",
+    "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    # "urlDEOptimObject" = "spreadOut_2021-02-11_Limit3_150_SNLL_FS_thresh_K6qTxX",
-    "useCloud_DE" = useCloudCache,
-    # "onlyLoadDEOptim" = FALSE,
-    ".plot" = TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
