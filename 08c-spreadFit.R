@@ -1,24 +1,5 @@
 do.call(setPaths, spreadFitPaths)
 
-spreadFitObjects <- list(
-  fireBufferedListDT = simDataPrep$fireBufferedListDT,
-  fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
-  fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
-  fireSense_spreadFormula = simDataPrep$fireSense_spreadFormula,
-  firePolys = simDataPrep$firePolys,
-  flammableRTM = simDataPrep$flammableRTM,
-  spreadFirePoints = simDataPrep$spreadFirePoints,
-  studyArea = simDataPrep$studyArea,
-  #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
-  #              2.696902, 1.371227,   -2.801110,    0.122434),
-  # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
-  #               1.376089,    0.877090,   -1.229922,   -1.370468),
-  #parsKnown = c(0.254833,    1.699242,    2.247987,    0.335981,    -1.798538,
-  #              2.440666,    -0.845427, -2.186069,    1.879606),
-  #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
-  rasterToMatch = simDataPrep$rasterToMatch
-)
-
 extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
@@ -115,8 +96,26 @@ spreadFitParams <- list(
   )
 )
 
+spreadFitObjects <- list(
+  fireBufferedListDT = simDataPrep[["fireBufferedListDT"]],
+  fireSense_annualSpreadFitCovariates = simDataPrep[["fireSense_annualSpreadFitCovariates"]],
+  fireSense_nonAnnualSpreadFitCovariates = simDataPrep[["fireSense_nonAnnualSpreadFitCovariates"]],
+  fireSense_spreadFormula = simDataPrep[["fireSense_spreadFormula"]],
+  firePolys = simDataPrep[["firePolys"]],
+  flammableRTM = simDataPrep[["flammableRTM"]],
+  spreadFirePoints = simDataPrep[["spreadFirePoints"]],
+  studyArea = simDataPrep[["studyArea"]],
+  #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
+  #              2.696902, 1.371227,   -2.801110,    0.122434),
+  # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
+  #               1.376089,    0.877090,   -1.229922,   -1.370468),
+  #parsKnown = c(0.254833,    1.699242,    2.247987,    0.335981,    -1.798538,
+  #              2.440666,    -0.845427, -2.186069,    1.879606),
+  #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
+  rasterToMatch = simDataPrep[["rasterToMatch"]]
+)
+
 #add tags when it stabilizes
-# rm(biomassMaps2001, biomassMaps2011)
 
 fs_SpreadFit_file <- file.path(Paths$inputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
 spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
