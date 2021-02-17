@@ -22,14 +22,12 @@ theData <- file.path("outputs", paste0("all_", studyAreaName, ".qs"))
 if (!saveOrLoad %in% "load") {
   source("06-studyArea.R")
   source("07-dataPrep.R")
-  if (identical(Sys.info()[["user"]], "emcintir")) {
-    objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
-    objsNeeded <- setdiff(objsNeeded, "parsKnown")
-    simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
-    a <- list("simDataPrep" = simDataPrep)
-  } else {
-    a <- mget(ls())
-  }
+
+  if (exists("a", .GlobalEnv)) rm(a, envir = .GlobalEnv)
+  objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
+  objsNeeded <- setdiff(objsNeeded, "parsKnown")
+  simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
+  a <- list("simDataPrep" = simDataPrep)
 
   system.time(qs::qsave(x = a, preset = "fast", file = theData, nthreads = 2))
 } else if (saveOrLoad == "load") {
