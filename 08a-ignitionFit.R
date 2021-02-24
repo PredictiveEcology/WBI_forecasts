@@ -7,6 +7,7 @@ climVar <- simDataPrep$fireSense_ignitionCovariates[, 2]
 
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
+    cores = 20,
     fireSense_ignitionFormula = simDataPrep$fireSense_ignitionFormula,
     lb = list(coef = 0,
               knots = 0),
