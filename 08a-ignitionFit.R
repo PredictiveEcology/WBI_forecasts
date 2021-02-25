@@ -3,9 +3,18 @@ do.call(setPaths, ignitionFitPaths)
 #climVar may become a principal component eventually, hence this format
 climVar <- simDataPrep$fireSense_ignitionCovariates[, 2]
 
+#ub and lb have to be provided for now
+
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
-    fireSense_ignitionFormula = simDataPrep$fireSense_ignitionFormula
+    cores = 20,
+    fireSense_ignitionFormula = simDataPrep$fireSense_ignitionFormula,
+    lb = list(coef = 0,
+              knots = 0),
+    #I don't know if this is the MDC value of the knot....
+    #if using binomial need to pass theta to lb and ub
+    ub = list(coef = 1,
+              knots = 1)
   )
 )
 

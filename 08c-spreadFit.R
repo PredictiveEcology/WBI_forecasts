@@ -1,24 +1,5 @@
 do.call(setPaths, spreadFitPaths)
 
-spreadFitObjects <- list(
-  fireBufferedListDT = simDataPrep$fireBufferedListDT,
-  fireSense_annualSpreadFitCovariates = simDataPrep$fireSense_annualSpreadFitCovariates,
-  fireSense_nonAnnualSpreadFitCovariates = simDataPrep$fireSense_nonAnnualSpreadFitCovariates,
-  fireSense_spreadFormula = simDataPrep$fireSense_spreadFormula,
-  firePolys = simDataPrep$firePolys,
-  flammableRTM = simDataPrep$flammableRTM,
-  spreadFirePoints = simDataPrep$spreadFirePoints,
-  studyArea = simDataPrep$studyArea,
-  #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
-  #              2.696902, 1.371227,   -2.801110,    0.122434),
-  # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
-  #               1.376089,    0.877090,   -1.229922,   -1.370468),
-  #parsKnown = c(0.254833,    1.699242,    2.247987,    0.335981,    -1.798538,
-  #              2.440666,    -0.845427, -2.186069,    1.879606),
-  #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
-  rasterToMatch = simDataPrep$rasterToMatch
-)
-
 extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
@@ -89,37 +70,53 @@ spreadFitParams <- list(
     # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     "cloudFolderID_DE" = cloudCacheFolderID,
     "cores" = cores,
-    "mode" = if (peutils::user("emcintir")) "fit" else "fit",
-    "doObjFunAssertions" = if (peutils::user("emcintir")) FALSE else TRUE,
+    "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
+    "doObjFunAssertions" = FALSE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
     "iterThresh" = 192L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (peutils::user("emcintir")) "fit" else "fit", ## one of "debug", "fit", "visualize"
+    "mode" = if (peutils::user("emcintir")) "fit" else c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
     #"onlyLoadDEOptim" = FALSE,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
     "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
-    #"urlDEOptimObject" = "spreadOut_2021-02-11_Limit3_150_SNLL_FS_thresh_K6qTxX",
+    #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCloud_DE" = useCloudCache,
-    # "onlyLoadDEOptim" = FALSE,
-    ".plot" = TRUE,
+    ".plot" = FALSE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
 
+spreadFitObjects <- list(
+  fireBufferedListDT = simDataPrep[["fireBufferedListDT"]],
+  fireSense_annualSpreadFitCovariates = simDataPrep[["fireSense_annualSpreadFitCovariates"]],
+  fireSense_nonAnnualSpreadFitCovariates = simDataPrep[["fireSense_nonAnnualSpreadFitCovariates"]],
+  fireSense_spreadFormula = simDataPrep[["fireSense_spreadFormula"]],
+  firePolys = simDataPrep[["firePolys"]],
+  flammableRTM = simDataPrep[["flammableRTM"]],
+  spreadFirePoints = simDataPrep[["spreadFirePoints"]],
+  studyArea = simDataPrep[["studyArea"]],
+  #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
+  #              2.696902, 1.371227,   -2.801110,    0.122434),
+  # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
+  #               1.376089,    0.877090,   -1.229922,   -1.370468),
+  #parsKnown = c(0.254833,    1.699242,    2.247987,    0.335981,    -1.798538,
+  #              2.440666,    -0.845427, -2.186069,    1.879606),
+  #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
+  #parsKnown = spreadOut$fireSense_SpreadFitted$meanCoef,
+  rasterToMatch = simDataPrep[["rasterToMatch"]]
+)
+
 #add tags when it stabilizes
-# rm(biomassMaps2001, biomassMaps2011)
 
 fs_SpreadFit_file <- file.path(Paths$inputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
 spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
@@ -128,17 +125,15 @@ spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
                               paths = spreadFitPaths,
                               objects = spreadFitObjects)
 
-if (peutils::user("emcintir") && spreadOut@params$fireSense_SpreadFit$mode %in% "fit") {
+if ("fit" %in% spreadOut@params$fireSense_SpreadFit$mode) {
   saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
                      spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
                      "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
                      "_", SpaDES.core::rndstr(1, 6))
   objsNeeded <- setdiff(ls(spreadOut), outputObjects(module = "fireSense_SpreadFit",
-                                                  path = spreadFitPaths$modulePath)[[1]]$objectName)
+                                                     path = spreadFitPaths$modulePath)[[1]]$objectName)
   rm(list = objsNeeded, envir = spreadOut)
   saveRDS(spreadOut, file = saveName)
-} else {
-  saveSimList(Copy(spreadOut), fs_SpreadFit_file) ## TODO: fix issue loading simList
 }
 
 if (requireNamespace("slackr") & file.exists("~/.slackr")) {

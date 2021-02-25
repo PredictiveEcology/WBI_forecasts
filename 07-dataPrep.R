@@ -121,17 +121,17 @@ fSdataPrepParams <- list(
 
 simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 fSdataPrepObjects <- list(
-  "cohortData2001" = biomassMaps2001$cohortData,
-  "cohortData2011" = biomassMaps2011$cohortData,
-  "historicalClimateRasters" = simOutPreamble$historicalClimateRasters,
-  "pixelGroupMap2001" = biomassMaps2001$pixelGroupMap,
-  "pixelGroupMap2011" = biomassMaps2011$pixelGroupMap,
-  "rasterToMatch" = simOutPreamble$rasterToMatch, #this needs to be masked
-  "rstLCC" = biomassMaps2001$rstLCC,
-  "sppEquiv" = simOutPreamble$sppEquiv,
-  "standAgeMap2001" = biomassMaps2001$standAgeMap,
-  "standAgeMap2011" = biomassMaps2011$standAgeMap,
-  "studyArea" = simOutPreamble$studyArea
+  "cohortData2001" = biomassMaps2001[["cohortData"]],
+  "cohortData2011" = biomassMaps2011[["cohortData"]],
+  "historicalClimateRasters" = simOutPreamble[["historicalClimateRasters"]],
+  "pixelGroupMap2001" = biomassMaps2001[["pixelGroupMap"]],
+  "pixelGroupMap2011" = biomassMaps2011[["pixelGroupMap"]],
+  "rasterToMatch" = simOutPreamble[["rasterToMatch"]], #this needs to be masked
+  "rstLCC" = biomassMaps2001[["rstLCC"]],
+  "sppEquiv" = simOutPreamble[["sppEquiv"]],
+  "standAgeMap2001" = biomassMaps2001[["standAgeMap"]],
+  "standAgeMap2011" = biomassMaps2011[["standAgeMap"]],
+  "studyArea" = simOutPreamble[["studyArea"]]
 )
 
 amc::.gc()
