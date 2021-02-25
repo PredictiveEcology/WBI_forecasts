@@ -60,4 +60,5 @@ eliot:
   paths:
     scratchdir: "/tmp/scratch/WBI_fireSense"
   reproduciblealgorithm: 2
+  studyarea: "NT" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: true
