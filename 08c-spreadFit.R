@@ -37,7 +37,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
-  c(rep("localhost", 90), rep("forcast01.local", 10))
+    c(rep("localhost", 68), rep("forcast01.local", 32))
 } else if (peutils::user("emcintir")) {
   # rep("localhost", 45)
 
@@ -98,13 +98,11 @@ spreadFitParams <- list(
 
 spreadFitObjects <- list(
   fireBufferedListDT = simDataPrep[["fireBufferedListDT"]],
+  firePolys = simDataPrep[["firePolys"]],
   fireSense_annualSpreadFitCovariates = simDataPrep[["fireSense_annualSpreadFitCovariates"]],
   fireSense_nonAnnualSpreadFitCovariates = simDataPrep[["fireSense_nonAnnualSpreadFitCovariates"]],
   fireSense_spreadFormula = simDataPrep[["fireSense_spreadFormula"]],
-  firePolys = simDataPrep[["firePolys"]],
   flammableRTM = simDataPrep[["flammableRTM"]],
-  spreadFirePoints = simDataPrep[["spreadFirePoints"]],
-  studyArea = simDataPrep[["studyArea"]],
   #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
   #              2.696902, 1.371227,   -2.801110,    0.122434),
   # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
@@ -113,7 +111,9 @@ spreadFitObjects <- list(
   #              2.440666,    -0.845427, -2.186069,    1.879606),
   #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
   #parsKnown = spreadOut$fireSense_SpreadFitted$meanCoef,
-  rasterToMatch = simDataPrep[["rasterToMatch"]]
+  rasterToMatch = simDataPrep[["rasterToMatch"]],
+  spreadFirePoints = simDataPrep[["spreadFirePoints"]],
+  studyArea = simDataPrep[["studyArea"]]
 )
 
 #add tags when it stabilizes
