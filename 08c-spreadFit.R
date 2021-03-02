@@ -74,7 +74,7 @@ spreadFitParams <- list(
     "doObjFunAssertions" = FALSE,
     "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
     "iterStep" = if (peutils::user("emcintir")) 150 else 150,
-    "iterThresh" = 192L,
+    "iterThresh" = 396L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
     "mode" = if (peutils::user("emcintir")) "fit" else c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
