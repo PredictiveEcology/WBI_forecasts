@@ -126,10 +126,11 @@ spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
                               objects = spreadFitObjects)
 
 if ("fit" %in% spreadOut@params$fireSense_SpreadFit$mode) {
-  saveName <- paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
-                     spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
-                     "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
-                     "_", SpaDES.core::rndstr(1, 6))
+  saveName <- file.path(Paths$outputPath,
+                        paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
+                               spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
+                               "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
+                               "_", SpaDES.core::rndstr(1, 6)))
   objsNeeded <- setdiff(ls(spreadOut), outputObjects(module = "fireSense_SpreadFit",
                                                      path = spreadFitPaths$modulePath)[[1]]$objectName)
   rm(list = objsNeeded, envir = spreadOut)

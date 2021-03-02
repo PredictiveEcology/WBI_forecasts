@@ -144,5 +144,5 @@ simDataPrep <- Cache( ## TODO: rename simDataPrep ==> fSsimDataPrep to match par
   modules = "fireSense_dataPrepFit",
   userTags = c("fireSense_dataPrepFit", studyAreaName)
 )
-# rm(biomassMaps2001, biomassMaps2011) ## TODO: don't uncomment this until this works 100%
 
+# rm(biomassMaps2001, biomassMaps2011) ## TODO: don't uncomment this until this works 100%
