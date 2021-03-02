@@ -9,12 +9,12 @@ ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     cores = nCores,
     fireSense_ignitionFormula = simDataPrep$fireSense_ignitionFormula,
-    lb = list(coef = 0,
+    lb = list(coef = 1,
               knots = 0),
     #I don't know if this is the MDC value of the knot....
     #if using binomial need to pass theta to lb and ub
-    ub = list(coef = 10,
-              knots = quantile(simDataPrep$fireSense_ignitionCovariates$MDC, probs = 0.6))
+    ub = list(coef = 1,
+              knots = round(quantile(simDataPrep$fireSense_ignitionCovariates$MDC, probs = 0.6), digits = 0))
   )
 )
 
@@ -22,7 +22,7 @@ ignitionFitObjects <- list(
   fireSense_ignitionCovariates = simDataPrep$fireSense_ignitionCovariates
 )
 
-devtools::load_all("../fireSenseUtils")
+# devtools::load_all("../fireSenseUtils")
 ignitionSim <- simInit(times = list(start = 0, end = 1),
                        params = ignitionFitParams,
                        modules = "fireSense_IgnitionFit",
