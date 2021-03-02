@@ -9,6 +9,7 @@ default:
   codechecks: true
   inputpaths: null
   mapresfact: 1
+  messagingNumCharsModule: 21
   paths:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
@@ -57,6 +58,7 @@ eliot:
     usecloud: false
   codechecks: false
   inputpaths: ~/data
+  messagingNumCharsModule: 24
   paths:
     scratchdir: "/tmp/scratch/WBI_fireSense"
   reproduciblealgorithm: 2

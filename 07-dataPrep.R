@@ -115,7 +115,7 @@ fSdataPrepParams <- list(
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
     ".useCache" = ".inputObjects",
-    "whichModulesToPrepare" = c("fireSense_SpreadFit") ## TODO: run for escape too , "fireSense_IgnitionFit"
+    "whichModulesToPrepare" = "fireSense_IgnitionFit"#c("fireSense_SpreadFit") ## TODO: run for escape too , "fireSense_IgnitionFit"
   )
 )
 
@@ -134,7 +134,7 @@ fSdataPrepObjects <- list(
   "studyArea" = simOutPreamble[["studyArea"]]
 )
 
-amc::.gc()
+replicate(10, gc())
 simDataPrep <- Cache( ## TODO: rename simDataPrep ==> fSsimDataPrep to match params, objects above
   simInitAndSpades,
   times =  list(start = 2011, end = 2011),

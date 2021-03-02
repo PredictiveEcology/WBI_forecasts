@@ -72,12 +72,12 @@ spreadFitParams <- list(
     "cores" = cores,
     "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
     "doObjFunAssertions" = FALSE,
-    "iterDEoptim" = if (peutils::user("emcintir")) 150 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 150 else 150,
+    "iterDEoptim" = if (peutils::user("emcintir")) 300 else 150,
+    "iterStep" = if (peutils::user("emcintir")) 300 else 150,
     "iterThresh" = 396L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (peutils::user("emcintir")) "fit" else c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
+    "mode" = if (peutils::user("emcintir")) c("fit", "visualize") else c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -91,11 +91,12 @@ spreadFitParams <- list(
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
     "useCloud_DE" = useCloudCache,
-    ".plot" = FALSE,
+    ".plot" = TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
 
+spreadOut <- readRDS("spreadOut_2021-03-01_Limit4_300_SNLL_FS_thresh_jF0YfA")
 spreadFitObjects <- list(
   fireBufferedListDT = simDataPrep[["fireBufferedListDT"]],
   firePolys = simDataPrep[["firePolys"]],

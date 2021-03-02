@@ -3,7 +3,7 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
-saveOrLoad <- "load" # type "load" here to do a manual override of Cache
+saveOrLoad <- "" # type "load" here to do a manual override of Cache
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
