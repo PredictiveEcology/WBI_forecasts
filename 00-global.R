@@ -1,9 +1,17 @@
+if (FALSE) {
+  # Run this if you need to update packages -- it is safe to run every time this file is run,
+  #     but it takes a few seconds -- need to source this until it is on CRAN
+  source("https://raw.githubusercontent.com/PredictiveEcology/SpaDES-modules/master/R/SpaDES_Helpers.R")
+  out <- makeSureAllPackagesInstalled(modulePath = "modules")
+}
+
 if (!suppressWarnings(require("Require"))) {
   install.packages("Require")
   library(Require)
 }
 
-saveOrLoad <- "" # type "load" here to do a manual override of Cache
+
+saveOrLoad <- "load" # type "load" here to do a manual override of Cache
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
@@ -24,8 +32,17 @@ if (!saveOrLoad %in% "load") {
   source("07-dataPrep.R")
 
   if (exists("a", .GlobalEnv)) rm(a, envir = .GlobalEnv)
-  objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
-  objsNeeded <- setdiff(objsNeeded, "parsKnown")
+
+  if (identical(fSdataPrepParams$fireSense_dataPrepFit, "fireSense_SpreadFit")) {
+    objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
+    objsNeeded <- setdiff(objsNeeded, "parsKnown")
+
+  } else if  (identical(fSdataPrepParams$fireSense_dataPrepFit$whichModulesToPrepare,
+                        "fireSense_IgnitionFit")) {
+    objsNeeded <- inputObjects(module = "fireSense_IgnitionFit", path = ignitionFitPaths$modulePath)[[1]]$objectName
+    objsNeeded <- union(objsNeeded, "fireSense_ignitionFormula")
+
+  }
   simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
   a <- list("simDataPrep" = simDataPrep)
 
@@ -35,6 +52,6 @@ if (!saveOrLoad %in% "load") {
   system.time(qs::qload(file = theData, nthreads = 2))
 }
 
-#source("08a-ignitionFit.R") ## TODO
+source("08a-ignitionFit.R") ## TODO
 #source("08b-escapeFit.R") ## TODO
-source("08c-spreadFit.R")
+#source("08c-spreadFit.R")
