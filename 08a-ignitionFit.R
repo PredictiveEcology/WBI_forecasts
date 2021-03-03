@@ -4,12 +4,12 @@ do.call(setPaths, ignitionFitPaths)
 
 biggestObj <- as.numeric(object.size(simDataPrep$fireSense_ignitionCovariates))/1e6 * 1.2
 
-nCores <- pemisc::optimalClusterNum(biggestObj)/2 - 4 #56, 28 both hit errors
+nCores <- pemisc::optimalClusterNum(biggestObj)/2 - 6 #56, 28 both hit errors
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     cores = nCores,
     fireSense_ignitionFormula = simDataPrep$fireSense_ignitionFormula,
-    lb = list(coef = 1,
+    lb = list(coef = 0,
               knots = 0),
     #I don't know if this is the MDC value of the knot....
     #if using binomial need to pass theta to lb and ub
@@ -23,9 +23,10 @@ ignitionFitObjects <- list(
 )
 
 # devtools::load_all("../fireSenseUtils")
-ignitionSim <- simInit(times = list(start = 0, end = 1),
+ignitionOut <- simInitAndSpades(times = list(start = 0, end = 1),
+# ignitionSim <- simInit(times = list(start = 0, end = 1),
                        params = ignitionFitParams,
                        modules = "fireSense_IgnitionFit",
                        paths = ignitionFitPaths,
                        objects = ignitionFitObjects)
-ignitionOut <- spades(ignitionSim)
+#ignitionOut <- spades(ignitionSim)
