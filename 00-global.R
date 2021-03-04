@@ -1,8 +1,8 @@
 if (FALSE) {
-  # Run this if you need to update packages -- it is safe to run every time this file is run,
-  #     but it takes a few seconds -- need to source this until it is on CRAN
-  source("https://raw.githubusercontent.com/PredictiveEcology/SpaDES-modules/master/R/SpaDES_Helpers.R")
-  out <- makeSureAllPackagesInstalled(modulePath = "modules")
+  ## Run this if you need to update packages -- it is safe to run every time this file is run,
+  ##     but it takes a few seconds -- need to source this until it is on CRAN
+  # remotes::install_github("PredictiveEcology/SpaDES.install")
+  out <- SpaDES.install::makeSureAllPackagesInstalled(modulePath = "modules")
 }
 
 if (!suppressWarnings(require("Require"))) {
