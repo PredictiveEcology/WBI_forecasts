@@ -1,13 +1,11 @@
-if (FALSE) {
-  ## Run this if you need to update packages -- it is safe to run every time this file is run,
-  ##     but it takes a few seconds -- need to source this until it is on CRAN
-  # remotes::install_github("PredictiveEcology/SpaDES.install")
-  out <- SpaDES.install::makeSureAllPackagesInstalled(modulePath = "modules")
-}
-
 if (!suppressWarnings(require("Require"))) {
   install.packages("Require")
   library(Require)
+}
+
+if (FALSE) {
+  Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.3)")
+  out <- makeSureAllPackagesInstalled(modulePath = "modules")
 }
 
 saveOrLoad <- "load" # type "load" here to do a manual override of Cache
@@ -31,20 +29,16 @@ if (!saveOrLoad %in% "load") {
   source("07-dataPrep.R")
 
   if (exists("a", .GlobalEnv)) rm(a, envir = .GlobalEnv)
-
   if (identical(fSdataPrepParams$fireSense_dataPrepFit, "fireSense_SpreadFit")) {
     objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
     objsNeeded <- setdiff(objsNeeded, "parsKnown")
-
   } else if  (identical(fSdataPrepParams$fireSense_dataPrepFit$whichModulesToPrepare,
                         "fireSense_IgnitionFit")) {
     objsNeeded <- inputObjects(module = "fireSense_IgnitionFit", path = ignitionFitPaths$modulePath)[[1]]$objectName
     objsNeeded <- union(objsNeeded, "fireSense_ignitionFormula")
-
   }
   simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
   a <- list("simDataPrep" = simDataPrep)
-
   system.time(qs::qsave(x = a, preset = "fast", file = theData, nthreads = 2))
 } else if (saveOrLoad == "load") {
   message("Loading data from ", theData)
