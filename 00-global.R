@@ -4,7 +4,7 @@ if (!suppressWarnings(require("Require"))) {
 }
 
 if (FALSE) {
-  Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.3)")
+  Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.4)")
   out <- makeSureAllPackagesInstalled(modulePath = "modules")
 }
 
