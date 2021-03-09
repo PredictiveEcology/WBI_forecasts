@@ -9,6 +9,8 @@ switch(Sys.info()[["user"]],
        "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
+
+saveOrLoad <- ""
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
 source("01-init.R")
