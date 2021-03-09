@@ -3,18 +3,14 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
-if (FALSE) {
-  Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.4)")
-  out <- makeSureAllPackagesInstalled(modulePath = "modules")
-}
-
-saveOrLoad <- "load" # type "load" here to do a manual override of Cache
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
        "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
+
+saveOrLoad <- ""
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
 source("01-init.R")

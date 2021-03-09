@@ -96,7 +96,7 @@ spreadFitParams <- list(
   )
 )
 
-spreadOut <- readRDS("spreadOut_2021-03-01_Limit4_300_SNLL_FS_thresh_jF0YfA")
+#spreadOut <- readRDS("spreadOut_2021-03-01_Limit4_300_SNLL_FS_thresh_jF0YfA")
 spreadFitObjects <- list(
   fireBufferedListDT = simDataPrep[["fireBufferedListDT"]],
   firePolys = simDataPrep[["firePolys"]],
@@ -138,10 +138,13 @@ if ("fit" %in% spreadOut@params$fireSense_SpreadFit$mode) {
   saveRDS(spreadOut, file = saveName)
 }
 
+source("R/upload_spreadFit.R")
+
 if (requireNamespace("slackr") & file.exists("~/.slackr")) {
   slackr::slackr_setup()
-  slackr::text_slackr(
+  slackr::slackr_msg(
     paste0("`fireSense_SpreadFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
     channel = config::get("slackchannel"), preformatted = FALSE
   )
 }
+
