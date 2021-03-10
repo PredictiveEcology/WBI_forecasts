@@ -3,14 +3,18 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
+if (FALSE) {
+  Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.2)")
+  out <- makeSureAllPackagesInstalled(modulePath = "modules")
+}
+
+saveOrLoad <- "" # type "load" here to do a manual override of Cache
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
        "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
-
-saveOrLoad <- ""
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
 source("01-init.R")
@@ -25,16 +29,20 @@ if (!saveOrLoad %in% "load") {
   source("07-dataPrep.R")
 
   if (exists("a", .GlobalEnv)) rm(a, envir = .GlobalEnv)
+
   if (identical(fSdataPrepParams$fireSense_dataPrepFit, "fireSense_SpreadFit")) {
     objsNeeded <- inputObjects(module = "fireSense_SpreadFit", path = spreadFitPaths$modulePath)[[1]]$objectName
     objsNeeded <- setdiff(objsNeeded, "parsKnown")
+
   } else if  (identical(fSdataPrepParams$fireSense_dataPrepFit$whichModulesToPrepare,
                         "fireSense_IgnitionFit")) {
     objsNeeded <- inputObjects(module = "fireSense_IgnitionFit", path = ignitionFitPaths$modulePath)[[1]]$objectName
     objsNeeded <- union(objsNeeded, "fireSense_ignitionFormula")
+
   }
   simDataPrep <- mget(objsNeeded, envir = envir(simDataPrep))
   a <- list("simDataPrep" = simDataPrep)
+
   system.time(qs::qsave(x = a, preset = "fast", file = theData, nthreads = 2))
 } else if (saveOrLoad == "load") {
   message("Loading data from ", theData)
