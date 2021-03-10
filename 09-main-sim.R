@@ -1,9 +1,10 @@
-#this will become Main, but for now, i need something fast.
+
 do.call(setPaths, dynamicPaths)
-dynamicModules <- list("fireSense_dataPrepPredict") #Biomass_core, etc will be added
+dynamicModules <- list("fireSense_dataPrepPredict", "fireSense_IgnitionPredict") #Biomass_core, etc will be added
 dynamicObjects <- list(climateComponentsTouse = simDataPrep$climateComponentsToUse,
                        cohortData = simDataPrep$cohortData2011,
                        flammableRTM = simDataPrep$flammableRTM,
+                       fireSense_IgnitionFitted = ignitionOut$fireSense_IgnitionFitted,
                        landcoverDT = simDataPrep$landcoverDT,
                        nonForest_timeSinceDisturbance = simDataPrep$nonForest_timeSinceDisturbance,
                        #this is the 2011 TSD - perhaps I should rename it in dataPrepFit to make it explicit?
@@ -20,13 +21,16 @@ dynamicParams <- list(
     'sppEquivCol' = simOutPreamble$sppEquivCol,
     'whichModulesToPrepare' = c('fireSense_SpreadPredict', 'fireSense_IgnitionPredict'),
     'missingLCCgroup' = simDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
+  ),
+  fireSense_ignitionPredict = list(
+    'rescaleFactor' = 1/simDataPrep@params$fireSense_dataPrepFit$igAggFactor^2
   )
 )
-mySim <- simInit(times = list(start = 2011, end = 2011),
-                 modules = dynamicModules,
-                 objects = dynamicObjects,
-                 params = dynamicParams,
-                 paths = dynamicPaths)
-simOut <- spades(mySim)
+mainSim <- simInitAndSpades(times = list(start = 2011, end = 2011),
+                            modules = dynamicModules,
+                            objects = dynamicObjects,
+                            params = dynamicParams,
+                            paths = dynamicPaths)
+
 
 
