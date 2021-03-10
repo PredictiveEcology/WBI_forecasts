@@ -115,7 +115,7 @@ fSdataPrepParams <- list(
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
     ".useCache" = ".inputObjects",
-    "whichModulesToPrepare" = "fireSense_IgnitionFit"#c("fireSense_SpreadFit") ## TODO: run for escape too , "fireSense_IgnitionFit"
+    "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit")
   )
 )
 
