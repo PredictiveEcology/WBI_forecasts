@@ -64,10 +64,12 @@ ignitionFitObjects <- list(
 )
 
 # devtools::load_all("../fireSenseUtils")
-ignitionOut <- simInitAndSpades(times = list(start = 0, end = 1),
-                                # ignitionSim <- simInit(times = list(start = 0, end = 1),
-                                params = ignitionFitParams,
-                                modules = "fireSense_IgnitionFit",
-                                paths = ignitionFitPaths,
-                                objects = ignitionFitObjects)
+ignitionOut <- Cache(simInitAndSpades,
+                     times = list(start = 0, end = 1),
+                     # ignitionSim <- simInit(times = list(start = 0, end = 1),
+                     params = ignitionFitParams,
+                     modules = "fireSense_IgnitionFit",
+                     paths = ignitionFitPaths,
+                     objects = ignitionFitObjects,
+                     userTags = c("ignitionFit"))
 #ignitionOut <- spades(ignitionSim)
