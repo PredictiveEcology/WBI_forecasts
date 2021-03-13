@@ -1,3 +1,13 @@
+if (!exists("pkgDir")) {
+  pkgDir <- file.path("packages", version$platform, paste0(version$major, ".",
+                                                           strsplit(version$minor, "[.]")[[1]][1]))
+
+  if (!dir.exists(pkgDir)) {
+    dir.create(pkgDir, recursive = TRUE)
+  }
+  .libPaths(pkgDir)
+}
+
 if (!suppressWarnings(require("Require"))) {
   install.packages("Require")
   library(Require)
