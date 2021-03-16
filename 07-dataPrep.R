@@ -65,8 +65,8 @@ biomassMaps2001 <- Cache(simInitAndSpades,
                          paths = getPaths(),
                          loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
                          # outputs = dataPrepOutputs2001,
-                         useCloud = useCloudCache,
                          .plots = NA,
+                         useCloud = useCloudCache,
                          cloudFolderID = cloudCacheFolderID,
                          userTags = c("dataPrep2001", studyAreaName))
 
@@ -135,15 +135,16 @@ fSdataPrepObjects <- list(
 )
 
 replicate(10, gc())
-simDataPrep <- Cache( ## TODO: rename simDataPrep ==> fSsimDataPrep to match params, objects above
+fSsimDataPrep <- Cache(
   simInitAndSpades,
   times =  list(start = 2011, end = 2011),
   params = fSdataPrepParams,
   objects = fSdataPrepObjects,
   paths = dataPrepPaths,
   modules = "fireSense_dataPrepFit",
-  useCloud = useCloudCache,
-  cloudFolderID = cloudCacheFolderID,
+  .plots = NA,
+  #useCloud = useCloudCache,
+  #cloudFolderID = cloudCacheFolderID,
   userTags = c("fireSense_dataPrepFit", studyAreaName)
 )
 

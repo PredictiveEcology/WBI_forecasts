@@ -17,6 +17,7 @@ default:
   reproduciblealgorithm: 1
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: false
+  useprerun: true
   userequire: true
 
 production:
@@ -32,10 +33,12 @@ alex:
     #cachedir: ""
     googleuser: "achubaty@for-cast.ca"
     usecloud: false ## TODO: use cloud cache
-  codechecks: true ## TODO: set false after all fixed
+  codechecks: false ## TODO: set false after all fixed
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast01") "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
+  studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  useprerun: false
 
 ian:
   cachedb: "sqlite"

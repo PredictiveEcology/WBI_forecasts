@@ -16,5 +16,6 @@ useCloudCache <- config::get("cloud")[["usecloud"]]
 useMemoise <- config::get("usememoise")
 usePlot <- config::get("plot")
 userInputPaths <- config::get("inputpaths")
+usePrerun <- config::get("prerun")
 useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA

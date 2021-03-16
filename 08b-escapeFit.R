@@ -2,12 +2,12 @@ do.call(setPaths, escapeFitPaths)
 
 escapeFitParams <- list(
   fireSense_EscapeFit = list(
-    fireSense_escapeFormula = simDataPrep$fireSense_escapeFormula
+    fireSense_escapeFormula = fSsimDataPrep$fireSense_escapeFormula
   )
 )
 
 escapeFitObjects <- list(
-  fireSense_escapeCovariates = simDataPrep$fireSense_escapeCovariates
+  fireSense_escapeCovariates = fSsimDataPrep$fireSense_escapeCovariates
 )
 
 escapeOut <- simInitAndSpades(times = list(start = 0, end = 1),

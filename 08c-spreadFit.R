@@ -1,7 +1,7 @@
 do.call(setPaths, spreadFitPaths)
 
 extremeVals <- 4
-lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(simDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
+lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
 upperParamsNonAnnual <- rep(extremeVals, times = length(lowerParamsNonAnnual))
 upperParamsAnnual <- c(extremeVals, extremeVals)
@@ -98,12 +98,12 @@ spreadFitParams <- list(
 
 #spreadOut <- readRDS("spreadOut_2021-03-01_Limit4_300_SNLL_FS_thresh_jF0YfA")
 spreadFitObjects <- list(
-  fireBufferedListDT = simDataPrep[["fireBufferedListDT"]],
-  firePolys = simDataPrep[["firePolys"]],
-  fireSense_annualSpreadFitCovariates = simDataPrep[["fireSense_annualSpreadFitCovariates"]],
-  fireSense_nonAnnualSpreadFitCovariates = simDataPrep[["fireSense_nonAnnualSpreadFitCovariates"]],
-  fireSense_spreadFormula = simDataPrep[["fireSense_spreadFormula"]],
-  flammableRTM = simDataPrep[["flammableRTM"]],
+  fireBufferedListDT = fSsimDataPrep[["fireBufferedListDT"]],
+  firePolys = fSsimDataPrep[["firePolys"]],
+  fireSense_annualSpreadFitCovariates = fSsimDataPrep[["fireSense_annualSpreadFitCovariates"]],
+  fireSense_nonAnnualSpreadFitCovariates = fSsimDataPrep[["fireSense_nonAnnualSpreadFitCovariates"]],
+  fireSense_spreadFormula = fSsimDataPrep[["fireSense_spreadFormula"]],
+  flammableRTM = fSsimDataPrep[["flammableRTM"]],
   #parsKnown = c(0.272605, 1.722912, 3.389670, -0.829495, 1.228904, -1.604276,
   #              2.696902, 1.371227,   -2.801110,    0.122434),
   # parsKnown = c(0.271751,    1.932499,    0.504548,    1.357870,   -2.614142,
@@ -112,9 +112,9 @@ spreadFitObjects <- list(
   #              2.440666,    -0.845427, -2.186069,    1.879606),
   #parsKnown = c(0.28,1.51, -0.27, 1.2, -2.68, 1.72, -0.95, -1.3, 0.12),
   #parsKnown = spreadOut$fireSense_SpreadFitted$meanCoef,
-  rasterToMatch = simDataPrep[["rasterToMatch"]],
-  spreadFirePoints = simDataPrep[["spreadFirePoints"]],
-  studyArea = simDataPrep[["studyArea"]]
+  rasterToMatch = fSsimDataPrep[["rasterToMatch"]],
+  spreadFirePoints = fSsimDataPrep[["spreadFirePoints"]],
+  studyArea = fSsimDataPrep[["studyArea"]]
 )
 
 #add tags when it stabilizes
