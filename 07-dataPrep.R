@@ -142,6 +142,8 @@ simDataPrep <- Cache( ## TODO: rename simDataPrep ==> fSsimDataPrep to match par
   objects = fSdataPrepObjects,
   paths = dataPrepPaths,
   modules = "fireSense_dataPrepFit",
+  useCloud = useCloudCache,
+  cloudFolderID = cloudCacheFolderID,
   userTags = c("fireSense_dataPrepFit", studyAreaName)
 )
 

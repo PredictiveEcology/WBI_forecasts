@@ -120,11 +120,17 @@ spreadFitObjects <- list(
 #add tags when it stabilizes
 
 fs_SpreadFit_file <- file.path(Paths$inputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
-spreadOut <- simInitAndSpades(times = list(start = 0, end = 1),
-                              params = spreadFitParams,
-                              modules = "fireSense_SpreadFit",
-                              paths = spreadFitPaths,
-                              objects = spreadFitObjects)
+spreadOut <- Cache(
+  simInitAndSpades,
+  times = list(start = 0, end = 1),
+  params = spreadFitParams,
+  modules = "fireSense_SpreadFit",
+  paths = spreadFitPaths,
+  objects = spreadFitObjects,
+  useCloud = useCloudCache,
+  cloudFolderID = cloudCacheFolderID,
+  userTags = c("fireSense_SpreadFit", studyAreaName)
+)
 
 if ("fit" %in% spreadOut@params$fireSense_SpreadFit$mode) {
   saveName <- file.path(Paths$outputPath,
