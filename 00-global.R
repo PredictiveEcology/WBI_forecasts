@@ -14,6 +14,8 @@ if (!suppressWarnings(require("Require"))) {
 }
 
 if (FALSE) {
+  Require::Require("PredictiveEcology/fireSenseUtils@development", require = FALSE) ## force pemisc and others to be installed correctly
+
   Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.2)")
   out <- makeSureAllPackagesInstalled(modulePath = "modules")
 }
