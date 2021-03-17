@@ -76,7 +76,7 @@ if (isTRUE(usePrerun)) {
                            useCloud = useCloudCache,
                            cloudFolderID = cloudCacheFolderID,
                            userTags = c("dataPrep2001", studyAreaName))
-  saveSimList(biomassMaps2001, fsim)
+  saveSimList(biomassMaps2001, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {
@@ -126,7 +126,7 @@ if (isTRUE(usePrerun)) {
                            useCloud = useCloudCache,
                            cloudFolderID = cloudCacheFolderID,
                            userTags = c("dataPrep2011", studyAreaName))
-  saveSimList(biomassMaps2011, fsim)
+  saveSimList(biomassMaps2011, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {
@@ -183,7 +183,7 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_dataPrepFit", studyAreaName)
   )
-  saveSimList(fSsimDataPrep, fsim)
+  saveSimList(fSsimDataPrep, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {

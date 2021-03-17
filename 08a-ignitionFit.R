@@ -77,7 +77,7 @@ if (isTRUE(usePrerun)) {
                        paths = ignitionFitPaths,
                        objects = ignitionFitObjects,
                        userTags = c("ignitionFit"))
-  saveSimList(ignitionOut, fsim)
+  saveSimList(ignitionOut, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {

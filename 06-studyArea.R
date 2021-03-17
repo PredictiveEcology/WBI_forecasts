@@ -27,7 +27,7 @@ if (isTRUE(usePrerun)) {
                           #cloudFolderID = cloudCacheFolderID,
                           userTags = c("WBI_dataPrep_studyArea", studyAreaName)
   )
-  saveSimList(simOutPreamble, fsim)
+  saveSimList(simOutPreamble, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {

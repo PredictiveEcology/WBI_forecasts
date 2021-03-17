@@ -23,7 +23,7 @@ if (isTRUE(usePrerun)) {
                                 modules = "fireSense_EscapeFit",
                                 paths = escapeFitPaths,
                                 objects = escapeFitObjects)
-  saveSimList(escapeOut, fsim)
+  saveSimList(escapeOut, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {

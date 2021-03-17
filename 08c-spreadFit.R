@@ -138,7 +138,7 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_SpreadFit", studyAreaName)
   )
-  saveSimList(spreadOut, fsim)
+  saveSimList(spreadOut, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {
