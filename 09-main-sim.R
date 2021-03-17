@@ -33,9 +33,9 @@ dynamicParams <- list(
     'whichModulesToPrepare' = c("fireSense_IgnitionPredict", "fireSense_EscapePredict")
   )
 )
+
 mainSim <- simInitAndSpades(times = list(start = 2011, end = 2013),
                             modules = dynamicModules,
                             objects = dynamicObjects,
                             params = dynamicParams,
                             paths = dynamicPaths)
-

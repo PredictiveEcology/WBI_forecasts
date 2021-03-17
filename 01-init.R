@@ -8,6 +8,7 @@ cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
+firstRun <- TRUE ## TODO: restore FALSE
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 scratchDir <- config::get("paths")[["scratchdir"]]
@@ -16,6 +17,6 @@ useCloudCache <- config::get("cloud")[["usecloud"]]
 useMemoise <- config::get("usememoise")
 usePlot <- config::get("plot")
 userInputPaths <- config::get("inputpaths")
-usePrerun <- config::get("prerun")
+usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA

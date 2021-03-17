@@ -21,10 +21,11 @@ message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
 
 localHostEndIp <- as.numeric(gsub("spades", "", system("hostname", intern = TRUE)))
-if (is.na(localHostEndIp))
+if (is.na(localHostEndIp)) {
   localHostEndIp <- switch(peutils::user(),
                            "ieddy" = 97,
                            "emcintir" = 189)
+}
 
 cores <-  if (peutils::user("ieddy")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
@@ -119,29 +120,30 @@ spreadFitObjects <- list(
 
 #add tags when it stabilizes
 
-fs_SpreadFit_file <- file.path(Paths$inputPath, paste0("fS_SpreadFit_", studyAreaName, ".qs"))
-spreadOut <- Cache(
-  simInitAndSpades,
-  times = list(start = 0, end = 1),
-  params = spreadFitParams,
-  modules = "fireSense_SpreadFit",
-  paths = spreadFitPaths,
-  objects = spreadFitObjects,
-  useCloud = useCloudCache,
-  cloudFolderID = cloudCacheFolderID,
-  userTags = c("fireSense_SpreadFit", studyAreaName)
-)
-
-if ("fit" %in% spreadOut@params$fireSense_SpreadFit$mode) {
-  saveName <- file.path(Paths$outputPath,
-                        paste0("spreadOut_", Sys.Date(), "_Limit", extremeVals, "_",
-                               spreadFitParams$fireSense_SpreadFit$iterDEoptim, "_",
-                               "SNLL_FS_thresh", spreadFitParams$fireSense_SpreadFit$SNLL_FS_thresh,
-                               "_", SpaDES.core::rndstr(1, 6)))
-  objsNeeded <- setdiff(ls(spreadOut), outputObjects(module = "fireSense_SpreadFit",
-                                                     path = spreadFitPaths$modulePath)[[1]]$objectName)
-  rm(list = objsNeeded, envir = spreadOut)
-  saveRDS(spreadOut, file = saveName)
+fsim <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
+if (isTRUE(usePrerun)) {
+  if (!file.exists(fsim)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fsim)
+  }
+  spreadOut <- loadSimList(fsim)
+} else {
+  spreadOut <- Cache(
+    simInitAndSpades,
+    times = list(start = 0, end = 1),
+    params = spreadFitParams,
+    modules = "fireSense_SpreadFit",
+    paths = spreadFitPaths,
+    objects = spreadFitObjects,
+    #useCloud = useCloudCache,
+    #cloudFolderID = cloudCacheFolderID,
+    userTags = c("fireSense_SpreadFit", studyAreaName)
+  )
+  saveSimList(spreadOut, fsim)
+  if (isTRUE(firstRun)) {
+    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
+  } else {
+    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fsim)
+  }
 }
 
 source("R/upload_spreadFit.R")

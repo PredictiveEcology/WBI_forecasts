@@ -18,7 +18,6 @@ if (FALSE) {
   out <- makeSureAllPackagesInstalled(modulePath = "modules")
 }
 
-saveOrLoad <- "" # type "load" here to do a manual override of Cache
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
@@ -31,7 +30,7 @@ source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")
 source("04-options.R")
-source("05-objects.R")
+source("05-prerun.R")
 
 source("06-studyArea.R")
 source("07-dataPrep.R")

@@ -38,7 +38,6 @@ if (studyAreaName == "AB") {
   #                , "- 1"
   # )
   #form <- "ignitions ~ youngAge:MDC + MDC:nonForest_highFlam + MDC:class2 + MDC:class3 + class2:pw(MDC, k_class2) -1"
-
 } else {
   form <- fSsimDataPrep$fireSense_ignitionFormula
 }
@@ -63,13 +62,25 @@ ignitionFitObjects <- list(
   fireSense_ignitionCovariates = fSsimDataPrep$fireSense_ignitionCovariates
 )
 
-# devtools::load_all("../fireSenseUtils")
-ignitionOut <- Cache(simInitAndSpades,
-                     times = list(start = 0, end = 1),
-                     # ignitionSim <- simInit(times = list(start = 0, end = 1),
-                     params = ignitionFitParams,
-                     modules = "fireSense_IgnitionFit",
-                     paths = ignitionFitPaths,
-                     objects = ignitionFitObjects,
-                     userTags = c("ignitionFit"))
-#ignitionOut <- spades(ignitionSim)
+fsim <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName, ".qs"))
+if (isTRUE(usePrerun)) {
+  if (!file.exists(fsim)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["ignitionOut"]]), path = fsim)
+  }
+  ignitionOut <- loadSimList(fsim)
+} else {
+  ignitionOut <- Cache(simInitAndSpades,
+                       times = list(start = 0, end = 1),
+                       # ignitionSim <- simInit(times = list(start = 0, end = 1),
+                       params = ignitionFitParams,
+                       modules = "fireSense_IgnitionFit",
+                       paths = ignitionFitPaths,
+                       objects = ignitionFitObjects,
+                       userTags = c("ignitionFit"))
+  saveSimList(ignitionOut, fsim)
+  if (isTRUE(firstRun)) {
+    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
+  } else {
+    googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fsim)
+  }
+}

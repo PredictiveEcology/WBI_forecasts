@@ -37,7 +37,7 @@ alex:
   paths:
     scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast01") "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
-  studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  studyarea: "YT" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: false
 
 ian:
