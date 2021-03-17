@@ -8,7 +8,7 @@ cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
-firstRun <- TRUE ## TODO: restore FALSE
+firstRun <- FALSE ## TODO: restore FALSE
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 scratchDir <- config::get("paths")[["scratchdir"]]
