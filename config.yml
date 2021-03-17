@@ -27,7 +27,7 @@ production:
 
 alex:
   inherits: production
-  cachedb: "postgresql"
+  cachedb: !expr if (grepl("spades", Sys.info()[["nodename"]])) "sqlite" else "postgresql"
   cacheformat: "qs"
   cloud:
     #cachedir: ""
