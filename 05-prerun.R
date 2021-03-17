@@ -56,7 +56,7 @@ gdriveSims <- switch(
     biomassMaps2011 = "1gMFRn3NBEUNhMg43cJSH6GLcgQ-PYXqc",
     fSsimDataPrep = "1Gkkzet1rIUF4Ahc8aSB3dQwSeCCdSxKR",
     ignitionOut = "",
-    escapeOut = "",
+    escapeOut = "1EGlPDzu6BSlW2cj7otNnlZf4JBqzKm-J",
     spreadOut = "18CsY1Vw1s8bqEas-2fwO3CSmgQ4m7x_D"
   ),
   RIA = list(
