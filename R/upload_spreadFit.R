@@ -15,4 +15,4 @@ gdrive_ID <- switch(studyAreaName,
                     YT = "1M3jUbrZMIIfrL7-QQCItQ2T_vteBTeAj")
 lapply(filesToUpload, function(f) {
   drive_upload(file.path("outputs", studyAreaName, f), as_id(gdrive_ID), overwrite = TRUE)
-})
+}) ## TODO: upload first time, update subsequently.
