@@ -57,23 +57,6 @@ dataPrepObjects <- list("rasterToMatch" = simOutPreamble$rasterToMatch,
                         "studyAreaLarge" = simOutPreamble$studyAreaLarge,
                         "studyAreaReporting" = simOutPreamble$studyAreaReporting)
 
-fsim <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
-  if (!file.exists(fsim)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2001"]]), path = fsim)
-  }
-  biomassMaps2001 <- loadSimList(fsim)
-} else {
-
-  saveSimList(biomassMaps2001, fsim, fileBackend = 2)
-  if (isTRUE(firstRun)) {
-    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fsim)
-  }
-}
-
-
 dbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName)) %>%
   checkPath(create = TRUE)
 abiomassMaps2001 <- paste0(dbiomassMaps2001, ".7z")
