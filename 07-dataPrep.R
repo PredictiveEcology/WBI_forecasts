@@ -64,23 +64,52 @@ if (isTRUE(usePrerun)) {
   }
   biomassMaps2001 <- loadSimList(fsim)
 } else {
-  biomassMaps2001 <- Cache(simInitAndSpades,
-                           times = list(start = 2001, end = 2001),
-                           params = dataPrepParams2001,
-                           modules = list("Biomass_speciesData", "Biomass_borealDataPrep"), ## TODO: separate to use different caches
-                           objects = dataPrepObjects,
-                           paths = getPaths(),
-                           loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
-                           # outputs = dataPrepOutputs2001,
-                           .plots = NA,
-                           useCloud = useCloudCache,
-                           cloudFolderID = cloudCacheFolderID,
-                           userTags = c("dataPrep2001", studyAreaName))
+
   saveSimList(biomassMaps2001, fsim, fileBackend = 2)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fsim)
+  }
+}
+
+
+dbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName)) %>%
+  checkPath(create = TRUE)
+abiomassMaps2001 <- paste0(dbiomassMaps2001, ".7z")
+fbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName, ".qs"))
+if (isTRUE(usePrerun)) {
+  if (!file.exists(fbiomassMaps2001)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2001"]]), path = fbiomassMaps2001)
+  }
+  if (!dir.exists(dbiomassMaps2001) || length(list.files(dbiomassMaps2001)) == 0) {
+    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), path = abiomassMaps2001)
+    archive::archive_extract(basename(abiomassMaps2001), dirname(abiomassMaps2001))
+  }
+  biomassMaps2001 <- loadSimList(fbiomassMaps2001)
+} else {
+  biomassMaps2001 <- Cache(
+    simInitAndSpades,
+    times = list(start = 2001, end = 2001),
+    params = dataPrepParams2001,
+    modules = list("Biomass_speciesData", "Biomass_borealDataPrep"), ## TODO: separate to use different caches
+    objects = dataPrepObjects,
+    paths = getPaths(),
+    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
+    # outputs = dataPrepOutputs2001,
+    .plots = NA,
+    useCloud = useCloudCache,
+    cloudFolderID = cloudCacheFolderID,
+    userTags = c("dataPrep2001", studyAreaName)
+  )
+  saveSimList(sim = biomassMaps2001, filename = fbiomassMaps2001, filebackedDir = dbiomassMaps2001, fileBackend = 1)
+  archive::archive_write_dir(archive = abiomassMaps2001, dir = dbiomassMaps2001)
+  if (isTRUE(firstRun)) {
+    googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
+    googledrive::drive_put(media = abiomassMaps2001, path = gdriveURL, name = basename(abiomassMaps2001), verbose = TRUE)
+  } else {
+    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fbiomassMaps2001)
+    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), media = abiomassMaps2001)
   }
 }
 
@@ -106,31 +135,43 @@ dataPrepOutputs2011 <- data.frame(
 dataPrepObjects2011 <- dataPrepObjects
 dataPrepObjects2011$standAgeMap <- simOutPreamble$standAgeMap2011
 
-fsim <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
+dbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName)) %>%
+  checkPath(create = TRUE)
+abiomassMaps2011 <- paste0(dbiomassMaps2011, ".7z")
+fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
-  if (!file.exists(fsim)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2011"]]), path = fsim)
+  if (!file.exists(fbiomassMaps2011)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2011"]]), path = fbiomassMaps2011)
   }
-  biomassMaps2011 <- loadSimList(fsim)
+  if (!dir.exists(dbiomassMaps2011) || length(list.files(dbiomassMaps2011)) == 0) {
+    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2011Archive"]]), path = abiomassMaps2011)
+    archive::archive_extract(basename(abiomassMaps2011), dirname(abiomassMaps2011))
+  }
+  biomassMaps2011 <- loadSimList(fbiomassMaps2011)
 } else {
-  biomassMaps2011 <- Cache(simInitAndSpades,
-                           times = list(start = 2011, end = 2011),
-                           params = dataPrepParams2011,
-                           modules = list("Biomass_speciesData", "Biomass_borealDataPrep"),
-                           objects = dataPrepObjects2011,
-                           paths = getPaths(),
-                           loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
-                           clearSimEnv = TRUE,
-                           # outputs = dataPrepOutputs2011,
-                           .plots = "png",
-                           useCloud = useCloudCache,
-                           cloudFolderID = cloudCacheFolderID,
-                           userTags = c("dataPrep2011", studyAreaName))
-  saveSimList(biomassMaps2011, fsim, fileBackend = 2)
+  biomassMaps2011 <- Cache(
+    simInitAndSpades,
+    times = list(start = 2011, end = 2011),
+    params = dataPrepParams2011,
+    modules = list("Biomass_speciesData", "Biomass_borealDataPrep"),
+    objects = dataPrepObjects2011,
+    paths = getPaths(),
+    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
+    clearSimEnv = TRUE,
+    # outputs = dataPrepOutputs2011,
+    .plots = "png",
+    useCloud = useCloudCache,
+    cloudFolderID = cloudCacheFolderID,
+    userTags = c("dataPrep2011", studyAreaName)
+  )
+  saveSimList(sim = biomassMaps2011, filename = fbiomassMaps2011, filebackedDir = dbiomassMaps2011, fileBackend = 1)
+  archive::archive_write_dir(archive = abiomassMaps2011, dir = dbiomassMaps2011)
   if (isTRUE(firstRun)) {
-    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
+    googledrive::drive_put(media = fbiomassMaps2011, path = gdriveURL, name = basename(fbiomassMaps2011), verbose = TRUE)
+    googledrive::drive_put(media = abiomassMaps2011, path = gdriveURL, name = basename(abiomassMaps2011), verbose = TRUE)
   } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2011"]]), media = fsim)
+    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2011"]]), media = fbiomassMaps2011)
+    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2011Archive"]]), media = abiomassMaps2011)
   }
 }
 
@@ -164,12 +205,19 @@ fSdataPrepObjects <- list(
 
 invisible(replicate(10, gc()))
 
-fsim <- file.path(Paths$outputPath, paste0("fSsimDataPrep_", studyAreaName, ".qs"))
+dfSsimDataPrep <- file.path(Paths$outputPath, paste0("fSsimDataPrep_", studyAreaName)) %>%
+  checkPath(create = TRUE)
+afSsimDataPrep <- paste0(dfSsimDataPrep, ".7z")
+ffSsimDataPrep <- file.path(Paths$outputPath, paste0("fSsimDataPrep_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
-  if (!file.exists(fsim)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["fSsimDataPrep"]]), path = fsim)
+  if (!file.exists(ffSsimDataPrep)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["fSsimDataPrep"]]), path = ffSsimDataPrep)
   }
-  fSsimDataPrep <- loadSimList(fsim)
+  if (!dir.exists(dfSsimDataPrep) || length(list.files(dfSsimDataPrep)) == 0) {
+    googledrive::drive_download(file = as_id(gdriveSims[["fSsimDataPrepArchive"]]), path = afSsimDataPrep)
+    archive::archive_extract(basename(afSsimDataPrep), dirname(afSsimDataPrep))
+  }
+  fSsimDataPrep <- loadSimList(ffSsimDataPrep)
 } else {
   fSsimDataPrep <- Cache(
     simInitAndSpades,
@@ -183,10 +231,13 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_dataPrepFit", studyAreaName)
   )
-  saveSimList(fSsimDataPrep, fsim, fileBackend = 2)
+  saveSimList(sim = fSsimDataPrep, filename = ffSsimDataPrep, filebackedDir = dfSsimDataPrep, fileBackend = 1)
+  archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
   if (isTRUE(firstRun)) {
-    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
+    googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
+    googledrive::drive_put(media = afSsimDataPrep, path = gdriveURL, name = basename(afSsimDataPrep), verbose = TRUE)
   } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep"]]), media = fsim)
+    googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep"]]), media = ffSsimDataPrep)
+    googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrepArchive"]]), media = afSsimDataPrep)
   }
 }

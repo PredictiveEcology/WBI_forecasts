@@ -62,25 +62,38 @@ ignitionFitObjects <- list(
   fireSense_ignitionCovariates = fSsimDataPrep$fireSense_ignitionCovariates
 )
 
-fsim <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName, ".qs"))
+dignitionOut <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName)) %>%
+  checkPath(create = TRUE)
+aignitionOut <- paste0(dignitionOut, ".7z")
+fignitionOut <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
-  if (!file.exists(fsim)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["ignitionOut"]]), path = fsim)
+  if (!file.exists(fignitionOut)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["ignitionOut"]]), path = fignitionOut)
   }
-  ignitionOut <- loadSimList(fsim)
+  if (!dir.exists(dignitionOut) || length(list.files(dignitionOut)) == 0) {
+    googledrive::drive_download(file = as_id(gdriveSims[["ignitionOutArchive"]]), path = aignitionOut)
+    archive::archive_extract(basename(aignitionOut), dirname(aignitionOut))
+  }
+  ignitionOut <- loadSimList(fignitionOut)
 } else {
-  ignitionOut <- Cache(simInitAndSpades,
-                       times = list(start = 0, end = 1),
-                       # ignitionSim <- simInit(times = list(start = 0, end = 1),
-                       params = ignitionFitParams,
-                       modules = "fireSense_IgnitionFit",
-                       paths = ignitionFitPaths,
-                       objects = ignitionFitObjects,
-                       userTags = c("ignitionFit"))
-  saveSimList(ignitionOut, fsim, fileBackend = 2)
+  ignitionOut <- Cache(
+    simInitAndSpades,
+    times = list(start = 0, end = 1),
+    # ignitionSim <- simInit(times = list(start = 0, end = 1),
+    params = ignitionFitParams,
+    modules = "fireSense_IgnitionFit",
+    paths = ignitionFitPaths,
+    objects = ignitionFitObjects,
+    userTags = c("ignitionFit")
+  )
+  saveSimList(sim = ignitionOut, filename = fignitionOut, filebackedDir = dignitionOut, fileBackend = 1)
+  archive::archive_write_dir(archive = aignitionOut, dir = dignitionOut)
   if (isTRUE(firstRun)) {
-    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
+    googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
+    googledrive::drive_put(media = aignitionOut, path = gdriveURL, name = basename(aignitionOut), verbose = TRUE)
   } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fsim)
+    googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fignitionOut)
+    googledrive::drive_update(file = as_id(gdriveSims[["ignitionOutArchive"]]), media = aignitionOut)
   }
 }
+
