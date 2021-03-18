@@ -35,7 +35,7 @@ alex:
     usecloud: false ## TODO: use cloud cache
   codechecks: false ## TODO: set false after all fixed
   paths:
-    scratchdir: !expr if (grepl("forcast", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
+    scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
   studyarea: "NT" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: false
