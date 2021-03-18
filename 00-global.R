@@ -27,6 +27,7 @@ switch(Sys.info()[["user"]],
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
+
 source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")

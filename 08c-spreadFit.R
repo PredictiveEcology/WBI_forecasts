@@ -78,7 +78,7 @@ spreadFitParams <- list(
     "iterThresh" = 396L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (peutils::user("emcintir")) c("fit", "visualize") else c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
+    "mode" = if (isTRUE(firstTime)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -92,7 +92,7 @@ spreadFitParams <- list(
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
     "useCloud_DE" = useCloudCache,
-    ".plot" = TRUE,
+    ".plot" = if (isTRUE(firstTime)) TRUE else FALSE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
