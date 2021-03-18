@@ -100,5 +100,3 @@ if (isTRUE(usePrerun)) {
     #googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), media = abiomassMaps2001)
   }
 }
-
-rm(dataPrepOutputs2001, dataPrepParams2001)

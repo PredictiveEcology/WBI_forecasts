@@ -67,4 +67,5 @@ if (isTRUE(usePrerun)) {
   }
 }
 
+rm(dataPrepOutputs2001, dataPrepParams2001)
 rm(dataPrepOutputs2011, dataPrepParams2011)
