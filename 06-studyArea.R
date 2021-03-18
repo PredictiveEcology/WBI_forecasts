@@ -18,10 +18,11 @@ if (isTRUE(usePrerun)) {
   if (!file.exists(fsimOutPreamble)) {
     googledrive::drive_download(file = as_id(gdriveSims[["simOutPreamble"]]), path = fsimOutPreamble)
   }
-  if (!dir.exists(dsimOutPreamble)) { ## NOTE: this dir is empty as all rasters in memory
-    googledrive::drive_download(file = as_id(gdriveSims[["simOutPreambleArchive"]]), path = asimOutPreamble)
-    archive::archive_extract(basename(asimOutPreamble), dirname(asimOutPreamble))
-  }
+  ## NOTE: this dir is empty as all rasters in memory
+  # if (!dir.exists(dsimOutPreamble)) {
+  #   googledrive::drive_download(file = as_id(gdriveSims[["simOutPreambleArchive"]]), path = asimOutPreamble)
+  #   archive::archive_extract(basename(asimOutPreamble), dirname(asimOutPreamble))
+  # }
   simOutPreamble <- loadSimList(fsimOutPreamble)
 } else {
   simOutPreamble <- Cache(simInitAndSpades,
@@ -35,12 +36,12 @@ if (isTRUE(usePrerun)) {
                           userTags = c("WBI_dataPrep_studyArea", studyAreaName)
   )
   saveSimList(sim = simOutPreamble, filename = fsimOutPreamble, filebackedDir = dsimOutPreamble, fileBackend = 1)
-  archive::archive_write_dir(archive = asimOutPreamble, dir = dsimOutPreamble)
+  #archive::archive_write_dir(archive = asimOutPreamble, dir = dsimOutPreamble)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble), verbose = TRUE)
-    googledrive::drive_put(media = asimOutPreamble, path = gdriveURL, name = basename(asimOutPreamble), verbose = TRUE)
+    #googledrive::drive_put(media = asimOutPreamble, path = gdriveURL, name = basename(asimOutPreamble), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["simOutPreamble"]]), media = fsimOutPreamble)
-    googledrive::drive_update(file = as_id(gdriveSims[["simOutPreambleArchive"]]), media = asimOutPreamble)
+    #googledrive::drive_update(file = as_id(gdriveSims[["simOutPreambleArchive"]]), media = asimOutPreamble)
   }
 }
