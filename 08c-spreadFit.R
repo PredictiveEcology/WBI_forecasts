@@ -120,12 +120,19 @@ spreadFitObjects <- list(
 
 #add tags when it stabilizes
 
-fsim <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
+dspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName)) %>%
+  checkPath(create = TRUE)
+aspreadOut <- paste0(dspreadOut, ".7z")
+fspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
-  if (!file.exists(fsim)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fsim)
+  if (!file.exists(fspreadOut)) {
+    googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fspreadOut)
   }
-  spreadOut <- loadSimList(fsim)
+  if (!dir.exists(dspreadOut) || length(list.files(dspreadOut)) == 0) {
+    googledrive::drive_download(file = as_id(gdriveSims[["spreadOutArchive"]]), path = aspreadOut)
+    archive::archive_extract(basename(aspreadOut), dirname(aspreadOut))
+  }
+  spreadOut <- loadSimList(fspreadOut)
 } else {
   spreadOut <- Cache(
     simInitAndSpades,
@@ -138,11 +145,14 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_SpreadFit", studyAreaName)
   )
-  saveSimList(spreadOut, fsim, fileBackend = 2)
+  saveSimList(sim = spreadOut, filename = fspreadOut, filebackedDir = dspreadOut, fileBackend = 1)
+  archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
   if (isTRUE(firstRun)) {
-    googledrive::drive_put(media = fsim, path = gdriveURL, name = basename(fsim), verbose = TRUE)
+    googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
+    googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
   } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fsim)
+    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
+    googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
   }
 }
 
