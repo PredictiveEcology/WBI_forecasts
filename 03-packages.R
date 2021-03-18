@@ -7,4 +7,5 @@ if (FALSE) {
 Require(c("plyr", "PredictiveEcology/SpaDES.core@development (>=1.0.6.9004)"),
         which = c("Suggests", "Imports", "Depends"), upgrade = FALSE) # need Suggests in SpaDES.core
 
+Require("jimhester/archive")
 Require("slackr")
