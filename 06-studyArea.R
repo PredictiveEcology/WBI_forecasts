@@ -10,9 +10,9 @@ preambleParams <- list(
   )
 )
 
-dsimOutPreamble <- file.path(Paths$outputPath, paste0("simOutPreamble_", studyAreaName)) %>%
-  checkPath(create = TRUE)
-asimOutPreamble <- paste0(dsimOutPreamble, ".7z")
+#dsimOutPreamble <- file.path(Paths$outputPath, paste0("simOutPreamble_", studyAreaName)) %>%
+#  checkPath(create = TRUE)
+#asimOutPreamble <- paste0(dsimOutPreamble, ".7z")
 fsimOutPreamble <- file.path(Paths$outputPath, paste0("simOutPreamble_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
   if (!file.exists(fsimOutPreamble)) {
@@ -35,7 +35,12 @@ if (isTRUE(usePrerun)) {
                           #cloudFolderID = cloudCacheFolderID,
                           userTags = c("WBI_dataPrep_studyArea", studyAreaName)
   )
-  saveSimList(sim = simOutPreamble, filename = fsimOutPreamble, filebackedDir = dsimOutPreamble, fileBackend = 1)
+  saveSimList(
+    sim = simOutPreamble,
+    filename = fsimOutPreamble,
+    #filebackedDir = dsimOutPreamble,
+    fileBackend = 2 ## 0 = no change; 1 = copy rasters to fileBackedDir; 2 = rasters to memory
+  )
   #archive::archive_write_dir(archive = asimOutPreamble, dir = dsimOutPreamble)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble), verbose = TRUE)
