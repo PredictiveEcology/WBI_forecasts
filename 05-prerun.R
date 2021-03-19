@@ -108,11 +108,11 @@ gdriveSims <- switch(
    biomassMaps2001Archive = "",
    biomassMaps2011 = "1gc-9A5KqJCdK0x1PEjTi_ZzL4VUQDjsD",
    biomassMaps2011Archive = "",
-   fSsimDataPrep = "",
+   fSsimDataPrep = "1Lh8aCZX8zt7kCSY-vv9GqVfhS2CK-Jgv",
    fSsimDataPrepArchive = "",
    ignitionOut = "",
    ignitionOutArchive = "",
-   escapeOut = "",
+   escapeOut = "1LLPdaVtPSCDuoookq8G1JWUzoGb3SHTW",
    escapeOutArchive = "",
    spreadOut = "",
    spreadOutArchive = ""
