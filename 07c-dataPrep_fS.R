@@ -64,7 +64,7 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
-  if (isTRUE(firstRun)) {
+  if (isTRUE(newGoogleIDs)) {
     googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
     #googledrive::drive_put(media = afSsimDataPrep, path = gdriveURL, name = basename(afSsimDataPrep), verbose = TRUE)
   } else {
