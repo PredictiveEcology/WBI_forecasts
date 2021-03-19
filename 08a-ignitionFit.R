@@ -93,7 +93,7 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = aignitionOut, dir = dignitionOut)
-  if (isTRUE(firstRun)) {
+  if (isTRUE(newGoogleIDs)) {
     googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
     #googledrive::drive_put(media = aignitionOut, path = gdriveURL, name = basename(aignitionOut), verbose = TRUE)
   } else {

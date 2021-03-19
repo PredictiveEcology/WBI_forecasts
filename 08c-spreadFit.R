@@ -78,7 +78,7 @@ spreadFitParams <- list(
     "iterThresh" = 396L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (isTRUE(firstRun)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
+    "mode" = if (isTRUE(firstRunSpreadFit)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -92,7 +92,7 @@ spreadFitParams <- list(
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
     "useCloud_DE" = useCloudCache,
-    ".plot" = if (isTRUE(firstRun)) TRUE else FALSE,
+    ".plot" = if (isTRUE(firstRunSpreadFit)) TRUE else FALSE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
@@ -152,7 +152,7 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
-  if (isTRUE(firstRun)) {
+  if (isTRUE(newGoogleIDs)) {
     googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
     #googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
   } else {

@@ -42,7 +42,7 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2 ## 0 = no change; 1 = copy rasters to fileBackedDir; 2 = rasters to memory
   )
   #archive::archive_write_dir(archive = asimOutPreamble, dir = dsimOutPreamble)
-  if (isTRUE(firstRun)) {
+  if (isTRUE(newGoogleIDs)) {
     googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble), verbose = TRUE)
     #googledrive::drive_put(media = asimOutPreamble, path = gdriveURL, name = basename(asimOutPreamble), verbose = TRUE)
   } else {

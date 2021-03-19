@@ -92,7 +92,7 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = abiomassMaps2001, dir = dbiomassMaps2001)
-  if (isTRUE(firstRun)) {
+  if (isTRUE(newGoogleIDs)) {
     googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
     #googledrive::drive_put(media = abiomassMaps2001, path = gdriveURL, name = basename(abiomassMaps2001), verbose = TRUE)
   } else {

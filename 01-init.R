@@ -8,8 +8,9 @@ cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
-firstRun <- FALSE ## TODO: restore FALSE
+firstRunSpreadFit <- FALSE
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
+newGoogleIDs <- FALSE
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
