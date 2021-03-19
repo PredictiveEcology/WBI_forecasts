@@ -78,7 +78,7 @@ spreadFitParams <- list(
     "iterThresh" = 396L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (isTRUE(firstTime)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
+    "mode" = if (isTRUE(firstRun)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -92,7 +92,7 @@ spreadFitParams <- list(
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
     "useCloud_DE" = useCloudCache,
-    ".plot" = if (isTRUE(firstTime)) TRUE else FALSE,
+    ".plot" = if (isTRUE(firstRun)) TRUE else FALSE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
@@ -120,18 +120,18 @@ spreadFitObjects <- list(
 
 #add tags when it stabilizes
 
-dspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName)) %>%
-  checkPath(create = TRUE)
-aspreadOut <- paste0(dspreadOut, ".7z")
+#dspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName)) %>%
+#  checkPath(create = TRUE)
+#aspreadOut <- paste0(dspreadOut, ".7z")
 fspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
   if (!file.exists(fspreadOut)) {
     googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fspreadOut)
   }
-  if (!dir.exists(dspreadOut) || length(list.files(dspreadOut)) == 0) {
-    googledrive::drive_download(file = as_id(gdriveSims[["spreadOutArchive"]]), path = aspreadOut)
-    archive::archive_extract(basename(aspreadOut), dirname(aspreadOut))
-  }
+  #if (!dir.exists(dspreadOut) || length(list.files(dspreadOut)) == 0) {
+  #  googledrive::drive_download(file = as_id(gdriveSims[["spreadOutArchive"]]), path = aspreadOut)
+  #  archive::archive_extract(basename(aspreadOut), dirname(aspreadOut))
+  #}
   spreadOut <- loadSimList(fspreadOut)
 } else {
   spreadOut <- Cache(
@@ -145,14 +145,19 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_SpreadFit", studyAreaName)
   )
-  saveSimList(sim = spreadOut, filename = fspreadOut, filebackedDir = dspreadOut, fileBackend = 1)
-  archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
+  saveSimList(
+    sim = spreadOut,
+    filename = fspreadOut,
+    #filebackedDir = dspreadOut,
+    fileBackend = 2
+  )
+  #archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
   if (isTRUE(firstRun)) {
     googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
-    googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
+    #googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
   } else {
     googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
-    googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
+    #googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
   }
 }
 
