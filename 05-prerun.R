@@ -16,7 +16,7 @@ gdriveSims <- switch(
     fSsimDataPrepArchive = "",
     ignitionOut = "",
     ignitionOutArchive = "",
-    escapeOut = "",
+    escapeOut = "1qv-wPPxljrjHVQRZ2V6Y2NsC8iQ9T-5i",
     escapeOutArchive = "",
     spreadOut = "",
     spreadOutArchive = ""
@@ -32,7 +32,7 @@ gdriveSims <- switch(
     fSsimDataPrepArchive = "",
     ignitionOut = "",
     ignitionOutArchive = "",
-    escapeOut = "",
+    escapeOut = "18Xmo72ZhDoDRXSv1BFrhBJp4sqQnbZsx",
     escapeOutArchive = "",
     spreadOut = "",
     spreadOutArchive = ""
@@ -110,10 +110,10 @@ gdriveSims <- switch(
    biomassMaps2011Archive = "",
    fSsimDataPrep = "1Lh8aCZX8zt7kCSY-vv9GqVfhS2CK-Jgv",
    fSsimDataPrepArchive = "",
-   ignitionOut = "",
-   ignitionOutArchive = "",
+   ignitionOut = "1hRYjTObyMd1T4kiO-bETgRuyEzn_miz_",
+   ignitionOutArchive = "11y-DeXBm7wpXVcZw7A7cODfYiiW3_TRR",
    escapeOut = "1LLPdaVtPSCDuoookq8G1JWUzoGb3SHTW",
-   escapeOutArchive = "",
+   escapeOutArchive = "1C1ZSmWluwtCDW5o-zj-Rtmbqf7Y46UyB",
    spreadOut = "",
    spreadOutArchive = ""
  )
