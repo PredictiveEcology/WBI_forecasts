@@ -35,7 +35,7 @@ source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")
 source("04-options.R")
-source("05-prerun.R")
+#source("05-prerun.R") ## gets sourced at top of each script 06, 07x, 08x
 
 source("06-studyArea.R")
 
@@ -43,6 +43,6 @@ source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")
 
-#source("08a-ignitionFit.R") ## TODO
-#source("08b-escapeFit.R") ## TODO
+source("08a-ignitionFit.R")
+source("08b-escapeFit.R")
 source("08c-spreadFit.R")

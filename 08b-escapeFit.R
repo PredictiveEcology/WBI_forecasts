@@ -1,5 +1,8 @@
 do.call(setPaths, escapeFitPaths)
 
+source("05-prerun.R")
+newGoogleIDs <- gdriveSims[["escapeOut"]] == ""
+
 escapeFitParams <- list(
   fireSense_EscapeFit = list(
     fireSense_escapeFormula = fSsimDataPrep$fireSense_escapeFormula

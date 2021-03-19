@@ -1,5 +1,8 @@
 do.call(setPaths, ignitionFitPaths)
 
+source("05-prerun.R")
+newGoogleIDs <- gdriveSims[["ignitionOut"]] == ""
+
 #ub and lb have to be provided for now
 
 biggestObj <- as.numeric(object.size(fSsimDataPrep$fireSense_ignitionCovariates))/1e6 * 1.2

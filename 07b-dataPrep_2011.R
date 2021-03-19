@@ -1,5 +1,8 @@
 ## NOTE: 07a-dataPrep_2001.R needs to be run before this script
 
+source("05-prerun.R")
+newGoogleIDs <- gdriveSims[["biomassMaps2011"]] == ""
+
 dataPrepParams2011 <- dataPrepParams2001
 dataPrepParams2011$Biomass_speciesData$types <- "KNN2011"
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)

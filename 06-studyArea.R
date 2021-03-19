@@ -1,5 +1,8 @@
 do.call(setPaths, preamblePaths)
 
+source("05-prerun.R")
+newGoogleIDs <- gdriveSims[["simOutPreamble"]] == ""
+
 preambleObjects <- list()
 
 preambleParams <- list(
