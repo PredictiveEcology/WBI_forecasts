@@ -1,14 +1,18 @@
 do.call(setPaths, dynamicPaths)
 
-dynamicModules <- list("fireSense_dataPrepPredict", "fireSense",
-                       "fireSense_IgnitionPredict"
+dynamicModules <- list("fireSense_dataPrepPredict"
+                       , "fireSense"
+                       , "fireSense_IgnitionPredict"
                        , "fireSense_EscapePredict"
+                       , "fireSense_SpreadPredict"
                        ) #Biomass_core, etc will be added
 dynamicObjects <- list(climateComponentsTouse = fSsimDataPrep$climateComponentsToUse,
                        cohortData = fSsimDataPrep$cohortData2011,
                        flammableRTM = fSsimDataPrep$flammableRTM,
                        fireSense_IgnitionFitted = ignitionOut$fireSense_IgnitionFitted,
                        fireSense_EscapeFitted = escapeOut$fireSense_EscapeFitted,
+                       fireSense_SpreadFitted = spreadOut$fireSense_SpreadFitted,
+                       covMinMax = spreadOut$covMinMax,
                        landcoverDT = fSsimDataPrep$landcoverDT,
                        nonForest_timeSinceDisturbance = fSsimDataPrep$nonForest_timeSinceDisturbance,
                        #this is the 2011 TSD - perhaps I should rename it in dataPrepFit to make it explicit?
@@ -21,16 +25,18 @@ dynamicObjects <- list(climateComponentsTouse = fSsimDataPrep$climateComponentsT
 
 dynamicParams <- list(
   fireSense_dataPrepPredict = list(
-    'fireTimeStep' = 1,
-    'sppEquivCol' = simOutPreamble$sppEquivCol,
-    'whichModulesToPrepare' = c('fireSense_IgnitionPredict', 'fireSense_EscapePredict'),
-    'missingLCCgroup' = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
+    "fireTimeStep" = 1,
+    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "whichModulesToPrepare" = c("fireSense_IgnitionPredict",
+                                "fireSense_EscapePredict",
+                                "fireSense_SpreadPredict"),
+    "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
   fireSense_ignitionPredict = list(
-    'rescaleFactor' = 1/fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2
+    "rescaleFactor" = 1/fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2
   ),
   fireSense = list(
-    'whichModulesToPrepare' = c("fireSense_IgnitionPredict", "fireSense_EscapePredict")
+    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict")
   )
 )
 

@@ -163,9 +163,9 @@ if (isTRUE(usePrerun)) {
     #googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
   }
 }
-
-source("R/upload_spreadFit.R")
-
+if (firstRunSpreadFit){
+  source("R/upload_spreadFit.R")
+}
 if (requireNamespace("slackr") & file.exists("~/.slackr")) {
   slackr::slackr_setup()
   slackr::slackr_msg(
