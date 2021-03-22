@@ -9,3 +9,4 @@ Require(c("plyr", "PredictiveEcology/SpaDES.core@development (>=1.0.6.9004)"),
 
 Require("jimhester/archive")
 Require("slackr")
+Require("data.table")
