@@ -37,7 +37,7 @@ alex:
   paths:
     scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
-  studyarea: "MB" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  studyarea: "BC" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: !expr if (grepl("spades", Sys.info()[["nodename"]])) TRUE else FALSE
 
 ian:
