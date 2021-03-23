@@ -35,7 +35,7 @@ dynamicObjects <- list(
   studyArea = biomassMaps2011$studyArea,
   studyAreaLarge = biomassMaps2011$studyAreaLarge,
   studyAreaReporting = biomassMaps2011$studyAreaReporting,
-  sufficientLight = as/data.table(biomassMaps2011$sufficientLight), #biomassMaps2011 needs bugfix to qs
+  sufficientLight = as.data.table(biomassMaps2011$sufficientLight), #biomassMaps2011 needs bugfix to qs
   terrainDT = fSsimDataPrep$terrainDT,
   vegComponentsToUse = fSsimDataPrep$vegComponentsToUse)
 
@@ -45,7 +45,7 @@ dynamicParams <- list(
     'vegLeadingProportion' = 0 #apparently sppColorVect has no mixed color
   ),
   Biomass_regeneration = list(
-    "fireInitialTime" = times$start
+    "fireInitialTime" = times$start + 1 #regeneration is scheduled earlier, so it starts in 2012
   ),
   fireSense_dataPrepPredict = list(
     "fireTimeStep" = 1,
