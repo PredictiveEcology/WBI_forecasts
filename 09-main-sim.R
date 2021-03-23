@@ -36,11 +36,14 @@ dynamicParams <- list(
     "rescaleFactor" = 1/fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2
   ),
   fireSense = list(
-    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict")
+    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
+    ".plotInterval" = 5,
+    ".plotInitialTime" = 2011,
+    "plotIgnitions" = TRUE
   )
 )
 
-mainSim <- simInitAndSpades(times = list(start = 2011, end = 2013),
+mainSim <- simInitAndSpades(times = list(start = 2011, end = 2036),
                             modules = dynamicModules,
                             objects = dynamicObjects,
                             params = dynamicParams,
