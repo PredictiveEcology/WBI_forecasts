@@ -28,6 +28,7 @@ dynamicObjects <- list(
   projectedClimateLayers = simOutPreamble$projectedClimateRasters,
   rasterToMatch = biomassMaps2011$rasterToMatch,
   rasterToMatchLarge = biomassMaps2011$rasterToMatchLarge,
+  species = as.data.table(biomassMaps2011$species),
   speciesEcoregion = as.data.table(biomassMaps2011$speciesEcoregion), #biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011$speciesLayers, #does Biomass_core actually need this?
   sppColorVect = biomassMaps2011$sppColorVect,
