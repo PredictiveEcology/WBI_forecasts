@@ -36,7 +36,7 @@ dynamicParams <- list(
     "rescaleFactor" = 1/fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2
   ),
   fireSense = list(
-    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict")
+    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict")
   )
 )
 
