@@ -8,35 +8,41 @@ dynamicModules <- list("fireSense_dataPrepPredict"
                        , "Biomass_core"
                        , "Biomass_regeneration"
                        ) #Biomass_core, etc will be added
-dynamicObjects <- list(climateComponentsTouse = fSsimDataPrep$climateComponentsToUse,
-                       cohortData = fSsimDataPrep$cohortData2011,
-                       ecoregion = biomassMaps2011$ecoregion,
-                       ecoregionMap = biomassMaps2011$ecoregionMap,
-                       flammableRTM = fSsimDataPrep$flammableRTM,
-                       fireSense_IgnitionFitted = ignitionOut$fireSense_IgnitionFitted,
-                       fireSense_EscapeFitted = escapeOut$fireSense_EscapeFitted,
-                       fireSense_SpreadFitted = spreadOut$fireSense_SpreadFitted,
-                       covMinMax = spreadOut$covMinMax,
-                       landcoverDT = fSsimDataPrep$landcoverDT,
-                       nonForest_timeSinceDisturbance = fSsimDataPrep$nonForest_timeSinceDisturbance,
-                       #this is the 2011 TSD - perhaps I should rename it in dataPrepFit to make it explicit?
-                       minRelativeB = biomassMaps2011$minRelativeB,
-                       PCAveg = fSsimDataPrep$PCAveg,
-                       pixelGroupMap = fSsimDataPrep$pixelGroupMap2011,
-                       projectedClimateLayers = simOutPreamble$projectedClimateRasters,
-                       speciesEcoregion = biomassMaps2011$speciesEcoregion,
-                       speciesLayers = biomassMaps2011$speciesLayers, #does Biomass_core actually need this?
-                       sppColorVect = biomassMaps2011$sppColorVect,
-                       sppEquiv = fSsimDataPrep$sppEquiv, #biomassMaps2011 needs bugfix to qs
-                       studyArea = biomassMaps2011$studyArea,
-                       studyAreaReporting = biomassMaps2011$studyAreaReporting,
-                       sufficientLight = biomassMaps2011$sufficientLight,
-                       terrainDT = fSsimDataPrep$terrainDT,
-                       vegComponentsToUse = fSsimDataPrep$vegComponentsToUse)
+dynamicObjects <- list(
+  biomassMap = biomassMaps2011$biomassMap, #unclear why Biomass_core needs this atm
+  climateComponentsTouse = fSsimDataPrep$climateComponentsToUse,
+  cohortData = fSsimDataPrep$cohortData2011,
+  ecoregion = biomassMaps2011$ecoregion,
+  ecoregionMap = biomassMaps2011$ecoregionMap,
+  flammableRTM = fSsimDataPrep$flammableRTM,
+  fireSense_IgnitionFitted = ignitionOut$fireSense_IgnitionFitted,
+  fireSense_EscapeFitted = escapeOut$fireSense_EscapeFitted,
+  fireSense_SpreadFitted = spreadOut$fireSense_SpreadFitted,
+  covMinMax = spreadOut$covMinMax,
+  landcoverDT = fSsimDataPrep$landcoverDT,
+  nonForest_timeSinceDisturbance = fSsimDataPrep$nonForest_timeSinceDisturbance,
+  #this is the 2011 TSD - perhaps I should rename it in dataPrepFit to make it explicit?
+  minRelativeB = as.data.table(biomassMaps2011$minRelativeB), #biomassMaps2011 needs bugfix to qs
+  PCAveg = fSsimDataPrep$PCAveg,
+  pixelGroupMap = fSsimDataPrep$pixelGroupMap2011,
+  projectedClimateLayers = simOutPreamble$projectedClimateRasters,
+  rasterToMatch = biomassMaps2011$rasterToMatch,
+  rasterToMatchLarge = biomassMaps2011$rasterToMatchLarge,
+  speciesEcoregion = as.data.table(biomassMaps2011$speciesEcoregion), #biomassMaps2011 needs bugfix to qs
+  speciesLayers = biomassMaps2011$speciesLayers, #does Biomass_core actually need this?
+  sppColorVect = biomassMaps2011$sppColorVect,
+  sppEquiv = fSsimDataPrep$sppEquiv, #biomassMaps2011 needs bugfix to qs
+  studyArea = biomassMaps2011$studyArea,
+  studyAreaLarge = biomassMaps2011$studyAreaLarge,
+  studyAreaReporting = biomassMaps2011$studyAreaReporting,
+  sufficientLight = as/data.table(biomassMaps2011$sufficientLight), #biomassMaps2011 needs bugfix to qs
+  terrainDT = fSsimDataPrep$terrainDT,
+  vegComponentsToUse = fSsimDataPrep$vegComponentsToUse)
 
 dynamicParams <- list(
   Biomass_core = list(
-    'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol
+    'sppEquivCol' = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
+    'vegLeadingProportion' = 0 #apparently sppColorVect has no mixed color
   ),
   Biomass_regeneration = list(
     "fireInitialTime" = times$start
@@ -59,6 +65,7 @@ dynamicParams <- list(
     "plotIgnitions" = FALSE
   )
 )
+
 
 mainSim <- simInitAndSpades(times = times,
                             modules = dynamicModules,
