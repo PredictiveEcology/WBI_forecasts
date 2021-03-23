@@ -46,3 +46,5 @@ source("07c-dataPrep_fS.R")
 source("08a-ignitionFit.R")
 source("08b-escapeFit.R")
 source("08c-spreadFit.R")
+
+source("09-main-sim.R")

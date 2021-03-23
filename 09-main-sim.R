@@ -37,9 +37,9 @@ dynamicParams <- list(
   ),
   fireSense = list(
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
-    ".plotInterval" = 5,
-    ".plotInitialTime" = 2011,
-    "plotIgnitions" = TRUE
+    ".plotInterval" = NA,
+    ".plotInitialTime" = NA,
+    "plotIgnitions" = FALSE
   )
 )
 
