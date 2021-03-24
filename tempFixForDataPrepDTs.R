@@ -11,3 +11,11 @@ fSsimDataPrep$landcoverDT <- as.data.table(fSsimDataPrep$landcoverDT)
 fSsimDataPrep$terrainDT <- as.data.table(fSsimDataPrep$terrainDT)
 fSsimDataPrep$sppEquiv <- as.data.table(fSsimDataPrep$sppEquiv)
 #note preamble sppEquivgain..
+
+
+biomassMaps2011$cohortData <- as.data.table(biomassMaps2011$cohortData)
+biomassMaps2011$pixelFateDT <- as.data.table(biomassMaps2011$pixelFateDT)
+biomassMaps2011$species <- as.data.table(biomassMaps2001$species)
+biomassMaps2011$speciesEcoregion <- as.data.table(biomassMaps2011$speciesEcoregion)
+biomassMaps2011$sppEquiv <- as.data.table(biomassMaps2011$sppEquiv)
+biomassMaps2011$sufficientLight <- as.data.frame(biomassMaps2011$sufficientLight)
