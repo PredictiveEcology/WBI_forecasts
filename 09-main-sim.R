@@ -44,7 +44,7 @@ dynamicObjects <- list(
 )
 
 objectNamesToSaveAnnually <- c(
-  "activePixelIndex",
+  "activePixelIndex", ## integer vector
   "burnMap",
   "rstCurrentBurn",
   "cohortData",
@@ -61,8 +61,8 @@ annualOutputs <- data.frame(
   expand.grid(
     objectName = objectNamesToSaveAnnually,
     saveTime = seq(times$start, times$end, 1),
-    fun = "writeRaster",
-    package = "raster"
+    fun = c("qsave", rep("writeRaster", times = length(objectNamesToSaveAnnually) - 1)),
+    package = c("qs", rep("raster", times = length(objectNamesToSaveAnnually) - 1))
   ),
   stringsAsFactors = FALSE
 )
