@@ -26,6 +26,6 @@ usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 
-if (!existis("runName")) {
+if (!exists("runName")) {
   runName <- sprintf("%s_CCSM4_RCP85_run%02d", studyAreaName, run) ## TODO: update for other climate scenarios
 }
