@@ -41,6 +41,7 @@ if (isTRUE(usePrerun)) {
 
   ## TODO: temp until bug in qs resolved
   biomassMaps2011$cohortData <- as.data.table(biomassMaps2011$cohortData)
+  biomassMaps2011$minRelativeB <- as.data.table(biomassMaps2011$minRelativeB)
   biomassMaps2011$pixelFateDT <- as.data.table(biomassMaps2011$pixelFateDT)
   biomassMaps2011$species <- as.data.table(biomassMaps2001$species)
   biomassMaps2011$speciesEcoregion <- as.data.table(biomassMaps2011$speciesEcoregion)
