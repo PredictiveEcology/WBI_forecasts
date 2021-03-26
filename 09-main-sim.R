@@ -1,5 +1,7 @@
 do.call(setPaths, dynamicPaths)
-times <- list(start = 2011, end = 2061)
+
+times <- list(start = 2011, end = 2100)
+
 dynamicModules <- list("fireSense_dataPrepPredict",
                        "fireSense",
                        "fireSense_IgnitionPredict",
@@ -41,6 +43,46 @@ dynamicObjects <- list(
   vegComponentsToUse = fSsimDataPrep$vegComponentsToUse
 )
 
+objectNamesToSaveAnnually <- c(
+  "activePixelIndex",
+  "burnMap",
+  "rstCurrentBurn",
+  "cohortData",
+  "pixelGroupMap",
+  "simulatedBiomassMap",
+  "ANPPMap",
+  "mortalityMap",
+  "fireSense_IgnitionPredicted",
+  "fireSense_EscapePredicted",
+  "fireSense_SpreadPredicted"
+)
+
+annualOutputs <- data.frame(
+  expand.grid(
+    objectName = objectNamesToSaveAnnually,
+    saveTime = seq(times$start, times$end, 1),
+    fun = "writeRaster",
+    package = "raster"
+  ),
+  stringsAsFactors = FALSE
+)
+annualOutputs$file <- paste0(annualOutputs$objectName, "_", annualOutputs$saveTime, ".tif")
+#annualOutputs$arguments <- I(list(list(overwrite = TRUE, progress = FALSE,
+#                                      datatype = "INT2U", format = "GTiff")))
+
+objectNamesToSaveAtEnd <- c("speciesEcoregion", "species", "gcsModel", "mcsModel", "simulationOutput", "burnSummary")
+
+finalYearOutputs <- data.frame(
+  objectName = objectNamesToSaveAtEnd,
+  saveTime = times$end,
+  fun = "qsave",
+  package = "qs",
+  file = paste0(objectNamesToSaveAtEnd, ".qs"),
+  stringsAsFactors = FALSE
+)
+
+dynamicOutputs <- rbind(annualOutputs, finalYearOutputs)
+
 dynamicParams <- list(
   Biomass_core = list(
     "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
@@ -73,6 +115,7 @@ mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
   objects = dynamicObjects,
+  outputs = dynamicOutputs,
   params = dynamicParams,
   paths = dynamicPaths
 )
