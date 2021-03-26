@@ -8,7 +8,7 @@ cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
-firstRunMDCplots <- TRUE ## TODO: restore FALSE
+firstRunMDCplots <- FALSE ## TODO: restore FALSE
 firstRunSpreadFit <- FALSE
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
