@@ -1,6 +1,6 @@
 do.call(setPaths, ignitionFitPaths)
 
-source("05-prerun.R")
+source("05-google-ids.R")
 newGoogleIDs <- gdriveSims[["ignitionOut"]] == ""
 
 #ub and lb have to be provided for now

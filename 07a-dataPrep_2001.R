@@ -1,7 +1,7 @@
 #this script will run Biomass_borealDataPrep + Biomass_speciesData twice, to generate some objects for fitting
 do.call(setPaths, dataPrepPaths)
 
-source("05-prerun.R")
+source("05-google-ids.R")
 newGoogleIDs <- gdriveSims[["biomassMaps2001"]] == ""
 
 dataPrep <- list(

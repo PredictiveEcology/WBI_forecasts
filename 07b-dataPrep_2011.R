@@ -1,6 +1,6 @@
 ## NOTE: 07a-dataPrep_2001.R needs to be run before this script
 
-source("05-prerun.R")
+source("05-google-ids.R")
 newGoogleIDs <- gdriveSims[["biomassMaps2011"]] == ""
 
 dataPrepParams2011 <- dataPrepParams2001
