@@ -99,5 +99,5 @@ fggMDC <- file.path(dataPrepPaths$outputPath, "figures", paste0("compareMDC_", s
 ggsave(plot = ggMDC, filename = fggMDC)
 
 if (isTRUE(firstRunMDCplots)) {
-  googledrive::drive_upload(media = fggMDC, path = gdriveSims[["results"]], name = basename(fggMDC), verbose = TRUE)
+  googledrive::drive_upload(fggMDC, gdriveSims[["results"]])
 }
