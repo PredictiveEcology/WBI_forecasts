@@ -119,3 +119,7 @@ mainSim <- simInitAndSpades(
   params = dynamicParams,
   paths = dynamicPaths
 )
+
+lapply(dynamicOutputs$file, function(f) {
+  drive_upload(file.path("outputs", runName, f), as_id(gdriveSims[["results"]]), overwrite = TRUE)
+})
