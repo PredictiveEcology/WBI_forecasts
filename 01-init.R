@@ -13,6 +13,7 @@ firstRunMDCplots <- FALSE
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
+reupload <- FALSE
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
 if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined

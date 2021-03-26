@@ -96,12 +96,14 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = aignitionOut, dir = dignitionOut)
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
-    #googledrive::drive_put(media = aignitionOut, path = gdriveURL, name = basename(aignitionOut), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fignitionOut)
-    #googledrive::drive_update(file = as_id(gdriveSims[["ignitionOutArchive"]]), media = aignitionOut)
+  if (isTRUE(reupload)) {
+    if (isTRUE(newGoogleIDs)) {
+      googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
+      #googledrive::drive_put(media = aignitionOut, path = gdriveURL, name = basename(aignitionOut), verbose = TRUE)
+    } else {
+      googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fignitionOut)
+      #googledrive::drive_update(file = as_id(gdriveSims[["ignitionOutArchive"]]), media = aignitionOut)
+    }
   }
 }
 

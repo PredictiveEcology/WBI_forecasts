@@ -95,11 +95,13 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = abiomassMaps2001, dir = dbiomassMaps2001)
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
-    #googledrive::drive_put(media = abiomassMaps2001, path = gdriveURL, name = basename(abiomassMaps2001), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fbiomassMaps2001)
-    #googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), media = abiomassMaps2001)
+  if (isTRUE(reupload)) {
+    if (isTRUE(newGoogleIDs)) {
+      googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
+      #googledrive::drive_put(media = abiomassMaps2001, path = gdriveURL, name = basename(abiomassMaps2001), verbose = TRUE)
+    } else {
+      googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fbiomassMaps2001)
+      #googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), media = abiomassMaps2001)
+    }
   }
 }

@@ -42,11 +42,13 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = aescapeOut, dir = descapeOut)
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fescapeOut, path = gdriveURL, name = basename(fescapeOut), verbose = TRUE)
-    #googledrive::drive_put(media = aescapeOut, path = gdriveURL, name = basename(aescapeOut), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["escapeOut"]]), media = fescapeOut)
-    #googledrive::drive_update(file = as_id(gdriveSims[["escapeOutArchive"]]), media = aescapeOut)
+  if (isTRUE(reupload)) {
+    if (isTRUE(newGoogleIDs)) {
+      googledrive::drive_put(media = fescapeOut, path = gdriveURL, name = basename(fescapeOut), verbose = TRUE)
+      #googledrive::drive_put(media = aescapeOut, path = gdriveURL, name = basename(aescapeOut), verbose = TRUE)
+    } else {
+      googledrive::drive_update(file = as_id(gdriveSims[["escapeOut"]]), media = fescapeOut)
+      #googledrive::drive_update(file = as_id(gdriveSims[["escapeOutArchive"]]), media = aescapeOut)
+    }
   }
 }

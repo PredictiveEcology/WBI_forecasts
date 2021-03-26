@@ -155,17 +155,21 @@ if (isTRUE(usePrerun)) {
     fileBackend = 2
   )
   #archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
-    #googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
-    #googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
+  if (isTRUE(reupload)) {
+    if (isTRUE(newGoogleIDs)) {
+      googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
+      #googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
+    } else {
+      googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
+      #googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
+    }
   }
 }
-if (firstRunSpreadFit){
+
+if (isTRUE(firstRunSpreadFit)) {
   source("R/upload_spreadFit.R")
 }
+
 if (requireNamespace("slackr") & file.exists("~/.slackr")) {
   slackr::slackr_setup()
   slackr::slackr_msg(
