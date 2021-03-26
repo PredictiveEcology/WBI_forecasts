@@ -86,3 +86,14 @@ if (isTRUE(usePrerun)) {
     #googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrepArchive"]]), media = afSsimDataPrep)
   }
 }
+
+source("R/compareMDC.R") ## defines the compareMDC() function
+ggMDC <- compareMDC(historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
+                    projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
+                    flammableRTM = fSsimDataPrep$flammableRTM)
+fggMDC <- file.path(dataPrepPaths$outputPath, "figures", paste0("compareMDC_", studyAreaName, ".png"))
+ggsave(plot = ggMDC, filename = fggMDC)
+
+if (isTRUE(firstRunMDCplots)) {
+  googledrive::drive_upload(media = fggMDC, path = gdriveSims[["results"]], name = basename(fggMDC), verbose = TRUE)
+}

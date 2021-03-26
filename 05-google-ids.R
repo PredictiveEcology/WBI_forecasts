@@ -19,7 +19,8 @@ gdriveSims <- switch(
     escapeOut = "1qv-wPPxljrjHVQRZ2V6Y2NsC8iQ9T-5i",
     escapeOutArchive = "",
     spreadOut = "1BOoiKv8eYMPndYissN34lYGBmvimaJE2",
-    spreadOutArchive = ""
+    spreadOutArchive = "",
+    results = ""
   ),
   BC = list(
     simOutPreamble = "1edMzH3E4q1f7kdmdSRFcuEEE1MdegUWc",
@@ -35,7 +36,8 @@ gdriveSims <- switch(
     escapeOut = "18Xmo72ZhDoDRXSv1BFrhBJp4sqQnbZsx",
     escapeOutArchive = "",
     spreadOut = "1yuFyFMJS3pJe0RSxi7GRQBoZXXj4TjBB",
-    spreadOutArchive = ""
+    spreadOutArchive = "",
+    results = ""
   ),
   MB = list(
     simOutPreamble = "1WznBdEwuo9lBK1xkOw9P84dKrcn3OasT",
@@ -51,7 +53,8 @@ gdriveSims <- switch(
     escapeOut = "1fYvOci3zofb4yRluiaTl6NrVFFa738Yc",
     escapeOutArchive = "",
     spreadOut = "1S898TKgz1GkVsBQJX9-LQk5S2_Sr8CXA",
-    spreadOutArchive = ""
+    spreadOutArchive = "",
+    results = ""
   ),
   NT = list(
     simOutPreamble = "1gx09K9gbBcKgV43-n3Le-u5_-8EQe4pr",
@@ -67,7 +70,8 @@ gdriveSims <- switch(
     escapeOut = "1RNuOUxff8oQVHL6Gx7AWm2UJ4LwT0Nf_",
     escapeOutArchive = "",
     spreadOut = "1NJp3j-F9Y8_6hqVaEB1eExrulGtwTvEb",
-    spreadOutArchive = ""
+    spreadOutArchive = "",
+    results = ""
   ),
   SK = list(
     simOutPreamble = "1ZjbUFqaZZLV60WVPXaO2ZnMUepiU8ju9",
@@ -83,7 +87,8 @@ gdriveSims <- switch(
     escapeOut = "1DZVT7q5ST1sHlHPUW04u0SOADJOqZOn_",
     escapeOutArchive = "",
     spreadOut = "13B86O_u4c3u5angB6jWGBfIhiv_M7R4b",
-    spreadOutArchive = ""
+    spreadOutArchive = "",
+    results = ""
   ),
   YT = list(
     simOutPreamble = "1U1UHf7lWEiBjtc51Lftn-He56S2MIjk6",
@@ -99,7 +104,8 @@ gdriveSims <- switch(
     escapeOut = "1EGlPDzu6BSlW2cj7otNnlZf4JBqzKm-J",
     escapeOutArchive = "",
     spreadOut = "18CsY1Vw1s8bqEas-2fwO3CSmgQ4m7x_D",
-    spreadOutArchive = ""
+    spreadOutArchive = "",
+    results = ""
   ),
   RIA = list(
    simOutPreamble = "17e6HBZlRAj27V4cwapm7WhtJZbY7quQt",
@@ -115,6 +121,7 @@ gdriveSims <- switch(
    escapeOut = "1LLPdaVtPSCDuoookq8G1JWUzoGb3SHTW",
    escapeOutArchive = "1C1ZSmWluwtCDW5o-zj-Rtmbqf7Y46UyB",
    spreadOut = "1pENeldxX2unvRlohuteCVjD3GCbqwHmQ",
-   spreadOutArchive = ""
+   spreadOutArchive = "",
+   results = ""
  )
 )
