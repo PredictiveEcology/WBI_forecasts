@@ -28,4 +28,8 @@ useRequire <- config::get("userequire")
 
 if (!exists("runName")) {
   runName <- sprintf("%s_CCSM4_RCP85_run%02d", studyAreaName, run) ## TODO: update for other climate scenarios
+} else {
+  if (studyAreaName != substr(runName, 1, 2)) {
+    studyAreaName <- substr(runName, 1, 2)
+  }
 }
