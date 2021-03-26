@@ -15,6 +15,7 @@ default:
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
   reproduciblealgorithm: 2
+  run: 1
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: false
   useprerun: true

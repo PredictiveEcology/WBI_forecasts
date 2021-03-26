@@ -14,6 +14,7 @@ messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 reupload <- FALSE
+run <- config::get("run")
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
 if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined
@@ -24,3 +25,7 @@ userInputPaths <- config::get("inputpaths")
 usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
+
+if (!existis("runName")) {
+  runName <- sprintf("%s_CCSM4_RCP85_run%02d", studyAreaName, run) ## TODO: update for other climate scenarios
+}
