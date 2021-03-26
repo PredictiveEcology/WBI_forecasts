@@ -43,32 +43,44 @@ dynamicObjects <- list(
   vegComponentsToUse = fSsimDataPrep$vegComponentsToUse
 )
 
-objectNamesToSaveAnnually <- c(
-  "activePixelIndex", ## integer vector
-  "burnMap",
-  "rstCurrentBurn",
-  "cohortData",
-  "pixelGroupMap",
-  "simulatedBiomassMap",
+rastersToSaveAnnually <- c(
   "ANPPMap",
-  "mortalityMap",
-  "fireSense_IgnitionPredicted",
+  "burnMap",
   "fireSense_EscapePredicted",
-  "fireSense_SpreadPredicted"
+  "fireSense_IgnitionPredicted",
+  "fireSense_SpreadPredicted",
+  "mortalityMap",
+  "pixelGroupMap",
+  "rstCurrentBurn",
+  "simulatedBiomassMap"
 )
 
-annualOutputs <- data.frame(
+annualRasters <- data.frame(
   expand.grid(
-    objectName = objectNamesToSaveAnnually,
+    objectName = rastersToSaveAnnually,
     saveTime = seq(times$start, times$end, 1),
-    fun = c("qsave", rep("writeRaster", times = length(objectNamesToSaveAnnually) - 1)),
-    package = c("qs", rep("raster", times = length(objectNamesToSaveAnnually) - 1))
+    fun = "writeRaster",
+    package = "raster"
   ),
   stringsAsFactors = FALSE
 )
-annualOutputs$file <- paste0(annualOutputs$objectName, "_", annualOutputs$saveTime, ".tif")
-#annualOutputs$arguments <- I(list(list(overwrite = TRUE, progress = FALSE,
-#                                      datatype = "INT2U", format = "GTiff")))
+annualRasters$file <- paste0(annualRasters$objectName, "_", annualRasters$saveTime, ".tif")
+
+objectsToSaveAnnually <- c(
+  "activePixelIndex", ## integer vector
+  "cohortData"       ## data.table
+)
+
+annualObjects <- data.frame(
+  expand.grid(
+    objectName = objectsToSaveAnnually,
+    saveTime = seq(times$start, times$end, 1),
+    fun = "qsave",
+    package = "qs"
+  ),
+  stringsAsFactors = FALSE
+)
+annualObjects$file <- paste0(annualObjects$objectName, "_", annualObjects$saveTime, ".qs")
 
 objectNamesToSaveAtEnd <- c("speciesEcoregion", "species", "gcsModel", "mcsModel", "simulationOutput", "burnSummary")
 
@@ -81,7 +93,7 @@ finalYearOutputs <- data.frame(
   stringsAsFactors = FALSE
 )
 
-dynamicOutputs <- rbind(annualOutputs, finalYearOutputs)
+dynamicOutputs <- rbind(annualRasters, annualObjects, finalYearOutputs)
 
 dynamicParams <- list(
   Biomass_core = list(
