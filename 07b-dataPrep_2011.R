@@ -38,6 +38,15 @@ if (isTRUE(usePrerun)) {
   #  archive::archive_extract(basename(abiomassMaps2011), dirname(abiomassMaps2011))
   #}
   biomassMaps2011 <- loadSimList(fbiomassMaps2011)
+
+  ## TODO: temp until bug in qs resolved
+  biomassMaps2011$cohortData <- as.data.table(biomassMaps2011$cohortData)
+  biomassMaps2011$pixelFateDT <- as.data.table(biomassMaps2011$pixelFateDT)
+  biomassMaps2011$species <- as.data.table(biomassMaps2001$species)
+  biomassMaps2011$speciesEcoregion <- as.data.table(biomassMaps2011$speciesEcoregion)
+  biomassMaps2011$sppEquiv <- as.data.table(biomassMaps2011$sppEquiv)
+  biomassMaps2011$sufficientLight <- as.data.frame(biomassMaps2011$sufficientLight)
+  ## end TODO
 } else {
   biomassMaps2011 <- Cache(
     simInitAndSpades,
