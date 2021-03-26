@@ -15,6 +15,7 @@ newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) b
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
+if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined
 useCloudCache <- config::get("cloud")[["usecloud"]]
 useMemoise <- config::get("usememoise")
 usePlot <- config::get("plot")
