@@ -148,14 +148,15 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_SpreadFit", studyAreaName)
   )
-  saveSimList(
-    sim = spreadOut,
-    filename = fspreadOut,
-    #filebackedDir = dspreadOut,
-    fileBackend = 2
-  )
-  #archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
+
   if (isTRUE(reupload)) {
+    saveSimList(
+      sim = spreadOut,
+      filename = fspreadOut,
+      #filebackedDir = dspreadOut,
+      fileBackend = 2
+    )
+    #archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
     if (isTRUE(newGoogleIDs)) {
       googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
       #googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)

@@ -88,14 +88,16 @@ if (isTRUE(usePrerun)) {
     cloudFolderID = cloudCacheFolderID,
     userTags = c("dataPrep2001", studyAreaName)
   )
-  saveSimList(
-    sim = biomassMaps2001,
-    filename = fbiomassMaps2001,
-    #filebackedDir = dbiomassMaps2001,
-    fileBackend = 2
-  )
-  #archive::archive_write_dir(archive = abiomassMaps2001, dir = dbiomassMaps2001)
+
   if (isTRUE(reupload)) {
+    saveSimList(
+      sim = biomassMaps2001,
+      filename = fbiomassMaps2001,
+      #filebackedDir = dbiomassMaps2001,
+      fileBackend = 2
+    )
+    #archive::archive_write_dir(archive = abiomassMaps2001, dir = dbiomassMaps2001)
+
     if (isTRUE(newGoogleIDs)) {
       googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
       #googledrive::drive_put(media = abiomassMaps2001, path = gdriveURL, name = basename(abiomassMaps2001), verbose = TRUE)

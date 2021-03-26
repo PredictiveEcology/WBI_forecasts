@@ -71,14 +71,16 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_dataPrepFit", studyAreaName)
   )
-  saveSimList(
-    sim = fSsimDataPrep,
-    filename = ffSsimDataPrep,
-    #filebackedDir = dfSsimDataPrep,
-    fileBackend = 2
-  )
-  #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+
   if (isTRUE(reupload)) {
+    saveSimList(
+      sim = fSsimDataPrep,
+      filename = ffSsimDataPrep,
+      #filebackedDir = dfSsimDataPrep,
+      fileBackend = 2
+    )
+    #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+
     if (isTRUE(newGoogleIDs)) {
       googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
       #googledrive::drive_put(media = afSsimDataPrep, path = gdriveURL, name = basename(afSsimDataPrep), verbose = TRUE)

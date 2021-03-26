@@ -89,14 +89,16 @@ if (isTRUE(usePrerun)) {
     objects = ignitionFitObjects,
     userTags = c("ignitionFit")
   )
-  saveSimList(
-    sim = ignitionOut,
-    filename = fignitionOut,
-    #filebackedDir = dignitionOut,
-    fileBackend = 2
-  )
-  #archive::archive_write_dir(archive = aignitionOut, dir = dignitionOut)
+
   if (isTRUE(reupload)) {
+    saveSimList(
+      sim = ignitionOut,
+      filename = fignitionOut,
+      #filebackedDir = dignitionOut,
+      fileBackend = 2
+    )
+    #archive::archive_write_dir(archive = aignitionOut, dir = dignitionOut)
+
     if (isTRUE(newGoogleIDs)) {
       googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
       #googledrive::drive_put(media = aignitionOut, path = gdriveURL, name = basename(aignitionOut), verbose = TRUE)
