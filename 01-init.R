@@ -8,8 +8,6 @@ cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
-firstRunMDCplots <- FALSE ## TODO: restore FALSE
-firstRunSpreadFit <- FALSE
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
@@ -32,3 +30,6 @@ if (!exists("runName")) {
   studyAreaName <- strsplit(runName, "_")[[1]][1]
   run <- as.numeric(substr(runName, nchar(runName) - 1, nchar(runName)))
 }
+
+firstRunMDCplots <- if (studyAreaName == "AB" | run != 1) FALSE else TRUE ## TODO: restore FALSE
+firstRunSpreadFit <- FALSE
