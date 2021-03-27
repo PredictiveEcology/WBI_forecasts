@@ -123,6 +123,7 @@ dynamicParams <- list(
   )
 )
 
+fsim <- file.path(Paths$outputPath, paste0(runName, ".qs"))
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
@@ -131,6 +132,14 @@ mainSim <- simInitAndSpades(
   params = dynamicParams,
   paths = dynamicPaths
 )
+
+saveSimList(
+  sim = mainSim,
+  filename = fsim,
+  #filebackedDir = dfSsimDataPrep,
+  fileBackend = 2
+)
+#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
 
 resultsDir <- drive_mkdir(name = runName, path = as_id(gdriveSims[["results"]]), overwrite = TRUE, verbose = TRUE)
 lapply(dynamicOutputs$file, function(f) {
