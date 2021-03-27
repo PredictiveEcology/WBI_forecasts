@@ -165,16 +165,16 @@ if (isTRUE(usePrerun)) {
       #googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
     }
   }
+
+  if (requireNamespace("slackr") & file.exists("~/.slackr")) {
+    slackr::slackr_setup()
+    slackr::slackr_msg(
+      paste0("`fireSense_SpreadFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
+      channel = config::get("slackchannel"), preformatted = FALSE
+    )
+  }
 }
 
 if (isTRUE(firstRunSpreadFit)) {
   source("R/upload_spreadFit.R")
-}
-
-if (requireNamespace("slackr") & file.exists("~/.slackr")) {
-  slackr::slackr_setup()
-  slackr::slackr_msg(
-    paste0("`fireSense_SpreadFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
-    channel = config::get("slackchannel"), preformatted = FALSE
-  )
 }

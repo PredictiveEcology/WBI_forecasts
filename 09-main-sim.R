@@ -136,3 +136,11 @@ resultsDir <- drive_mkdir(name = runName, path = as_id(gdriveSims[["results"]]),
 lapply(dynamicOutputs$file, function(f) {
   drive_upload(file.path("outputs", runName, f), as_id(resultsDir[["id"]]), overwrite = TRUE)
 })
+
+if (requireNamespace("slackr") & file.exists("~/.slackr")) {
+  slackr::slackr_setup()
+  slackr::slackr_msg(
+    paste0("Simulation ", runName, " completed on host `", Sys.info()[["nodename"]], "`."),
+    channel = config::get("slackchannel"), preformatted = FALSE
+  )
+}
