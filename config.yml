@@ -7,6 +7,7 @@ default:
     googleuser: ""
     usecloud: false
   codechecks: true
+  delaystart: 0
   inputpaths: null
   mapresfact: 1
   messagingNumCharsModule: 21
@@ -24,6 +25,7 @@ default:
 production:
   batchmode: true
   codechecks: false
+  delaystart: !expr sample(5L:15L, 1) # 5-15 minute delay to stagger starts
   plot: false
 
 alex:

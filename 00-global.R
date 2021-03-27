@@ -37,6 +37,11 @@ source("03-packages.R")
 source("04-options.R")
 #source("05-google-ids.R") ## gets sourced at top of each script 06, 07x, 08x
 
+if (delayStart > 0) {
+  message(crayon::green("\nStaggered job start: delaying by", delayStart, "minutes."))
+  Sys.sleep(delayStart*60)
+}
+
 source("06-studyArea.R")
 
 source("07a-dataPrep_2001.R")
