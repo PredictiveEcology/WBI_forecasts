@@ -96,6 +96,8 @@ ggMDC <- compareMDC(historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
                     projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
                     flammableRTM = fSsimDataPrep$flammableRTM)
 fggMDC <- file.path(dataPrepPaths$outputPath, "figures", paste0("compareMDC_", studyAreaName, ".png"))
+checkPath(dirname(fggMDC), create = TRUE)
+
 ggsave(plot = ggMDC, filename = fggMDC)
 
 if (isTRUE(firstRunMDCplots)) {
