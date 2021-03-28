@@ -24,7 +24,7 @@ runName = "MB_CCSM4_RCP85_run05"; source("00-global.R")
 
 #runName = "NT_CCSM4_RCP85_run01"; source("00-global.R") ## 220
 #runName = "NT_CCSM4_RCP85_run02"; source("00-global.R") ## 220
-runName = "NT_CCSM4_RCP85_run03"; source("00-global.R")
+#runName = "NT_CCSM4_RCP85_run03"; source("00-global.R") ## 220
 runName = "NT_CCSM4_RCP85_run04"; source("00-global.R")
 runName = "NT_CCSM4_RCP85_run05"; source("00-global.R")
 
