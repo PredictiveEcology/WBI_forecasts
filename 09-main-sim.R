@@ -147,7 +147,8 @@ saveSimList(
 #archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
 
 resultsDir <- drive_mkdir(name = runName, path = as_id(gdriveSims[["results"]]), overwrite = TRUE, verbose = TRUE)
-lapply(dynamicOutputs$file, function(f) {
+#lapply(dynamicOutputs$file, function(f) {
+lapply(list.files(file.path("outputs", runName)), function(f) {
   drive_upload(file.path("outputs", runName, f), as_id(resultsDir[["id"]]), overwrite = TRUE)
 })
 
