@@ -32,7 +32,7 @@ runName = "NT_CCSM4_RCP85_run05"; source("00-global.R")
 #runName = "YT_CCSM4_RCP85_run02"; source("00-global.R") ## forcast02
 #runName = "YT_CCSM4_RCP85_run03"; source("00-global.R") ## 213
 #runName = "YT_CCSM4_RCP85_run04"; source("00-global.R") ## 213
-runName = "YT_CCSM4_RCP85_run05"; source("00-global.R")
+#runName = "YT_CCSM4_RCP85_run05"; source("00-global.R") ##Ian's desktop
 
 ## Ian will do RIA
 #runName = "RIA_CCSM4_RCP85_run01"; source("00-global.R") ## 189
