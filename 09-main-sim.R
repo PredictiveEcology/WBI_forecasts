@@ -149,7 +149,7 @@ saveSimList(
 resultsDir <- drive_mkdir(name = runName, path = as_id(gdriveSims[["results"]]), overwrite = TRUE, verbose = TRUE)
 #lapply(dynamicOutputs$file, function(f) {
 lapply(list.files(file.path("outputs", runName)), function(f) {
-  drive_upload(file.path("outputs", runName, f), as_id(resultsDir[["id"]]), overwrite = TRUE)
+  retry(drive_upload(file.path("outputs", runName, f), as_id(resultsDir[["id"]]), overwrite = TRUE))
 })
 
 if (requireNamespace("slackr") & file.exists("~/.slackr")) {
