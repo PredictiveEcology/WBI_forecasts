@@ -82,7 +82,12 @@ annualObjects <- data.frame(
 )
 annualObjects$file <- paste0(annualObjects$objectName, "_", annualObjects$saveTime, ".qs")
 
-objectNamesToSaveAtEnd <- c("speciesEcoregion", "species", "gcsModel", "mcsModel", "simulationOutput", "burnSummary")
+objectNamesToSaveAtEnd <- c("speciesEcoregion",
+                            "species",
+                            #"gcsModel", ## TODO: from LandR.CS
+                            #"mcsModel", ## TODO: from LandR.CS
+                            "simulationOutput",
+                            "burnSummary")
 
 finalYearOutputs <- data.frame(
   objectName = objectNamesToSaveAtEnd,
