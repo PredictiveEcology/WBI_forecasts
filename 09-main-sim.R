@@ -67,7 +67,7 @@ annualRasters <- data.frame(
 annualRasters$file <- paste0(annualRasters$objectName, "_", annualRasters$saveTime, ".tif")
 
 objectsToSaveAnnually <- c(
-  "activePixelIndex", ## integer vector
+  #"activePixelIndex", ## integer vector ## TODO: not an output -- it's in mod?
   "cohortData"       ## data.table
 )
 
@@ -159,3 +159,4 @@ if (requireNamespace("slackr") & file.exists("~/.slackr")) {
     channel = config::get("slackchannel"), preformatted = FALSE
   )
 }
+
