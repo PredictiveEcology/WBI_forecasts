@@ -12,9 +12,9 @@ runName = "AB_CCSM4_RCP85_run05"; source("00-global.R")
 
 #runName = "SK_CCSM4_RCP85_run01"; source("00-global.R") ## 102
 #runName = "SK_CCSM4_RCP85_run02"; source("00-global.R") ## 102
-runName = "SK_CCSM4_RCP85_run03"; source("00-global.R")
-runName = "SK_CCSM4_RCP85_run04"; source("00-global.R")
-runName = "SK_CCSM4_RCP85_run05"; source("00-global.R")
+#runName = "SK_CCSM4_RCP85_run03"; source("00-global.R") ## 102
+#runName = "SK_CCSM4_RCP85_run04"; source("00-global.R") ## 102
+#runName = "SK_CCSM4_RCP85_run05"; source("00-global.R") ## 012
 
 #runName = "MB_CCSM4_RCP85_run01"; source("00-global.R") ## forcast02
 #runName = "MB_CCSM4_RCP85_run02"; source("00-global.R") ## 106

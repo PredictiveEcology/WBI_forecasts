@@ -155,7 +155,7 @@ lapply(list.files(file.path("outputs", runName)), function(f) {
 if (requireNamespace("slackr") & file.exists("~/.slackr")) {
   slackr::slackr_setup()
   slackr::slackr_msg(
-    paste0("Simulation ", runName, " completed on host `", Sys.info()[["nodename"]], "`."),
+    paste0("Simulation `", runName, "` completed on host `", Sys.info()[["nodename"]], "`."),
     channel = config::get("slackchannel"), preformatted = FALSE
   )
 }
