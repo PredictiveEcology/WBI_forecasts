@@ -1,6 +1,6 @@
 #runName = "BC_CCSM4_RCP85_run01"; source("00-global.R") ## 97
 #runName = "BC_CCSM4_RCP85_run02"; source("00-global.R") ## 97
-runName = "BC_CCSM4_RCP85_run03"; source("00-global.R")
+#runName = "BC_CCSM4_RCP85_run03"; source("00-global.R") ## 97
 runName = "BC_CCSM4_RCP85_run04"; source("00-global.R")
 # runName = "BC_CCSM4_RCP85_run05"; source("00-global.R") ##Ian's desktop
 

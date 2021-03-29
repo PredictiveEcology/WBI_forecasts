@@ -159,4 +159,3 @@ if (requireNamespace("slackr") & file.exists("~/.slackr")) {
     channel = config::get("slackchannel"), preformatted = FALSE
   )
 }
-
