@@ -14,7 +14,7 @@ if (!suppressWarnings(require("Require"))) {
 }
 
 if (FALSE) {
-  Require::Require("PredictiveEcology/reproducible@CopyGenericChange (>= 1.2.6.9011)") ## 2021-03-17
+  Require::Require("PredictiveEcology/reproducible@development (>= 1.2.6.9011)") ## 2021-03-17
   Require::Require("PredictiveEcology/SpaDES.core@rasterToMemoryUpdates (>= 1.0.6.9022)") ## 2021-03-17
 
   Require::Require("PredictiveEcology/fireSenseUtils@development (>= 0.0.4.9052)", require = FALSE) ## force pemisc and others to be installed correctly
