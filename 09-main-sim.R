@@ -14,6 +14,7 @@ dynamicObjects <- list(
   biomassMap = biomassMaps2011$biomassMap, ## unclear why Biomass_core needs this atm
   climateComponentsTouse = fSsimDataPrep$climateComponentsToUse,
   cohortData = fSsimDataPrep$cohortData2011,
+  covMinMax_ignition = ignitionOut$covMinMax_ignition, #new object
   ecoregion = biomassMaps2011$ecoregion,
   ecoregionMap = biomassMaps2011$ecoregionMap,
   flammableRTM = fSsimDataPrep$flammableRTM,
@@ -39,6 +40,7 @@ dynamicObjects <- list(
   studyAreaLarge = biomassMaps2011$studyAreaLarge,
   studyAreaReporting = biomassMaps2011$studyAreaReporting,
   sufficientLight = biomassMaps2011$sufficientLight,
+  rescaleFactor = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2,
   terrainDT = fSsimDataPrep$terrainDT,
   vegComponentsToUse = fSsimDataPrep$vegComponentsToUse
 )
@@ -118,7 +120,7 @@ dynamicParams <- list(
     "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
   fireSense_ignitionPredict = list(
-    "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2
+    # "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2 #deprecated
   ),
   fireSense = list(
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
