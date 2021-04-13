@@ -55,7 +55,7 @@ ignitionFitParams <- list(
                                                   probs = 0.05), digits = 0))),
     #I don't know if this is the MDC value of the knot....
     #if using binomial need to pass theta to lb and ub
-    ub = list(coef = 4,
+    ub = list(coef = 20,
               knots = list('MDC' = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
                                                   probs = 0.8), digits = 0))),
     family = quote(MASS::negative.binomial(theta = 1, link = "identity")),
