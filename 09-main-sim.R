@@ -23,8 +23,7 @@ dynamicObjects <- list(
   fireSense_SpreadFitted = spreadOut$fireSense_SpreadFitted,
   covMinMax = spreadOut$covMinMax,
   landcoverDT = fSsimDataPrep$landcoverDT,
-  nonForest_timeSinceDisturbance = fSsimDataPrep$nonForest_timeSinceDisturbance,
-  ## this is the 2011 TSD - perhaps I should rename it in dataPrepFit to make it explicit?
+  nonForest_timeSinceDisturbance = fSsimDataPrep$nonForest_timeSinceDisturbance2011,
   minRelativeB = biomassMaps2011$minRelativeB,
   PCAveg = fSsimDataPrep$PCAveg,
   pixelGroupMap = fSsimDataPrep$pixelGroupMap2011,
