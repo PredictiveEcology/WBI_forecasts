@@ -23,7 +23,7 @@ dynamicObjects <- list(
   covMinMax = spreadOut[["covMinMax"]],
   covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
   landcoverDT = fSsimDataPrep[["landcoverDT"]],
-  nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance"]],
+  nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = as.data.table(biomassMaps2011[["minRelativeB"]]), ## biomassMaps2011 needs bugfix to qs
   PCAveg = fSsimDataPrep[["PCAveg"]],
   pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
