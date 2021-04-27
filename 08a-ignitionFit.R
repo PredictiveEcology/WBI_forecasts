@@ -48,13 +48,13 @@ if (studyAreaName == "AB") {
 nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6) #56, 28 both hit errors
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
+    # .plotInitialTime = 1,
+    # .plots = 'png',
     cores = nCores,
     fireSense_ignitionFormula = form,
     lb = list(coef = 0,
               knots = list('MDC' = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
                                                   probs = 0.05), digits = 0))),
-    #I don't know if this is the MDC value of the knot....
-    #if using binomial need to pass theta to lb and ub
     ub = list(coef = 20,
               knots = list('MDC' = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
                                                   probs = 0.8), digits = 0))),
@@ -64,7 +64,8 @@ ignitionFitParams <- list(
 )
 
 ignitionFitObjects <- list(
-  fireSense_ignitionCovariates = fSsimDataPrep$fireSense_ignitionCovariates
+  fireSense_ignitionCovariates = fSsimDataPrep$fireSense_ignitionCovariates,
+  ignitionFitRTM = fSsimDataPrep$ignitionFitRTM
 )
 
 #dignitionOut <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName)) %>%
