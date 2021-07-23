@@ -6,10 +6,11 @@
 # RStudio files
 .Rproj.user/
 
-# knitr and R markdown default cache directories
+# simulation, knitr and R markdown cache directories
 *_cache/
 /cache/
 cache/
+.channel_cache
 
 # Temporary files created by R markdown
 *.utf8.md
@@ -17,6 +18,13 @@ cache/
 
 # R Environment Variables
 .Renviron
-/outputs
 
+# simulation input/output directories
 inputs/
+outputs/
+
+# saved simLists
+spreadOut*
+
+## R package libraries
+packages/*

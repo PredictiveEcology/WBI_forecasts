@@ -34,3 +34,12 @@
 [submodule "modules/Biomass_speciesData"]
 	path = modules/Biomass_speciesData
 	url = https://github.com/PredictiveEcology/Biomass_speciesData.git
+[submodule "modules/Biomass_core"]
+	path = modules/Biomass_core
+	url = git@github.com:PredictiveEcology/Biomass_core.git
+[submodule "modules/Biomass_regeneration"]
+	path = modules/Biomass_regeneration
+	url = git@github.com:PredictiveEcology/Biomass_regeneration.git
+[submodule "studyAreas"]
+	path = studyAreas
+	url = https://github.com/PredictiveEcology/WBI_studyAreas

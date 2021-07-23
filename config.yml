@@ -1,28 +1,72 @@
 default:
   batchmode: false
   cachedb: "sqlite"
-  googleuser: ""
+  cacheformat: "qs"
+  cloud:
+    cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
+    googleuser: ""
+    usecloud: false
+  codechecks: true
+  delaystart: 0
+  inputpaths: null
   mapresfact: 1
+  messagingNumCharsModule: 21
   paths:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
+  reproduciblealgorithm: 2
+  run: 1
+  studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  usememoise: false
+  useprerun: true
+  userequire: true
 
 production:
   batchmode: true
+  codechecks: false
+  delaystart: !expr sample(5L:15L, 1) # 5-15 minute delay to stagger starts
   plot: false
 
 alex:
   inherits: production
-  cachedb: "postgresql"
-  googleuser: "achubaty@for-cast.ca"
+  cachedb: !expr if (grepl("spades", Sys.info()[["nodename"]])) "sqlite" else "postgresql"
+  cacheformat: "qs"
+  cloud:
+    #cachedir: ""
+    googleuser: "achubaty@for-cast.ca"
+    usecloud: false ## TODO: use cloud cache
+  codechecks: false ## TODO: set false after all fixed
   paths:
-    scratchdir: !expr if (Sys.info()[["nodename"]] == "forcast03") "/tmp/scratch/WBI_fireSense" else "/mnt/scratch/WBI_fireSense"
+    scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
   slackchannel: "@alex.chubaty"
+  studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  useprerun: !expr if (grepl("spades", Sys.info()[["nodename"]])) TRUE else FALSE
 
 ian:
-  cachedb: 'sqlite'
-  googleuser: 'ianmseddy@gmail.com'
+  cachedb: "sqlite"
+  cacheformat: "qs"
+  cloud:
+    #cachedir: ""
+    googleuser: 'ianmseddy@gmail.com'
+    usecloud: false
+  codechecks: true ## TODO: set false after all fixed
+  reproduciblealgorithm: 2 #use old digest
   paths:
-    scratchdir:  !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
+    scratchdir: !expr if (Sys.info()[["nodename"]] == "W-VIC-A127551") "D:/Ian/scratch" else '/mnt/scratch/ieddy/'
 
+eliot:
+  cachedb: "sqlite"
+  cacheformat: "qs"
+  cloud:
+    #cachedir: ""
+    googleuser: 'eliotmcintire@gmail.com'
+    usecloud: false
+  codechecks: false
+  inputpaths: ~/data
+  messagingNumCharsModule: 24
+  paths:
+    scratchdir: "/tmp/scratch/WBI_fireSense"
+  reproduciblealgorithm: 2
+  studyarea: "YT" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  usememoise: true
