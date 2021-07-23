@@ -5,9 +5,9 @@
 ## Getting started
 
 ```
-git clone --recurse-submodules -j8 https://github.com/PredictiveEcology/WBI_fireSense
+git clone --recurse-submodules -j8 https://github.com/PredictiveEcology/WBI_forecasts
 ```
 
 ## Getting help
 
-- https://gitter.im/PredictiveEcology/fireSense
+- <https://gitter.im/PredictiveEcology/fireSense>
