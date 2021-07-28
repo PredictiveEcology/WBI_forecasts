@@ -18,7 +18,7 @@ if (FALSE) {
                    repos = "https://cran.rstudio.com")
   rgeos::rgeos_extSoftVersion() ## want GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 
-  Require::Require("PredictiveEcology/reproducible@development (>= 1.2.6.9011)") ## 2021-03-17
+  Require::Require("PredictiveEcology/reproducible@217-team_drive (>= 1.2.7.9004)") ## 2021-07-27
   Require::Require("PredictiveEcology/SpaDES.core@development (>= 1.0.6.9022)") ## 2021-03-17
 
   Require::Require("PredictiveEcology/fireSenseUtils@development (>= 0.0.4.9052)", require = FALSE) ## force pemisc and others to be installed correctly
