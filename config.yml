@@ -2,6 +2,7 @@ default:
   batchmode: false
   cachedb: "sqlite"
   cacheformat: "qs"
+  climatessp: 370 ## 245, 370, 585
   cloud:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
     googleuser: ""
@@ -38,7 +39,7 @@ alex:
     usecloud: false ## TODO: use cloud cache
   codechecks: false ## TODO: set false after all fixed
   paths:
-    scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
+    scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_forecasts" else "/tmp/scratch/WBI_forecasts"
   slackchannel: "@alex.chubaty"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: !expr if (grepl("spades", Sys.info()[["nodename"]])) TRUE else FALSE
