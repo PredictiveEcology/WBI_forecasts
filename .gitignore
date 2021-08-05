@@ -10,6 +10,7 @@
 *_cache/
 /cache/
 cache/
+cache
 .channel_cache
 
 # Temporary files created by R markdown
@@ -22,6 +23,7 @@ cache/
 # simulation input/output directories
 inputs/
 outputs/
+outputs
 
 # saved simLists
 spreadOut*
