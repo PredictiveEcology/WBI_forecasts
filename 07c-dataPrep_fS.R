@@ -6,7 +6,7 @@ newGoogleIDs <- gdriveSims[["fSsimDataPrep"]] == ""
 fSdataPrepParams <- list(
   "fireSense_dataPrepFit" = list(
     ".studyAreaName" = studyAreaName,
-    "fireYears" = 2001:2019, # this will be fixed to post kNN only
+    "fireYears" = 2001:2019, # this will be fixed to post kNN only  ## TODO: use 2020 data
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "useCentroids" = TRUE,
     ".useCache" = ".inputObjects",

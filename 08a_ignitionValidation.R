@@ -142,7 +142,7 @@ validationOut2001 <- simInitAndSpades(
 
 igPred <- list.files(outputPath(validationOut2001), full.names = TRUE) %>%
   lapply(., raster)
-names(igPred) <- 2001:2019
+names(igPred) <- 2001:2019 ## TODO: use 2020 data
 
 predDT <- lapply(names(igPred), FUN = function(year, rasList = igPred) {
   igProb <- na.omit(rasList[[year]][])

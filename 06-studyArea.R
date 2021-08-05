@@ -8,7 +8,7 @@ preambleObjects <- list()
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
     ".useCache" = TRUE,
-    "historicalFireYears" = 1991:2019, ## TODO: update with 2020 data
+    "historicalFireYears" = 1991:2019, ## TODO: use 2020 data
     "studyAreaName" = studyAreaName
   )
 )
