@@ -28,6 +28,7 @@ dataPrepParams2001 <- list(
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "subsetDataBiomassModel" = dataPrep$subsetDataBiomassModel,
     "useCloudCacheForStats" = useCloudCache,
+    ".plots" = c("object", "png", "raw"),
     ".studyAreaName" = paste0(studyAreaName, 2001),
     ".useCache" = c(".inputObjects", "init")
   ),

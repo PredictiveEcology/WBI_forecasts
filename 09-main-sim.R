@@ -105,7 +105,8 @@ dynamicParams <- list(
   Biomass_core = list(
     "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     "vegLeadingProportion" = 0, ## apparently sppColorVect has no mixed color
-    ".plotInitialTime" = NA
+    ".plotInitialTime" = .plotInitialTime,
+    ".plots" = c("object", "png", "raw")
   ),
   Biomass_regeneration = list(
     "fireInitialTime" = times$start + 1 #regeneration is scheduled earlier, so it starts in 2012
@@ -122,10 +123,10 @@ dynamicParams <- list(
     # "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2 #deprecated
   ),
   fireSense = list(
+    "plotIgnitions" = FALSE,
     "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
     ".plotInterval" = NA,
-    ".plotInitialTime" = NA,
-    "plotIgnitions" = FALSE
+    ".plotInitialTime" = .plotInitialTime
   )
 )
 
