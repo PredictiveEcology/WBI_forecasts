@@ -52,6 +52,9 @@ source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")
 
+if (quickPlot::isRstudioServer()) {
+  stop("fitting etc. done using clusters cannot be done from Rstudio.")
+}
 source("08a-ignitionFit.R")
 source("08b-escapeFit.R")
 source("08c-spreadFit.R")
