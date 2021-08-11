@@ -33,7 +33,9 @@ dataPrepParams2001 <- list(
     ".useCache" = c(".inputObjects", "init")
   ),
   Biomass_speciesData = list(
+    "dataYear" = 2001,
     "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "types" = "KNN",
     ".studyAreaName" = paste0(studyAreaName, 2001)
   )
 )
