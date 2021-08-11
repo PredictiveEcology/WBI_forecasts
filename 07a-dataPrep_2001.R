@@ -18,6 +18,7 @@ dataPrepParams2001 <- list(
                                         (logAge + cover | ecoregionGroup))),
     "ecoregionLayerField" = "ECOREGION", # "ECODISTRIC"
     "exportModels" = "all",
+    "fixModelBiomass" = TRUE,
     "forestedLCCClasses" = c(1:15, 20, 32, 34:36),
     "LCCClassesToReplaceNN" = 34:35,
     "pixelGroupAgeClass" = dataPrep$pixelGroupAgeClass,
