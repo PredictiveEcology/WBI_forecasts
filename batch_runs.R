@@ -38,9 +38,9 @@ runName = "YT_CanESM5_SSP245_run05"; source("00-global.R") ##
 
 runName = "RIA_CanESM5_SSP245_run01"; source("00-global.R") ##
 runName = "RIA_CanESM5_SSP245_run02"; source("00-global.R") ##
-runName = "RIA_CCSM4_RCP45_run03"; source("00-global.R")
-runName = "RIA_CCSM4_RCP45_run04"; source("00-global.R")
-runName = "RIA_CCSM4_RCP45_run05"; source("00-global.R")
+runName = "RIA_CanESM5_SSP245_run03"; source("00-global.R")
+runName = "RIA_CanESM5_SSP245_run04"; source("00-global.R")
+runName = "RIA_CanESM5_SSP245_run05"; source("00-global.R")
 
 ##### SSP 370
 
@@ -82,9 +82,9 @@ runName = "YT_CanESM5_SSP370_run05"; source("00-global.R") ##
 
 runName = "RIA_CanESM5_SSP370_run01"; source("00-global.R") ##
 runName = "RIA_CanESM5_SSP370_run02"; source("00-global.R") ##
-runName = "RIA_CCSM4_RCP45_run03"; source("00-global.R")
-runName = "RIA_CCSM4_RCP45_run04"; source("00-global.R")
-runName = "RIA_CCSM4_RCP45_run05"; source("00-global.R")
+runName = "RIA_CanESM5_SSP370_run03"; source("00-global.R")
+runName = "RIA_CanESM5_SSP370_run04"; source("00-global.R")
+runName = "RIA_CanESM5_SSP370_run05"; source("00-global.R")
 
 ##### SSP 585
 
@@ -126,6 +126,6 @@ runName = "YT_CanESM5_SSP585_run05"; source("00-global.R") ##
 
 runName = "RIA_CanESM5_SSP585_run01"; source("00-global.R") ##
 runName = "RIA_CanESM5_SSP585_run02"; source("00-global.R") ##
-runName = "RIA_CCSM4_RCP45_run03"; source("00-global.R")
-runName = "RIA_CCSM4_RCP45_run04"; source("00-global.R")
-runName = "RIA_CCSM4_RCP45_run05"; source("00-global.R")
+runName = "RIA_CanESM5_SSP585_run03"; source("00-global.R")
+runName = "RIA_CanESM5_SSP585_run04"; source("00-global.R")
+runName = "RIA_CanESM5_SSP585_run05"; source("00-global.R")
