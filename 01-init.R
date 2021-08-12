@@ -33,5 +33,5 @@ if (!exists("runName")) {
   run <- as.numeric(substr(runName, nchar(runName) - 1, nchar(runName)))
 }
 
-firstRunMDCplots <- if (studyAreaName == "AB" | run != 1) FALSE else TRUE ## TODO: restore FALSE
+firstRunMDCplots <- if (run != 1) FALSE else TRUE
 firstRunSpreadFit <- FALSE

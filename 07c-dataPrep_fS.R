@@ -95,7 +95,8 @@ source("R/compareMDC.R") ## defines the compareMDC() function
 ggMDC <- compareMDC(historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
                     projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
                     flammableRTM = fSsimDataPrep$flammableRTM)
-fggMDC <- file.path(dataPrepPaths$outputPath, "figures", paste0("compareMDC_", studyAreaName, ".png"))
+fggMDC <- file.path(dataPrepPaths$outputPath, "figures", paste0("compareMDC_", studyAreaName, "_",
+                                                                "CanESM5_SSP_", climateSSP, ".png"))
 checkPath(dirname(fggMDC), create = TRUE)
 
 ggsave(plot = ggMDC, filename = fggMDC)
