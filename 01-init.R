@@ -29,6 +29,7 @@ useRequire <- config::get("userequire")
 if (!exists("runName")) {
   runName <- sprintf("%s_CanESM5_SSP%03d_run%02d", studyAreaName, climateSSP, run)
 } else {
+  climateSSP <- strsplit(runName, "_")[[1]][3] %>% substr(., 4, 6)
   studyAreaName <- strsplit(runName, "_")[[1]][1]
   run <- as.numeric(substr(runName, nchar(runName) - 1, nchar(runName)))
 }
