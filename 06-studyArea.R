@@ -8,6 +8,7 @@ preambleObjects <- list()
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
     ".useCache" = TRUE,
+    "climateSSP" = climateSSP,
     "historicalFireYears" = 1991:2020,
     "studyAreaName" = studyAreaName
   )
