@@ -43,3 +43,6 @@
 [submodule "studyAreas"]
 	path = studyAreas
 	url = https://github.com/PredictiveEcology/WBI_studyAreas
+[submodule "modules/Biomass_speciesParameters"]
+	path = modules/Biomass_speciesParameters
+	url = https://github.com/PredictiveEcology/Biomass_speciesParameters
