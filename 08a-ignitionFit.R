@@ -55,7 +55,7 @@ nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6) #56, 28 both hit
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     # .plotInitialTime = 1,
-    # .plots = 'png',
+    .plots = "png",
     cores = nCores,
     fireSense_ignitionFormula = form,
     lb = list(coef = 0,
