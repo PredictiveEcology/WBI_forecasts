@@ -3,6 +3,11 @@ Require::Require("googledrive")
 
 source("05-google-ids.R")
 
+file.move(
+  file.path("outputs", studyAreaName, "figures", "spreadFit_coeffs.png"),
+  file.path("outputs", studyAreaName, "figures", paste0("spreadFit_coeffs_", studyAreaName, ".png"))
+)
+
 filesToUpload <- c(
   paste0("fireSense_SpreadFit_veg_coeffs_", studyAreaName, ".txt"),
   paste0("figures/PCAcoeffLoadings_", studyAreaName, ".png"),
