@@ -6,6 +6,7 @@ Require::Require("config")
 
 cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
+climateGCM <- config::get("climategcm")
 climateSSP <- config::get("climatessp")
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
