@@ -93,7 +93,7 @@ if (isTRUE(usePrerun)) {
   }
 }
 
-source("R/compareMDC.R") ## defines the compareMDC() function
+stopifnot(packageVersion("fireSenseUtils") >= "0.0.4.9082") ## compareMDC() now in fireSenseUtils
 ggMDC <- compareMDC(historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
                     projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
                     flammableRTM = fSsimDataPrep$flammableRTM)
