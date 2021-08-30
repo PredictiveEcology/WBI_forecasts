@@ -32,8 +32,9 @@ if (!exists("runName")) {
 } else {
   chunks <- strsplit(runName, "_")[[1]]
   climateSSP <- substr(chunks[length(chunks) - 1], 4, 6)
-  studyAreaName <- strsplit(runName, "_")[[1]][1]
-  run <- as.numeric(substr(runName, nchar(runName) - 1, nchar(runName)))
+  climateGCM <- chunks[2]
+  studyAreaName <- chunks[1]
+  run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
 }
 
 firstRunMDCplots <- if (run != 1) FALSE else TRUE

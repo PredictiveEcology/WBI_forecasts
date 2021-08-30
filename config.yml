@@ -2,7 +2,7 @@ default:
   batchmode: false
   cachedb: "sqlite"
   cacheformat: "qs"
-  climategcm: "CanESM5" ## '13GCMs_ensemble', 'CanESM5'
+  climategcm: "13GCMs_ensemble" ## '13GCMs_ensemble', 'CanESM5'
   climatessp: 370 ## 245, 370, 585
   cloud:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
