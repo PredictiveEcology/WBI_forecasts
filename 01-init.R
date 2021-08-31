@@ -7,7 +7,7 @@ Require::Require("config")
 cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 climateGCM <- config::get("climategcm")
-climateSSP <- config::get("climatessp")
+climateSSP <- as.numeric(config::get("climatessp"))
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
 delayStart <- config::get("delaystart")
@@ -28,11 +28,11 @@ useRequire <- config::get("userequire")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 
 if (!exists("runName")) {
-  runName <- sprintf("%s_CanESM5_SSP%03d_run%02d", studyAreaName, climateSSP, run)
+  runName <- sprintf("%s_%s_SSP%03d_run%02d", studyAreaName, climateGCM, climateSSP, run)
 } else {
   chunks <- strsplit(runName, "_")[[1]]
   climateSSP <- substr(chunks[length(chunks) - 1], 4, 6)
-  climateGCM <- chunks[2]
+  climateGCM <- if (grepl("ensemble", runName)) paste0(chunks[2], "_", chunks[3]) else chunks[2]
   studyAreaName <- chunks[1]
   run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
 }

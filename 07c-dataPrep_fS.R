@@ -94,9 +94,11 @@ if (isTRUE(usePrerun)) {
 }
 
 stopifnot(packageVersion("fireSenseUtils") >= "0.0.4.9082") ## compareMDC() now in fireSenseUtils
-ggMDC <- compareMDC(historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
-                    projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
-                    flammableRTM = fSsimDataPrep$flammableRTM)
+ggMDC <- fireSenseUtils::compareMDC(
+  historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
+  projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
+  flammableRTM = fSsimDataPrep$flammableRTM
+)
 fggMDC <- file.path(dataPrepPaths$outputPath, "figures", paste0("compareMDC_", studyAreaName, "_",
                                                                 climateGCM, "_", climateSSP, ".png"))
 checkPath(dirname(fggMDC), create = TRUE)
