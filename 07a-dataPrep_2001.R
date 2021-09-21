@@ -26,6 +26,7 @@ dataPrepModules <- if (isTRUE(useLandR.CS)) {
 }
 
 dataPrepParams2001 <- list(
+  .globals = list("dataYear" = 2001),
   Biomass_borealDataPrep = list(
     # "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode + (1 | ecoregionGroup))),
     "biomassModel" = quote(lme4::lmer(B ~ logAge * speciesCode + cover * speciesCode +
@@ -48,7 +49,7 @@ dataPrepParams2001 <- list(
     ".useCache" = c(".inputObjects", "init")
   ),
   Biomass_speciesData = list(
-    "dataYear" = 2001,
+    #"dataYear" = 2001, ## passed globally
     "sppEquivCol" = simOutPreamble$sppEquivCol,
     "types" = "KNN",
     ".studyAreaName" = paste0(studyAreaName, 2001)

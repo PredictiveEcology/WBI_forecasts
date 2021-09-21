@@ -7,6 +7,7 @@ dataPrepParams2011 <- dataPrepParams2001
 dataPrepParams2011$Biomass_speciesData$types <- "KNN"
 dataPrepParams2011$Biomass_speciesData$dataYear <- 2011
 dataPrepParams2011$Biomass_speciesData$.studyAreaName <- paste0(studyAreaName, 2011)
+dataPrepParams2011$Biomass_borealDataPrep$dataYear <- 2011
 dataPrepParams2011$Biomass_borealDataPrep$.studyAreaName <- paste0(studyAreaName, 2011)
 
 dataPrepOutputs2011 <- data.frame(
