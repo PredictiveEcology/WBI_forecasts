@@ -20,6 +20,7 @@ scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
 if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined
 useCloudCache <- config::get("cloud")[["usecloud"]]
+useLandR.CS <- config::get("uselandrcs")
 useMemoise <- config::get("usememoise")
 usePlot <- config::get("plot")
 userInputPaths <- config::get("inputpaths")

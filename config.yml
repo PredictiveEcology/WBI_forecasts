@@ -20,6 +20,7 @@ default:
   reproduciblealgorithm: 2
   run: 1
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  uselandrcs: true
   usememoise: false
   useprerun: true
   userequire: true
@@ -27,7 +28,7 @@ default:
 production:
   batchmode: true
   codechecks: false
-  delaystart: !expr sample(5L:15L, 1) # 5-15 minute delay to stagger starts
+  delaystart: !expr sample(15L:45L, 1) # 15-45 minute delay to stagger starts
   plot: false
 
 alex:
