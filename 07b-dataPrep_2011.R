@@ -24,9 +24,6 @@ dataPrepOutputs2011 <- data.frame(
            "rawBiomassMap2011_borealDataPrep.rds") # Currently not needed
 )
 
-dataPrepObjects2011 <- dataPrepObjects
-dataPrepObjects2011$standAgeMap <- simOutPreamble$standAgeMap2011
-
 #dbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName)) %>%
 #  checkPath(create = TRUE)
 #abiomassMaps2011 <- paste0(dbiomassMaps2011, ".7z")
@@ -55,10 +52,10 @@ if (isTRUE(usePrerun)) {
     simInitAndSpades,
     times = list(start = 2011, end = 2011),
     params = dataPrepParams2011,
-    modules = list("Biomass_speciesData", "Biomass_borealDataPrep"),
-    objects = dataPrepObjects2011,
+    modules = dataPrepModules,
+    objects = dataPrepObjects,
     paths = getPaths(),
-    loadOrder = c("Biomass_speciesData", "Biomass_borealDataPrep"),
+    loadOrder = unlist(dataPrepModules),
     clearSimEnv = TRUE,
     # outputs = dataPrepOutputs2011,
     .plots = "png",
