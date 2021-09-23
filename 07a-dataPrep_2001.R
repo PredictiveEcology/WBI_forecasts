@@ -63,8 +63,7 @@ dataPrepParams2001 <- list(
     minimumPlotsPerGamm = 65,
     quantileAgeSubset = 98,
     sppEquivCol = simOutPreamble$sppEquivCol
-  )#,
-  #PSP_clean = list() ## use defaults for now
+  )
 )
 
 dataPrepOutputs2001 <- data.frame(
