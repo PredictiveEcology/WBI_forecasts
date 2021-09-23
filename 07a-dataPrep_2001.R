@@ -60,33 +60,9 @@ dataPrepParams2001 <- list(
     constrainMortalityShape = c(10, 25),
     GAMMiterations = 2,
     #GAMMknots[names(GAMMknots) %in% sppEquiv$LandR]
-    GAMMknots = list( ## TODO: only provide params for species that are in the study area
-      "Abie_bal" = 3,
-      "Abie_las" = 3,
-      "Betu_pap" = 3,
-      "Lari_lar" = 4,
-      "Pice_eng" = 4,
-      "Pice_gla" = 3,
-      "Pice_mar" = 4,
-      "Pinu_ban" = 3,
-      "Pinu_con" = 4,
-      "Popu_tre" = 4,
-      "Pseu_men" = 3 ## TODO: add Thuja for ON; need to eyeball the best knot value
-    ),
-    minimumPlotsPerGamm = 40,
-    quantileAgeSubset = list( ## TODO: only for spp in study area, per above
-      "Abie_bal" = 98,
-      "Abie_las" = 98,
-      "Betu_pap" = 95,
-      "Lari_lar" = 95,
-      "Pice_eng" = 97,
-      "Pice_gla" = 98,
-      "Pice_mar" = 95,
-      "Pinu_ban" = 98,
-      "Pinu_con" = 99,
-      "Popu_tre" = 98,
-      "Pseu_men" = 99
-    ),
+    GAMMknots = 3,
+    minimumPlotsPerGamm = 65,
+    quantileAgeSubset = 98,
     sppEquivCol = simOutPreamble$sppEquivCol
   )#,
   #PSP_clean = list() ## use defaults for now

@@ -59,3 +59,5 @@ if (isTRUE(usePrerun)) {
     }
   }
 }
+
+nSpecies <- length(unique(simOutPreamble$sppEquiv$LandR))
