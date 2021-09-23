@@ -15,7 +15,6 @@ dataPrepModules <- if (isTRUE(useLandR.CS)) {
   list(
     "Biomass_speciesData",
     "Biomass_borealDataPrep",
-    "PSP_Clean",
     "Biomass_speciesParameters"
   )
 } else {
