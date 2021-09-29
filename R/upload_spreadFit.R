@@ -8,13 +8,8 @@ file.move(
   file.path("outputs", studyAreaName, "figures", paste0("spreadFit_coeffs_", studyAreaName, ".png"))
 )
 
-file.move(
-  file.path("outputs", studyAreaName, "fireSense_SpreadFit_veg_coeffs.txt"),
-  file.path("outputs", studyAreaName, paste0("fireSense_SpreadFit_veg_coeffs_", studyAreaName, ".txt"))
-)
-
 filesToUpload <- c(
-  paste0("fireSense_SpreadFit_veg_coeffs_", studyAreaName, ".txt"),
+  list.files(file.path("outputs", studyAreaName, "fireSense_SpreadFit_veg_coeffs*[.]txt")), ## TODO: confirm
   paste0("figures/PCAcoeffLoadings_", studyAreaName, ".png"),
   paste0("figures/spreadFit_coeffs_", studyAreaName, ".png")
 )
