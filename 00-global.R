@@ -52,6 +52,8 @@ source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")
 
+message(crayon::red("Data prep", runName, "complete"))
+
 if (quickPlot::isRstudioServer()) {
   stop("fitting etc. done using clusters cannot be done from Rstudio.")
 }
