@@ -125,3 +125,7 @@ if (isTRUE(usePrerun)) {
     )
   }
 }
+
+if (isTRUE(firstRunSpreadFit)) {
+  source("R/upload_ignitionFit.R")
+}

@@ -15,6 +15,6 @@ filesToUpload <- c(
 )
 
 lapply(filesToUpload, function(f) {
-  retry(drive_upload(file.path("outputs", studyAreaName, f), as_id(gdriveSims[["results"]]), overwrite = TRUE),
+  retry(quote(drive_upload(file.path("outputs", studyAreaName, f), as_id(gdriveSims[["results"]]), overwrite = TRUE)),
         retries = 5, exponentialDecayBase = 2)
 })
