@@ -54,9 +54,6 @@ source("07c-dataPrep_fS.R")
 
 message(crayon::red("Data prep", runName, "complete"))
 
-if (quickPlot::isRstudioServer()) {
-  stop("fitting etc. done using clusters cannot be done from Rstudio.")
-}
 source("08a-ignitionFit.R")
 source("08b-escapeFit.R")
 source("08c-spreadFit.R")
