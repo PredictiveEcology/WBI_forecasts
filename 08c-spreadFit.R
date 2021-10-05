@@ -94,7 +94,6 @@ spreadFitParams <- list(
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    "useCloud_DE" = useCloudCache,
     ".plot" = if (isTRUE(firstRunSpreadFit)) TRUE else FALSE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
@@ -121,20 +120,11 @@ spreadFitObjects <- list(
   studyArea = fSsimDataPrep[["studyArea"]]
 )
 
-#add tags when it stabilizes
-
-#dspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName)) %>%
-#  checkPath(create = TRUE)
-#aspreadOut <- paste0(dspreadOut, ".7z")
 fspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
 if (isTRUE(usePrerun)) {
   if (!file.exists(fspreadOut)) {
     googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fspreadOut)
   }
-  #if (!dir.exists(dspreadOut) || length(list.files(dspreadOut)) == 0) {
-  #  googledrive::drive_download(file = as_id(gdriveSims[["spreadOutArchive"]]), path = aspreadOut)
-  #  archive::archive_extract(basename(aspreadOut), dirname(aspreadOut))
-  #}
   spreadOut <- loadSimList(fspreadOut)
 } else {
   spreadOut <- Cache(
@@ -148,23 +138,16 @@ if (isTRUE(usePrerun)) {
     #cloudFolderID = cloudCacheFolderID,
     userTags = c("fireSense_SpreadFit", studyAreaName)
   )
+  saveSimList(spreadOut, fspreadOut, fileBackend = 2)
+}
 
-  if (isTRUE(reupload)) {
-    saveSimList(
-      sim = spreadOut,
-      filename = fspreadOut,
-      #filebackedDir = dspreadOut,
-      fileBackend = 2
-    )
-    #archive::archive_write_dir(archive = aspreadOut, dir = dspreadOut)
-    if (isTRUE(newGoogleIDs)) {
-      googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
-      #googledrive::drive_put(media = aspreadOut, path = gdriveURL, name = basename(aspreadOut), verbose = TRUE)
-    } else {
-      googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
-      #googledrive::drive_update(file = as_id(gdriveSims[["spreadOutArchive"]]), media = aspreadOut)
-    }
+if (isTRUE(reupload)) {
+  if (isTRUE(newGoogleIDs)) {
+    googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
+  } else {
+    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
   }
+}
 
   if (requireNamespace("slackr") & file.exists("~/.slackr")) {
     slackr::slackr_setup()
@@ -178,3 +161,4 @@ if (isTRUE(usePrerun)) {
 if (isTRUE(firstRunSpreadFit)) {
   source("R/upload_spreadFit.R")
 }
+

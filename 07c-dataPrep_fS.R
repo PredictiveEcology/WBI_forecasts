@@ -69,14 +69,11 @@ if (isTRUE(usePrerun)) {
   saveSimList(fSsimDataPrep, ffSsimDataPrep, fileBackend = 2)
 }
 
-  if (isTRUE(reupload)) {
-    if (isTRUE(newGoogleIDs)) {
-      googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
-      #googledrive::drive_put(media = afSsimDataPrep, path = gdriveURL, name = basename(afSsimDataPrep), verbose = TRUE)
-    } else {
-      googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep"]]), media = ffSsimDataPrep)
-      #googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrepArchive"]]), media = afSsimDataPrep)
-    }
+if (isTRUE(reupload)) {
+  if (isTRUE(newGoogleIDs)) {
+    googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep), verbose = TRUE)
+  } else {
+    googledrive::drive_update(file = as_id(gdriveSims[["fSsimDataPrep"]]), media = ffSsimDataPrep)
   }
 }
 
