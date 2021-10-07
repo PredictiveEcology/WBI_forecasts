@@ -1,7 +1,7 @@
 do.call(setPaths, spreadFitPaths)
 
-source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["spreadOut"]] == ""
+gid_spreadOut <- gdriveSims[studyArea == studyAreaName & simObject == "spreadOut" & runID == run, gid]
+upload_spreadOut <- reupload | length(gid_spreadOut) == 0
 
 extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
@@ -43,8 +43,6 @@ cores <-  if (peutils::user("ieddy")) {
 } else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
     c(rep("localhost", 68), rep("forcast01.local", 32))
 } else if (peutils::user("emcintir")) {
-  # rep("localhost", 45)
-
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    #ipEnd = c(97, 189, 220, 106, 217),
                                    # ipEnd = c(97, 189, 220, 217),#, 106, 217, 213, 184),
@@ -121,9 +119,9 @@ spreadFitObjects <- list(
 )
 
 fspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
+if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
   if (!file.exists(fspreadOut)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["spreadOut"]]), path = fspreadOut)
+    googledrive::drive_download(file = as_id(gid_spreadOut), path = fspreadOut)
   }
   spreadOut <- loadSimList(fspreadOut)
 } else {
@@ -139,26 +137,24 @@ if (isTRUE(usePrerun)) {
     userTags = c("fireSense_SpreadFit", studyAreaName)
   )
   saveSimList(spreadOut, fspreadOut, fileBackend = 2)
-}
 
-if (isTRUE(reupload)) {
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["spreadOut"]]), media = fspreadOut)
+  if (isTRUE(upload_spreadOut)) {
+    fdf <- googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut))
+    gid_spreadOut <- fdf$id
+    rm(fdf)
+    gdriveSims <- update_googleids(
+      data.table(studyArea = studyAreaName, simObject = "spreadOut", run = run, gid = gid_spreadOut),
+      gdriveSims
+    )
   }
-}
+
+  source("R/upload_spreadFit.R")
 
   if (requireNamespace("slackr") & file.exists("~/.slackr")) {
     slackr::slackr_setup()
     slackr::slackr_msg(
-      paste0("`fireSense_SpreadFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
+      paste0("`fireSense_SpreadFit` for ", studyAreaName, " run ", run, " completed on host `", Sys.info()[["nodename"]], "`."),
       channel = config::get("slackchannel"), preformatted = FALSE
     )
   }
 }
-
-if (isTRUE(firstRunSpreadFit)) {
-  source("R/upload_spreadFit.R")
-}
-

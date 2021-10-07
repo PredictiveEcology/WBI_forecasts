@@ -17,6 +17,7 @@ default:
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
   reproduciblealgorithm: 2
+  reupload: false
   run: 1
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
   uselandrcs: true
@@ -41,6 +42,7 @@ alex:
   codechecks: false ## TODO: set false after all fixed
   paths:
     scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_forecasts" else "/tmp/scratch/WBI_forecasts"
+  reupload: !expr if (grepl("forcast02", Sys.info()[["nodename"]])) TRUE else FALSE
   slackchannel: "@alex.chubaty"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: !expr if (grepl("spades", Sys.info()[["nodename"]])) TRUE else FALSE

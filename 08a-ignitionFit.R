@@ -1,7 +1,7 @@
 do.call(setPaths, ignitionFitPaths)
 
-source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["ignitionOut"]] == ""
+gid_ignitionOut <- gdriveSims[studyArea == studyAreaName & simObject == "ignitionOut", gid]
+upload_ignitionOut <- reupload | length(gid_ignitionOut) == 0
 
 ## ub and lb have to be provided for now
 
@@ -71,14 +71,14 @@ ignitionFitParams <- list(
 )
 
 ignitionFitObjects <- list(
-  fireSense_ignitionCovariates = fSsimDataPrep[["fireSense_ignitionCovariates"]]",
+  fireSense_ignitionCovariates = fSsimDataPrep[["fireSense_ignitionCovariates"]],
   ignitionFitRTM = fSsimDataPrep[["ignitionFitRTM"]]
 )
 
 fignitionOut <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
+if (isTRUE(usePrerun) & isFALSE(upload_ignitionOut)) {
   if (!file.exists(fignitionOut)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["ignitionOut"]]), path = fignitionOut)
+    googledrive::drive_download(file = as_id(gid_ignitionOut), path = fignitionOut)
   }
   ignitionOut <- loadSimList(fignitionOut)
 } else {
@@ -94,24 +94,25 @@ if (isTRUE(usePrerun)) {
   )
   saveSimList(sim = ignitionOut, filename = fignitionOut, fileBackend = 2)
 
-  if (isTRUE(reupload)) {
-    if (isTRUE(newGoogleIDs)) {
-      googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut), verbose = TRUE)
-    } else {
-      googledrive::drive_update(file = as_id(gdriveSims[["ignitionOut"]]), media = fignitionOut)
-    }
+  if (isTRUE(upload_ignitionOut)) {
+    fdf <- googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut))
+    gid_ignitionOut <- fdf$id
+    rm(fdf)
+    gdriveSims <- update_googleids(
+      data.table(studyArea = studyAreaName, simObject = "ignitionOut", run = 0, gid = gid_ignitionOut),
+      gdriveSims
+    )
+  }
+
+  if (isTRUE(firstRunSpreadFit)) {
+    source("R/upload_ignitionFit.R")
+  }
+
+  if (requireNamespace("slackr") & file.exists("~/.slackr")) {
+    slackr::slackr_setup()
+    slackr::slackr_msg(
+      paste0("`fireSense_IgnitionFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
+      channel = config::get("slackchannel"), preformatted = FALSE
+    )
   }
 }
-
-if (isTRUE(firstRunSpreadFit)) {
-  source("R/upload_ignitionFit.R")
-}
-
-if (requireNamespace("slackr") & file.exists("~/.slackr")) {
-  slackr::slackr_setup()
-  slackr::slackr_msg(
-    paste0("`fireSense_IgnitionFit` for ", studyAreaName, " completed on host `", Sys.info()[["nodename"]], "`."),
-    channel = config::get("slackchannel"), preformatted = FALSE
-  )
-}
-

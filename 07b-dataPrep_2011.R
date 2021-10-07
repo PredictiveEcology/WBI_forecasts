@@ -1,7 +1,9 @@
 ## NOTE: 07a-dataPrep_2001.R needs to be run before this script
 
-source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["biomassMaps2011"]] == ""
+do.call(setPaths, dataPrepPaths)
+
+gid_biomassMaps2011 <- gdriveSims[studyArea == studyAreaName & simObject == "biomassMaps2011", gid]
+upload_biomassMaps2011 <- reupload | length(gid_biomassMaps2011) == 0
 
 year <- 2011
 
@@ -28,9 +30,9 @@ dataPrepOutputs2011 <- data.frame(
 )
 
 fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
+if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2011)) {
   if (!file.exists(fbiomassMaps2011)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2011"]]), path = fbiomassMaps2011)
+    googledrive::drive_download(file = as_id(gid_biomassMaps2011), path = fbiomassMaps2011)
   }
   biomassMaps2011 <- loadSimList(fbiomassMaps2011)
 
@@ -38,7 +40,7 @@ if (isTRUE(usePrerun)) {
   biomassMaps2011$cohortData <- as.data.table(biomassMaps2011$cohortData)
   biomassMaps2011$minRelativeB <- as.data.table(biomassMaps2011$minRelativeB)
   biomassMaps2011$pixelFateDT <- as.data.table(biomassMaps2011$pixelFateDT)
-  biomassMaps2011$species <- as.data.table(biomassMaps2001$species)
+  biomassMaps2011$species <- as.data.table(biomassMaps2011$species)
   biomassMaps2011$speciesEcoregion <- as.data.table(biomassMaps2011$speciesEcoregion)
   biomassMaps2011$sppEquiv <- as.data.table(biomassMaps2011$sppEquiv)
   biomassMaps2011$sufficientLight <- as.data.frame(biomassMaps2011$sufficientLight)
@@ -60,13 +62,15 @@ if (isTRUE(usePrerun)) {
     userTags = c("dataPrep2011", studyAreaName)
   )
   saveSimList(simOutBiomassMaps2011, fBiomassMaps2011, fileBackend = 2)
-}
 
-if (isTRUE(reupload)) {
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fbiomassMaps2011, path = gdriveURL, name = basename(fbiomassMaps2011), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2011"]]), media = fbiomassMaps2011)
+  if (isTRUE(upload_biomassMaps2011)) {
+    fdf <- googledrive::drive_put(media = fbiomassMaps2011, path = gdriveURL, name = basename(fbiomassMaps2011))
+    gid_biomassMaps2011 <- fdf$id
+    rm(fdf)
+    gdriveSims <- update_googleids(
+      data.table(studyArea = studyAreaName, simObject = "biomassMaps2011", run = 0, gid = gid_biomassMaps2011),
+      gdriveSims
+    )
   }
 }
 

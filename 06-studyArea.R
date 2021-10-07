@@ -1,7 +1,7 @@
 do.call(setPaths, preamblePaths)
 
-source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["simOutPreamble"]] == ""
+gid_preamble <- gdriveSims[studyArea == studyAreaName & simObject == "simOutPreamble", gid]
+upload_preamble <- reupload | length(gid_preamble) == 0
 
 preambleObjects <- list()
 
@@ -16,9 +16,9 @@ preambleParams <- list(
 )
 
 fsimOutPreamble <- simFile(paste0("simOutPreamble_", studyAreaName, "_", climateGCM, "_", climateSSP), Paths$outputPath, ext = "qs")
-if (isTRUE(usePrerun)) {
+if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   if (!file.exists(fsimOutPreamble)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["simOutPreamble"]]), path = fsimOutPreamble)
+    googledrive::drive_download(file = as_id(gid_preamble), path = fsimOutPreamble)
   }
   simOutPreamble <- loadSimList(fsimOutPreamble)
 } else {
@@ -33,20 +33,16 @@ if (isTRUE(usePrerun)) {
                           #cloudFolderID = cloudCacheFolderID,
                           userTags = c("WBI_dataPrep_studyArea", studyAreaName)
   )
+  saveSimList(sim = simOutPreamble, filename = fsimOutPreamble, fileBackend = 2)
 
-  saveSimList(
-    sim = simOutPreamble,
-    filename = fsimOutPreamble,
-    #filebackedDir = dsimOutPreamble,
-    fileBackend = 2 ## 0 = no change; 1 = copy rasters to fileBackedDir; 2 = rasters to memory
-  )
-
-  if (isTRUE(reupload)) {
-    if (isTRUE(newGoogleIDs)) {
-      googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble), verbose = TRUE)
-    } else {
-      googledrive::drive_update(file = as_id(gdriveSims[["simOutPreamble"]]), media = fsimOutPreamble)
-    }
+  if (isTRUE(upload_preamble)) {
+    fdf <- googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble))
+    gid_preamble <- fdf$id
+    rm(fdf)
+    gdriveSims <- update_googleids(
+      data.table(studyArea = studyAreaName, simObject = "simOutPreamble", run = 0, gid = gid_preamble),
+      gdriveSims
+    )
   }
 }
 

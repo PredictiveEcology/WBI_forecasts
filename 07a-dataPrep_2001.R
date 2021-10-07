@@ -1,8 +1,7 @@
-#this script will run Biomass_borealDataPrep + Biomass_speciesData twice, to generate some objects for fitting
 do.call(setPaths, dataPrepPaths)
 
-source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["biomassMaps2001"]] == ""
+gid_biomassMaps2001 <- gdriveSims[studyArea == studyAreaName & simObject == "biomassMaps2001", gid]
+upload_biomassMaps2001 <- reupload | length(gid_biomassMaps2001) == 0
 
 year <- 2001
 
@@ -95,9 +94,9 @@ dataPrepObjects <- list(
 )
 
 fbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
+if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2001)) {
   if (!file.exists(fbiomassMaps2001)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2001"]]), path = fbiomassMaps2001)
+    googledrive::drive_download(file = as_id(gid_biomassMaps2001), path = fbiomassMaps2001)
   }
   biomassMaps2001 <- loadSimList(fbiomassMaps2001)
 } else {
@@ -116,12 +115,14 @@ if (isTRUE(usePrerun)) {
     userTags = c("dataPrep2001", studyAreaName)
   )
   saveSimList(simOutBiomassMaps2001, fBiomassMaps2001, fileBackend = 2)
-}
 
-if (isTRUE(reupload)) {
-  if (isTRUE(newGoogleIDs)) {
-    googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
-  } else {
-    googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fbiomassMaps2001)
+  if (isTRUE(upload_biomassMaps2001)) {
+    fdf <- googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001))
+    gid_biomassMaps2001 <- fdf$id
+    rm(fdf)
+    gdriveSims <- update_googleids(
+      data.table(studyArea = studyAreaName, simObject = "biomassMaps2001", run = 0, gid = gid_biomassMaps2001),
+      gdriveSims
+    )
   }
 }

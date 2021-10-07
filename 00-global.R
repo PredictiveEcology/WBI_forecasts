@@ -39,7 +39,7 @@ source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")
 source("04-options.R")
-#source("05-google-ids.R") ## gets sourced at top of each script 06, 07x, 08x
+source("05-google-ids.R")
 
 if (delayStart > 0) {
   message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))

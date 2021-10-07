@@ -1,5 +1,7 @@
 do.call(setPaths, dynamicPaths)
 
+gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", gid]
+
 times <- list(start = 2011, end = 2100)
 
 dynamicModules <- list("fireSense_dataPrepPredict",
@@ -142,18 +144,13 @@ mainSim <- simInitAndSpades(
   paths = dynamicPaths
 )
 
-saveSimList(
-  sim = mainSim,
-  filename = fsim,
-  #filebackedDir = dfSsimDataPrep,
-  fileBackend = 2
-)
-#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+saveSimList(sim = mainSim, filename = fsim, fileBackend = 2)
 
 resultsDir <- file.path("outputs", runName)
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
-utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
-retry(quote(drive_upload(paste0(resultsDir, ".tar.gz"), as_id(gdriveSims[["results"]]), overwrite = TRUE)),
+utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip") ## TODO: use archive pkg
+
+retry(quote(drive_put(paste0(resultsDir, ".tar.gz"), as_id(gid_results))),
       retries = 5, exponentialDecayBase = 2)
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
