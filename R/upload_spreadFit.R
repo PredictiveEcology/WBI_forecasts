@@ -10,8 +10,7 @@ file.move(
 
 filesToUpload <- c(
   list.files(file.path("outputs", studyAreaName),
-             pattern = paste0("^fireSense_SpreadFit_veg_coeffs_", studyAreaName, "_", climateGCM,
-                              "_", climateSSP, "[.]txt$")),
+             pattern = paste0("^fireSense_SpreadFit_veg_coeffs_", studyAreaName, "[.]txt$")),
   paste0("figures/PCAcoeffLoadings_", studyAreaName, ".png"),
   paste0("figures/spreadFit_coeffs_", studyAreaName, ".png")
 )
