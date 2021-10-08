@@ -69,7 +69,7 @@ if (isTRUE(usePrerun) & isFALSE(upload_fSsimDataPrep)) {
   )
   saveSimList(fSsimDataPrep, ffSsimDataPrep, fileBackend = 2)
 
-  if (isTRUE(upload_fsDataPrep)) {
+  if (isTRUE(fSsimDataPrep)) {
     fdf <- googledrive::drive_put(media = ffSsimDataPrep, path = gdriveURL, name = basename(ffSsimDataPrep))
     gid_fSsimDataPrep <- as.character(fdf$id)
     rm(fdf)
