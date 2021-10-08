@@ -79,7 +79,7 @@ spreadFitParams <- list(
     "iterThresh" = 396L,
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = if (isTRUE(firstRunSpreadFit)) c("fit", "visualize") else "fit", ## combo of "debug", "fit", "visualize"
+    "mode" = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
@@ -92,7 +92,7 @@ spreadFitParams <- list(
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    ".plot" = if (isTRUE(firstRunSpreadFit)) TRUE else FALSE,
+    ".plot" = TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
@@ -153,8 +153,10 @@ if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
   if (requireNamespace("slackr") & file.exists("~/.slackr")) {
     slackr::slackr_setup()
     slackr::slackr_msg(
-      paste0("`fireSense_SpreadFit` for ", studyAreaName, " run ", run, " completed on host `", Sys.info()[["nodename"]], "`."),
+      paste0("`fireSense_SpreadFit` for `", runName, "` completed on host `", Sys.info()[["nodename"]], "`."),
       channel = config::get("slackchannel"), preformatted = FALSE
     )
   }
 }
+
+

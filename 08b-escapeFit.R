@@ -35,8 +35,9 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
     gid_escapeOut <- fdf$id
     rm(fdf)
     gdriveSims <- update_googleids(
-      data.table(studyArea = studyAreaName, simObject = "escapeOut", run = 0, gid = gid_escapeOut),
+      data.table(studyArea = studyAreaName, simObject = "escapeOut", run = NA, gid = gid_escapeOut),
       gdriveSims
     )
   }
 }
+

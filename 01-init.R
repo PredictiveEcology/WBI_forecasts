@@ -38,5 +38,5 @@ if (!exists("runName")) {
   run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
 }
 
-firstRunMDCplots <- if (run != 1) FALSE else TRUE
-firstRunSpreadFit <- FALSE
+firstRunMDCplots <- if (run == 1) TRUE else FALSE
+firstRunIgnitionFit <- if (run == 1) TRUE else FALSE

@@ -121,7 +121,7 @@ if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2001)) {
     gid_biomassMaps2001 <- fdf$id
     rm(fdf)
     gdriveSims <- update_googleids(
-      data.table(studyArea = studyAreaName, simObject = "biomassMaps2001", run = 0, gid = gid_biomassMaps2001),
+      data.table(studyArea = studyAreaName, simObject = "biomassMaps2001", run = NA, gid = gid_biomassMaps2001),
       gdriveSims
     )
   }

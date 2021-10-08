@@ -1,9 +1,12 @@
 do.call(setPaths, preamblePaths)
 
-gid_preamble <- gdriveSims[studyArea == studyAreaName & simObject == "simOutPreamble", gid]
+gid_preamble <- gdriveSims[studyArea == studyAreaName & simObject == "simOutPreamble" &
+                             gcm == climateGCM & ssp == climateSSP, gid]
 upload_preamble <- reupload | length(gid_preamble) == 0
 
-preambleObjects <- list()
+preambleObjects <- list(
+  .runName = runName
+)
 
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
@@ -40,7 +43,8 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
     gid_preamble <- fdf$id
     rm(fdf)
     gdriveSims <- update_googleids(
-      data.table(studyArea = studyAreaName, simObject = "simOutPreamble", run = 0, gid = gid_preamble),
+      data.table(studyArea = studyAreaName, simObject = "simOutPreamble", run = NA,
+                 gcm = climateGCM, ssp = climateSSP, gid = gid_preamble),
       gdriveSims
     )
   }

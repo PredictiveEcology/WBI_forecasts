@@ -99,12 +99,12 @@ if (isTRUE(usePrerun) & isFALSE(upload_ignitionOut)) {
     gid_ignitionOut <- fdf$id
     rm(fdf)
     gdriveSims <- update_googleids(
-      data.table(studyArea = studyAreaName, simObject = "ignitionOut", run = 0, gid = gid_ignitionOut),
+      data.table(studyArea = studyAreaName, simObject = "ignitionOut", run = NA, gid = gid_ignitionOut),
       gdriveSims
     )
   }
 
-  if (isTRUE(firstRunSpreadFit)) {
+  if (isTRUE(firstRunIgnitionFit)) {
     source("R/upload_ignitionFit.R")
   }
 
@@ -116,3 +116,4 @@ if (isTRUE(usePrerun) & isFALSE(upload_ignitionOut)) {
     )
   }
 }
+

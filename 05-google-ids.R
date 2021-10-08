@@ -6,8 +6,8 @@ gdriveSims <- data.table::fread("05-google-ids.csv")
 
 lvls <- c("simOutPreamble", "biomassMaps2001", "biomassMaps2011", "fSsimDataPrep",
           "ignitionOut", "escapeOut", "spreadOut", "results")
-set(gdriveSims, NULL, "simObject", factor(gdriveSims$simObject, levels = lvls))
-setkeyv(gdriveSims, c("studyArea", "simObject", "runID"))
+data.table::set(gdriveSims, NULL, "simObject", factor(gdriveSims$simObject, levels = lvls))
+data.table::setkeyv(gdriveSims, c("studyArea", "simObject", "runID", "gcm", "ssp"))
 
 update_googleids <- function(x, gdriveSims) {
   gdriveSims_updated <- rbind(gdriveSims, x)

@@ -18,6 +18,7 @@ fSdataPrepParams <- list(
 
 simOutPreamble$rasterToMatch <- raster::mask(simOutPreamble$rasterToMatch, simOutPreamble$studyArea)
 fSdataPrepObjects <- list(
+  .runName = runName,
   cohortData2001 = biomassMaps2001[["cohortData"]],
   cohortData2011 = biomassMaps2011[["cohortData"]],
   historicalClimateRasters = simOutPreamble[["historicalClimateRasters"]],
@@ -73,7 +74,7 @@ if (isTRUE(usePrerun) & isFALSE(upload_fSsimDataPrep)) {
     gid_fSsimDataPrep <- fdf$id
     rm(fdf)
     gdriveSims <- update_googleids(
-      data.table(studyArea = studyAreaName, simObject = "fSsimDataPrep", run = 0, gid = gid_fSsimDataPrep),
+      data.table(studyArea = studyAreaName, simObject = "fSsimDataPrep", run = NA, gid = gid_fSsimDataPrep),
       gdriveSims
     )
   }

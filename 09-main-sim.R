@@ -12,6 +12,7 @@ dynamicModules <- list("fireSense_dataPrepPredict",
                        "Biomass_core",
                        "Biomass_regeneration")
 
+## TODO: remove as.data.table where appropriate
 dynamicObjects <- list(
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
@@ -37,7 +38,7 @@ dynamicObjects <- list(
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
   sppColorVect = biomassMaps2011[["sppColorVect"]],
-  sppEquiv = fSsimDataPrep[["sppEquiv"]], ## biomassMaps2011 needs bugfix to qs
+  sppEquiv = fSsimDataPrep[["sppEquiv"]],
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
   studyAreaReporting = biomassMaps2011[["studyAreaReporting"]],
@@ -125,10 +126,10 @@ dynamicParams <- list(
     # "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2 #deprecated
   ),
   fireSense = list(
-    "plotIgnitions" = FALSE,
-    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
-    ".plotInterval" = NA,
-    ".plotInitialTime" = .plotInitialTime
+    .plotInterval = NA,
+    .plotInitialTime = .plotInitialTime,
+    plotIgnitions = FALSE,
+    whichModulesToPrepare = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
   )
 )
 
