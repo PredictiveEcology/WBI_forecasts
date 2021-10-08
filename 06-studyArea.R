@@ -40,10 +40,10 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
 
   if (isTRUE(upload_preamble)) {
     fdf <- googledrive::drive_put(media = fsimOutPreamble, path = gdriveURL, name = basename(fsimOutPreamble))
-    gid_preamble <- fdf$id
+    gid_preamble <- as.character(fdf$id)
     rm(fdf)
     gdriveSims <- update_googleids(
-      data.table(studyArea = studyAreaName, simObject = "simOutPreamble", run = NA,
+      data.table(studyArea = studyAreaName, simObject = "simOutPreamble", runID = NA,
                  gcm = climateGCM, ssp = climateSSP, gid = gid_preamble),
       gdriveSims
     )
