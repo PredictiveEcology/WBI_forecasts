@@ -1,5 +1,7 @@
 do.call(setPaths, dynamicPaths)
 
+gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", gid]
+
 times <- list(start = 2011, end = 2100)
 
 dynamicModules <- list("fireSense_dataPrepPredict",
@@ -10,6 +12,7 @@ dynamicModules <- list("fireSense_dataPrepPredict",
                        "Biomass_core",
                        "Biomass_regeneration")
 
+## TODO: remove as.data.table where appropriate
 dynamicObjects <- list(
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
@@ -35,7 +38,7 @@ dynamicObjects <- list(
   speciesEcoregion = as.data.table(biomassMaps2011[["speciesEcoregion"]]), ## biomassMaps2011 needs bugfix to qs
   speciesLayers = biomassMaps2011[["speciesLayers"]], ## TODO: does Biomass_core actually need this?
   sppColorVect = biomassMaps2011[["sppColorVect"]],
-  sppEquiv = fSsimDataPrep[["sppEquiv"]], ## biomassMaps2011 needs bugfix to qs
+  sppEquiv = fSsimDataPrep[["sppEquiv"]],
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
   studyAreaReporting = biomassMaps2011[["studyAreaReporting"]],
@@ -123,10 +126,10 @@ dynamicParams <- list(
     # "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2 #deprecated
   ),
   fireSense = list(
-    "plotIgnitions" = FALSE,
-    "whichModulesToPrepare" = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
-    ".plotInterval" = NA,
-    ".plotInitialTime" = .plotInitialTime
+    .plotInterval = NA,
+    .plotInitialTime = .plotInitialTime,
+    plotIgnitions = FALSE,
+    whichModulesToPrepare = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict"),
   )
 )
 
@@ -142,18 +145,13 @@ mainSim <- simInitAndSpades(
   paths = dynamicPaths
 )
 
-saveSimList(
-  sim = mainSim,
-  filename = fsim,
-  #filebackedDir = dfSsimDataPrep,
-  fileBackend = 2
-)
-#archive::archive_write_dir(archive = afSsimDataPrep, dir = dfSsimDataPrep)
+saveSimList(sim = mainSim, filename = fsim, fileBackend = 2)
 
 resultsDir <- file.path("outputs", runName)
 #archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
-utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip")
-retry(quote(drive_upload(paste0(resultsDir, ".tar.gz"), as_id(gdriveSims[["results"]]), overwrite = TRUE)),
+utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip") ## TODO: use archive pkg
+
+retry(quote(drive_put(paste0(resultsDir, ".tar.gz"), as_id(gid_results))),
       retries = 5, exponentialDecayBase = 2)
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))

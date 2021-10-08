@@ -14,7 +14,7 @@ delayStart <- config::get("delaystart")
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
-reupload <- FALSE
+reupload <- config::get("reupload")
 run <- config::get("run")
 scratchDir <- config::get("paths")[["scratchdir"]]
 studyAreaName <- config::get("studyarea")
@@ -38,5 +38,5 @@ if (!exists("runName")) {
   run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
 }
 
-firstRunMDCplots <- if (run != 1) FALSE else TRUE
-firstRunSpreadFit <- FALSE
+firstRunMDCplots <- if (run == 1) TRUE else FALSE
+firstRunIgnitionFit <- if (run == 1) TRUE else FALSE

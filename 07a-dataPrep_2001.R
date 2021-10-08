@@ -1,8 +1,9 @@
-#this script will run Biomass_borealDataPrep + Biomass_speciesData twice, to generate some objects for fitting
 do.call(setPaths, dataPrepPaths)
 
-source("05-google-ids.R")
-newGoogleIDs <- gdriveSims[["biomassMaps2001"]] == ""
+gid_biomassMaps2001 <- gdriveSims[studyArea == studyAreaName & simObject == "biomassMaps2001", gid]
+upload_biomassMaps2001 <- reupload | length(gid_biomassMaps2001) == 0
+
+year <- 2001
 
 dataPrep <- list(
   subsetDataBiomassModel = 50,
@@ -72,7 +73,7 @@ dataPrepOutputs2001 <- data.frame(
                  "speciesLayers",
                  "standAgeMap",
                  "rawBiomassMap"),
-  saveTime = 2001,
+  saveTime = year,
   file = paste0(studyAreaName, "_",
                 c("cohortData2001_fireSense.rds",
                   "pixelGroupMap2001_fireSense.rds",
@@ -81,31 +82,27 @@ dataPrepOutputs2001 <- data.frame(
                   "rawBiomassMap2001_borealDataPrep.rds"))
 )
 
-dataPrepObjects <- list("rasterToMatch" = simOutPreamble$rasterToMatch,
-                        "rasterToMatchLarge" = simOutPreamble$rasterToMatchLarge,
-                        "sppColorVect" = simOutPreamble$sppColorVect,
-                        "sppEquiv" = simOutPreamble$sppEquiv,
-                        "studyArea" = simOutPreamble$studyArea,
-                        "studyAreaLarge" = simOutPreamble$studyAreaLarge,
-                        "studyAreaReporting" = simOutPreamble$studyAreaReporting)
+dataPrepObjects <- list(
+  .runName = runName,
+  rasterToMatch = simOutPreamble[["rasterToMatch"]],
+  rasterToMatchLarge = simOutPreamble[["rasterToMatchLarge"]],
+  sppColorVect = simOutPreamble[["sppColorVect"]],
+  sppEquiv = simOutPreamble[["sppEquiv"]],
+  studyArea = simOutPreamble[["studyArea"]],
+  studyAreaLarge = simOutPreamble[["studyAreaLarge"]],
+  studyAreaReporting = simOutPreamble[["studyAreaReporting"]]
+)
 
-#dbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName)) %>%
-#  checkPath(create = TRUE)
-#abiomassMaps2001 <- paste0(dbiomassMaps2001, ".7z")
 fbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName, ".qs"))
-if (isTRUE(usePrerun)) {
+if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2001)) {
   if (!file.exists(fbiomassMaps2001)) {
-    googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2001"]]), path = fbiomassMaps2001)
+    googledrive::drive_download(file = as_id(gid_biomassMaps2001), path = fbiomassMaps2001)
   }
-  #if (!dir.exists(dbiomassMaps2001) || length(list.files(dbiomassMaps2001)) == 0) {
-  #  googledrive::drive_download(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), path = abiomassMaps2001)
-  #  archive::archive_extract(basename(abiomassMaps2001), dirname(abiomassMaps2001))
-  #}
   biomassMaps2001 <- loadSimList(fbiomassMaps2001)
 } else {
   biomassMaps2001 <- Cache(
     simInitAndSpades,
-    times = list(start = 2001, end = 2001),
+    times = list(start = year, end = year),
     params = dataPrepParams2001,
     modules = dataPrepModules,
     objects = dataPrepObjects,
@@ -117,22 +114,15 @@ if (isTRUE(usePrerun)) {
     cloudFolderID = cloudCacheFolderID,
     userTags = c("dataPrep2001", studyAreaName)
   )
+  saveSimList(simOutBiomassMaps2001, fBiomassMaps2001, fileBackend = 2)
 
-  if (isTRUE(reupload)) {
-    saveSimList(
-      sim = biomassMaps2001,
-      filename = fbiomassMaps2001,
-      #filebackedDir = dbiomassMaps2001,
-      fileBackend = 2
+  if (isTRUE(upload_biomassMaps2001)) {
+    fdf <- googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001))
+    gid_biomassMaps2001 <- fdf$id
+    rm(fdf)
+    gdriveSims <- update_googleids(
+      data.table(studyArea = studyAreaName, simObject = "biomassMaps2001", run = NA, gid = gid_biomassMaps2001),
+      gdriveSims
     )
-    #archive::archive_write_dir(archive = abiomassMaps2001, dir = dbiomassMaps2001)
-
-    if (isTRUE(newGoogleIDs)) {
-      googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001), verbose = TRUE)
-      #googledrive::drive_put(media = abiomassMaps2001, path = gdriveURL, name = basename(abiomassMaps2001), verbose = TRUE)
-    } else {
-      googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001"]]), media = fbiomassMaps2001)
-      #googledrive::drive_update(file = as_id(gdriveSims[["biomassMaps2001Archive"]]), media = abiomassMaps2001)
-    }
   }
 }
