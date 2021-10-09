@@ -114,7 +114,7 @@ if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2001)) {
     cloudFolderID = cloudCacheFolderID,
     userTags = c("dataPrep2001", studyAreaName)
   )
-  saveSimList(biomassMaps2001, fBiomassMaps2001, fileBackend = 2)
+  saveSimList(biomassMaps2001, fbiomassMaps2001, fileBackend = 2)
 
   if (isTRUE(upload_biomassMaps2001)) {
     fdf <- googledrive::drive_put(media = fbiomassMaps2001, path = gdriveURL, name = basename(fbiomassMaps2001))
