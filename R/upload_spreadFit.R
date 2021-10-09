@@ -10,7 +10,7 @@ file.move(
 
 file.move(
   file.path("outputs", studyAreaName, paste0("fireSense_SpreadFit_veg_coeffs_", studyAreaName, ".txt")),
-  file.path("outputs", studyAreaName, "figures", sprintf("fireSense_SpreadFit_veg_coeffs_%s_run_%02d.txt", studyAreaName, run))
+  file.path("outputs", studyAreaName, sprintf("fireSense_SpreadFit_veg_coeffs_%s_run_%02d.txt", studyAreaName, run))
 )
 
 filesToUpload <- c(
