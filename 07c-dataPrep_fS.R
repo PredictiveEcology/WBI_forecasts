@@ -92,7 +92,7 @@ if (isTRUE(firstRunMDCplots)) {
                                                                   climateGCM, "_", climateSSP, ".png"))
   checkPath(dirname(fggMDC), create = TRUE)
 
-  ggsave(plot = ggMDC, filename = fggMDC)
+  ggplot2::ggsave(plot = ggMDC, filename = fggMDC)
 
   googledrive::drive_put(
     media = fggMDC,
