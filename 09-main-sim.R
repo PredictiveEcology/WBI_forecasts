@@ -44,6 +44,7 @@ dynamicObjects <- list(
   sppEquiv = fSsimDataPrep[["sppEquiv"]],
   studyArea = biomassMaps2011[["studyArea"]],
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
+  studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
   studyAreaReporting = biomassMaps2011[["studyAreaReporting"]],
   sufficientLight = as.data.frame(biomassMaps2011[["sufficientLight"]]), ## biomassMaps2011 needs bugfix to qs
   terrainDT = fSsimDataPrep[["terrainDT"]],
