@@ -24,7 +24,7 @@ fSdataPrepObjects <- list(
   historicalClimateRasters = simOutPreamble[["historicalClimateRasters"]],
   pixelGroupMap2001 = biomassMaps2001[["pixelGroupMap"]],
   pixelGroupMap2011 = biomassMaps2011[["pixelGroupMap"]],
-  rasterToMatch = simOutPreamble[["rasterToMatch"]], #this needs to be masked
+  rasterToMatch = simOutPreamble[["rasterToMatch"]], ## this needs to be masked
   rstLCC = biomassMaps2011[["rstLCC"]],
   sppEquiv = as.data.table(simOutPreamble[["sppEquiv"]]),
   standAgeMap2001 = biomassMaps2001[["standAgeMap"]],
@@ -96,7 +96,7 @@ if (isTRUE(firstRunMDCplots)) {
 
   googledrive::drive_put(
     media = fggMDC,
-    path = as_id(gdriveSims[studyArea == studyAreaName & simObject == "results", gid]),
+    path = unique(as_id(gdriveSims[studyArea == studyAreaName & simObject == "results", gid])),
     name = basename(fggMDC)
   )
 }
