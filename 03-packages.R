@@ -1,10 +1,22 @@
+if (FALSE) {
+  install.packages(
+    c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra"),
+    #c("lwgeom", "rgdal", "rgeos", "sf", "sp"), ## terra & raster conflicts require devel versions
+    repos = "https://cran.rstudio.com"
+  )
+  #install.packages(c("raster", "terra"), repos = "https://rspatial.r-universe.dev")
+  sf::sf_extSoftVersion() ## want GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
+}
+
 Require(c("data.table", "plyr", "pryr")) ## ensure plyr loaded before dplyr or there will be problems
 Require("PredictiveEcology/SpaDES.install (>= 0.0.4)")
-Require("PredictiveEcology/SpaDES.core@development (>= 1.0.6.9023)",
+Require("PredictiveEcology/SpaDES.core@development (>= 1.0.8.9014)",
         which = c("Suggests", "Imports", "Depends"), upgrade = FALSE) # need Suggests in SpaDES.core
 Require("PredictiveEcology/SpaDES.project@development", require = FALSE)
 
-Require("achubaty/amc (>= 0.2.0)", require = FALSE, which = c("Suggests", "Imports", "Depends"))
 Require(c("archive", "slackr"), upgrade = FALSE)
+Require("PredictiveEcology/fireSenseUtils@development (>= 0.0.4.9052)", require = FALSE) ## force pemisc and others to be installed correctly
+
+Require("achubaty/amc (>= 0.2.0)", require = FALSE, which = c("Suggests", "Imports", "Depends"))
 
 out <- makeSureAllPackagesInstalled(modulePath = "modules")
