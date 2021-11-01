@@ -27,7 +27,8 @@ localHostEndIp <- as.numeric(gsub("spades", "", system("hostname", intern = TRUE
 if (is.na(localHostEndIp)) {
   localHostEndIp <- switch(peutils::user(),
                            "ieddy" = 97,
-                           "emcintir" = 189)
+                           "emcintir" = 189,
+                           "achubaty" = 220)
 }
 
 cores <-  if (peutils::user("ieddy")) {
@@ -40,8 +41,20 @@ cores <-  if (peutils::user("ieddy")) {
                                    nProcess = length(lower),
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
-} else if (peutils::user("achubaty") && Sys.info()["nodename"] == "forcast02") {
-    c(rep("localhost", 68), rep("forcast01.local", 32))
+} else if (peutils::user("achubaty")) {
+  if (Sys.info()["nodename"] == "picea.for-cast.ca") {
+    c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+  } else if (grepl("spades", Sys.info()["nodename"])) {
+    pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
+                                     ipEnd = c(106, 217, 213, 220),
+                                     availableCores = c(15, 25, 40, 40),
+                                     availableRAM = c(250, 250, 500, 500),
+                                     localHostEndIp = localHostEndIp,
+                                     proc = "cores",
+                                     nProcess = length(lower),
+                                     internalProcesses = 10,
+                                     sizeGbEachProcess = 1)
+  }
 } else if (peutils::user("emcintir")) {
   pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                    #ipEnd = c(97, 189, 220, 106, 217),
