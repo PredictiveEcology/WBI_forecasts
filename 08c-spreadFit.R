@@ -138,16 +138,16 @@ if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
   }
   spreadOut <- loadSimList(fspreadOut)
 } else {
-  spreadOut <- Cache(
-    simInitAndSpades,
+  spreadOut <- #Cache(
+    simInitAndSpades(#),
     times = list(start = 0, end = 1),
     params = spreadFitParams,
     modules = "fireSense_SpreadFit",
     paths = spreadFitPaths,
-    objects = spreadFitObjects,
+    objects = spreadFitObjects#,
     #useCloud = useCloudCache,
     #cloudFolderID = cloudCacheFolderID,
-    userTags = c("fireSense_SpreadFit", studyAreaName)
+    #userTags = c("fireSense_SpreadFit", studyAreaName, run)
   )
   saveSimList(spreadOut, fspreadOut, fileBackend = 2)
 

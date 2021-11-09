@@ -13,6 +13,7 @@ codeChecks <- config::get("codechecks")
 delayStart <- config::get("delaystart")
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
+nReps <- config::get("nreps")
 reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 reupload <- config::get("reupload")
 run <- config::get("run")
