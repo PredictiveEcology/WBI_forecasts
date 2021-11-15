@@ -7,7 +7,7 @@ extremeVals <- 4
 lowerParamsNonAnnual <- rep(-extremeVals, times = ncol(fSsimDataPrep$fireSense_nonAnnualSpreadFitCovariates[[1]]) - 1)
 lowerParamsAnnual <- c(-extremeVals, -extremeVals)
 upperParamsNonAnnual <- rep(extremeVals, times = length(lowerParamsNonAnnual))
-upperParamsAnnual <- c(extremeVals, extremeVals)
+upperParamsAnnual <- c(0, extremeVals) ## youngAge <= 0
 lowerParams <- c(lowerParamsAnnual, lowerParamsNonAnnual)
 upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 
@@ -18,7 +18,7 @@ upperParams <- c(upperParamsAnnual, upperParamsNonAnnual)
 # upper <- c(0.29, 10, 10, upperParams)
 
 lower <- c(0.25, 0.2, 0.1, lowerParams)
-upper <- c(0.286, 2, 4, upperParams)
+upper <- c(0.276, 2, 4, upperParams)
 dfT <- cbind(c("lower", "upper"), t(data.frame(lower, upper)))
 message("Upper and Lower parameter bounds are:")
 Require:::messageDF(dfT)
