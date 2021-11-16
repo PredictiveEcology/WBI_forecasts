@@ -79,6 +79,8 @@ if (isTRUE(usePrerun) & isFALSE(upload_fSsimDataPrep)) {
       gdriveSims
     )
   }
+
+  source("R/upload_spreadFit_coeffs.R")
 }
 
 if (isTRUE(firstRunMDCplots)) {
