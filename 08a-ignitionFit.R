@@ -51,7 +51,7 @@ if (studyAreaName == "AB") {
   form <- fSsimDataPrep[["fireSense_ignitionFormula"]]
 }
 
-nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6) #56, 28 both hit errors
+nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     # .plotInitialTime = 1,
@@ -60,11 +60,11 @@ ignitionFitParams <- list(
     fireSense_ignitionFormula = form,
     ## if using binomial need to pass theta to lb and ub
     lb = list(coef = 0,
-              knots = list('MDC' = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
-                                                  probs = 0.05), digits = 0))),
+              knots = list(MDC = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
+                                                probs = 0.05), digits = 0))),
     ub = list(coef = 20,
-              knots = list('MDC' = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
-                                                  probs = 0.8), digits = 0))),
+              knots = list(MDC = round(quantile(fSsimDataPrep$fireSense_ignitionCovariates$MDC,
+                                                probs = 0.8), digits = 0))),
     family = quote(MASS::negative.binomial(theta = 1, link = "identity")),
     iterDEoptim = 300
   )
