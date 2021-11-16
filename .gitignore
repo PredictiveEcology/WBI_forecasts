@@ -1,10 +1,10 @@
+# R and Rstudio files
 .Rhistory
 .Rapp.history
 .RData
 .Ruserdata
-
-# RStudio files
 .Rproj.user/
+.Renviron
 
 # simulation, knitr and R markdown cache directories
 *_cache/
@@ -17,10 +17,8 @@ cache
 *.utf8.md
 *.knit.md
 
-# R Environment Variables
-.Renviron
-
-# simulation input/output directories
+# simulation files + directories
+config_db.yml
 inputs/
 outputs/
 outputs
