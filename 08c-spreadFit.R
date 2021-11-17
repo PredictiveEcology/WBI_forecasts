@@ -102,6 +102,7 @@ spreadFitParams <- list(
     "SNLL_FS_thresh" = if (peutils::user("emcintir")) NULL else NULL,# NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
+    "useCache_DE" = FALSE,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
@@ -138,16 +139,12 @@ if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
   }
   spreadOut <- loadSimList(fspreadOut)
 } else {
-  spreadOut <- #Cache(
-    simInitAndSpades(#),
+  spreadOut <- simInitAndSpades(
     times = list(start = 0, end = 1),
     params = spreadFitParams,
     modules = "fireSense_SpreadFit",
     paths = spreadFitPaths,
-    objects = spreadFitObjects#,
-    #useCloud = useCloudCache,
-    #cloudFolderID = cloudCacheFolderID,
-    #userTags = c("fireSense_SpreadFit", studyAreaName, run)
+    objects = spreadFitObjects
   )
   saveSimList(spreadOut, fspreadOut, fileBackend = 2)
 
