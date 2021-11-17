@@ -12,7 +12,6 @@ dynamicModules <- list("fireSense_dataPrepPredict",
                        "Biomass_core",
                        "Biomass_regeneration")
 
-## TODO: remove as.data.table where appropriate
 dynamicObjects <- list(
   ATAstack = simOutPreamble[["ATAstack"]],
   biomassMap = biomassMaps2011$biomassMap,
@@ -46,7 +45,7 @@ dynamicObjects <- list(
   studyAreaLarge = biomassMaps2011[["studyAreaLarge"]],
   studyAreaPSP = simOutPreamble[["studyAreaPSP"]],
   studyAreaReporting = biomassMaps2011[["studyAreaReporting"]],
-  sufficientLight = as.data.frame(biomassMaps2011[["sufficientLight"]]), ## biomassMaps2011 needs bugfix to qs
+  sufficientLight = biomassMaps2011[["sufficientLight"]],
   terrainDT = fSsimDataPrep[["terrainDT"]],
   vegComponentsToUse = fSsimDataPrep[["vegComponentsToUse"]]
 )
