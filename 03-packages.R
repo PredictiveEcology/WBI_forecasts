@@ -1,9 +1,7 @@
-if (FALSE) {
-  install.packages(
-    c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra"),
-    #c("lwgeom", "rgdal", "rgeos", "sf", "sp"), ## terra & raster conflicts require devel versions
-    repos = "https://cran.rstudio.com"
-  )
+.spatialPkgs <- c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra")
+
+if (!all(.spatialPkgs %in% rownames(installed.packages()))) {
+  install.packages(.spatialPkgs, repos = "https://cran.rstudio.com")
   #install.packages(c("raster", "terra"), repos = "https://rspatial.r-universe.dev")
   sf::sf_extSoftVersion() ## want GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 }
