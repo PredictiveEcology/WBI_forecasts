@@ -59,9 +59,15 @@ if (isFALSE(usePrerun) & isTRUE(reupload)) {
     }
   }
 } else {
-  source("08c-spreadFit.R")
+  for (i in 1:nReps) {
+    run <- i
+    runName <- gsub("run[0-9][0-9]", sprintf("run%02d", run), runName)
+    dynamicPaths$outputPath <- file.path("outputs", runName)
 
-  source("09-main-sim.R")
+    source("08c-spreadFit.R")
 
-  message(crayon::red("Simulation", runName, "complete"))
+    source("09-main-sim.R")
+
+    message(crayon::red("Simulation", runName, "complete"))
+  }
 }
