@@ -43,12 +43,13 @@ message(crayon::red("Data prep", runName, "complete"))
 source("08a-ignitionFit.R")
 source("08b-escapeFit.R")
 
-if (isFALSE(usePrerun) & isTRUE(reupload)) {
-  ## prerun all spreadfits, for use with main sim runs on another machine
-  for (i in 1:nReps) {
-    run <- i
-    runName <- gsub("run[0-9][0-9]", sprintf("run%02d", run), runName)
-    dynamicPaths$outputPath <- file.path("outputs", runName)
+for (i in 1:nReps) {
+  run <- i
+  runName <- gsub("run[0-9][0-9]", sprintf("run%02d", run), runName)
+  dynamicPaths$outputPath <- file.path("outputs", runName)
+
+  if (isFALSE(usePrerun) & isTRUE(reupload)) {
+    ## prerun all spreadfits, for use with main sim runs on another machine
 
     if (file.exists("Rplots.pdf")) {
       unlink("Rplots.pdf")
@@ -57,11 +58,11 @@ if (isFALSE(usePrerun) & isTRUE(reupload)) {
     if (file.exists("Rplots.pdf")) {
       file.rename("Rplots.pdf", file.path(Paths$outputPath, "figures", sprintf("spreadFit_plots_%s.pdf", runName)))
     }
+  } else {
+    source("08c-spreadFit.R")
+
+    source("09-main-sim.R")
+
+    message(crayon::red("Simulation", runName, "complete"))
   }
-} else {
-  source("08c-spreadFit.R")
-
-  source("09-main-sim.R")
-
-  message(crayon::red("Simulation", runName, "complete"))
 }

@@ -7,6 +7,8 @@ if (!all(.spatialPkgs %in% rownames(installed.packages()))) {
 }
 
 Require(c("data.table", "plyr", "pryr")) ## ensure plyr loaded before dplyr or there will be problems
+Require("RCurl", require = FALSE)
+
 Require("PredictiveEcology/SpaDES.install (>= 0.0.4)")
 Require("PredictiveEcology/SpaDES.core@development (>= 1.0.9.9002)",
         which = c("Suggests", "Imports", "Depends"), upgrade = FALSE) # need Suggests in SpaDES.core

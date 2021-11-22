@@ -74,7 +74,7 @@ annualRasters <- data.frame(
 annualRasters$file <- paste0(annualRasters$objectName, "_", annualRasters$saveTime, ".tif")
 
 objectsToSaveAnnually <- c(
-  "cohortData", ## data.table
+  "cohortData" ## data.table
 )
 
 annualObjects <- data.frame(
