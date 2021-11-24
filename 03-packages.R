@@ -15,7 +15,7 @@ Require("PredictiveEcology/SpaDES.core@development (>= 1.0.9.9002)",
 Require("PredictiveEcology/SpaDES.project@development", require = FALSE)
 
 Require(c("archive", "slackr"), upgrade = FALSE)
-Require("PredictiveEcology/fireSenseUtils@development (>= 0.0.4.9052)", require = FALSE) ## force pemisc and others to be installed correctly
+Require("PredictiveEcology/fireSenseUtils@development (>= 0.0.5.9005)", require = FALSE) ## force pemisc and others to be installed correctly
 
 Require("achubaty/amc (>= 0.2.0)", require = FALSE, which = c("Suggests", "Imports", "Depends"))
 
