@@ -144,7 +144,8 @@ mainSim <- simInitAndSpades(
   objects = dynamicObjects,
   outputs = dynamicOutputs,
   params = dynamicParams,
-  paths = dynamicPaths
+  paths = dynamicPaths,
+  loadOrder = unlist(dynamicModules)
 )
 
 saveSimList(sim = mainSim, filename = fsim, fileBackend = 2)
