@@ -46,7 +46,6 @@ source("08b-escapeFit.R")
 for (i in 1:nReps) {
   run <- i
   runName <- gsub("run[0-9][0-9]", sprintf("run%02d", run), runName)
-  dynamicPaths$outputPath <- file.path("outputs", runName)
 
   if (isFALSE(usePrerun) & isTRUE(reupload)) {
     ## prerun all spreadfits, for use with main sim runs on another machine
@@ -59,10 +58,16 @@ for (i in 1:nReps) {
       file.rename("Rplots.pdf", file.path(Paths$outputPath, "figures", sprintf("spreadFit_plots_%s.pdf", runName)))
     }
   } else {
-    source("08c-spreadFit.R")
+    for (j in c("CanESM5", "CNRM-ESM2-1")) {
+      for (k in c(370L, 585L)) {
+        runName <- sprintf("%s_%s_SSP%03d_run%02d", studyAreaName, j, k, i)
+        dynamicPaths$outputPath <- file.path("outputs", runName)
 
-    source("09-main-sim.R")
+        source("08c-spreadFit.R")
+        source("09-main-sim.R")
 
-    message(crayon::red("Simulation", runName, "complete"))
+        message(crayon::red("Simulation", runName, "complete"))
+      }
+    }
   }
 }
