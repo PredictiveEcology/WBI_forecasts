@@ -15,12 +15,14 @@ dataPrep <- list(
 dataPrepModules <- if (isTRUE(useLandR.CS)) {
   list(
     "Biomass_speciesData",
+    "Biomass_speciesFactorial",
     "Biomass_borealDataPrep",
     "Biomass_speciesParameters"
   )
 } else {
   list(
     "Biomass_speciesData",
+    "Biomass_speciesFactorial",
     "Biomass_borealDataPrep"
   )
 }
