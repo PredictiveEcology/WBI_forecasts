@@ -7,6 +7,7 @@ git submodule add https://github.com/PredictiveEcology/Biomass_borealDataPrep mo
 git submodule add https://github.com/PredictiveEcology/Biomass_core modules/Biomass_core
 git submodule add https://github.com/PredictiveEcology/Biomass_regeneration modules/Biomass_regeneration
 git submodule add https://github.com/PredictiveEcology/Biomass_speciesData modules/Biomass_speciesData
+git submodule add https://github.com/PredictiveEcology/Biomass_speciesFactorial modules/Biomass_speciesFactorial
 git submodule add https://github.com/PredictiveEcology/Biomass_speciesParameters modules/Biomass_speciesParameters
 git submodule add https://github.com/ianmseddy/gmcsDataPrep modules/gmcsDataPrep
 
@@ -23,7 +24,7 @@ git submodule add https://github.com/PredictiveEcology/fireSense_dataPrepPredict
 
 ## yield curves
 git submodule add https://github.com/PredictiveEcology/Biomass_speciesFactorial modules/Biomass_speciesFactorial
-git submodule add https://github.com/PredictiveEcology/Biomass_yieldTables modules/Biomass_yieldTables 
+git submodule add https://github.com/PredictiveEcology/Biomass_yieldTables modules/Biomass_yieldTables
 
 cd modules/Biomass_borealDataPrep && git checkout development
 cd ../Biomass_core && git checkout development
