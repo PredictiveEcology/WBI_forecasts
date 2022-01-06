@@ -60,6 +60,8 @@ for (i in 1:nReps) {
   } else {
     for (j in c("CanESM5", "CNRM-ESM2-1")) {
       for (k in c(370L, 585L)) {
+        source("06-studyArea.R") ## TODO: fix/clean
+
         runName <- sprintf("%s_%s_SSP%03d_run%02d", studyAreaName, j, k, i)
         dynamicPaths$outputPath <- file.path("outputs", runName)
 

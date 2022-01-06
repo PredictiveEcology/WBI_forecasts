@@ -46,7 +46,7 @@ alex:
   reupload: !expr if (grepl("picea.for-cast.ca", Sys.info()[["nodename"]])) TRUE else FALSE
   slackchannel: "@alex.chubaty"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
-  useprerun: !expr if (grepl("spades", Sys.info()[["nodename"]])) TRUE else FALSE
+  useprerun: !expr if (grepl("spades|pseudotsuga", Sys.info()[["nodename"]])) TRUE else FALSE
 
 ian:
   cachedb: "sqlite"
