@@ -9,7 +9,7 @@ defaultPaths <- list(
   outputPath = file.path("outputs", studyAreaName)
 )
 
-scratchDir <- checkPath(scratchDir, create = TRUE) ## from config
+scratchDir <- checkPath(file.path(scratchDir, studyAreaName), create = TRUE) ## basedir set in config
 
 preamblePaths <- defaultPaths
 preamblePaths[["cachePath"]] <- file.path(cacheDir, "cache_preamble", studyAreaName)
