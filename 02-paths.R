@@ -12,7 +12,7 @@ defaultPaths <- list(
 scratchDir <- checkPath(scratchDir, create = TRUE) ## from config
 
 preamblePaths <- defaultPaths
-preamblePaths[["cachePath"]] <- file.path(cacheDir, "cache_preamble")
+preamblePaths[["cachePath"]] <- file.path(cacheDir, "cache_preamble", studyAreaName)
 
 dataPrepPaths <- defaultPaths
 dataPrepPaths[["cachePath"]] <- file.path(cacheDir, "cache_dataPrep")
