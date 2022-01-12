@@ -13,6 +13,7 @@ dynamicModules <- list("fireSense_dataPrepPredict",
                        "Biomass_regeneration")
 
 dynamicObjects <- list(
+  .runName = runName,
   ATAstack = simOutPreamble[["ATAstack"]],
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],

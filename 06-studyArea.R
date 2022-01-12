@@ -10,6 +10,7 @@ preambleObjects <- list(
 
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
+    ".runName" = runName,
     ".useCache" = TRUE,
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
