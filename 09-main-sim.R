@@ -110,7 +110,6 @@ dynamicParams <- list(
   Biomass_core = list(
     "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     "vegLeadingProportion" = 0, ## apparently sppColorVect has no mixed color
-    ".plotInitialTime" = .plotInitialTime,
     ".plots" = c("object", "png", "raw")
   ),
   Biomass_regeneration = list(

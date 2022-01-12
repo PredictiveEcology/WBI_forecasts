@@ -35,6 +35,9 @@ if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2011)) {
     googledrive::drive_download(file = as_id(gid_biomassMaps2011), path = fbiomassMaps2011)
   }
   biomassMaps2011 <- loadSimList(fbiomassMaps2011)
+
+  ## TODO: fix these upstream
+  biomassMaps2011[["sufficientLight"]] <- as.data.frame(biomassMaps2011[["sufficientLight"]])
 } else {
   biomassMaps2011 <- Cache(
     simInitAndSpades,
