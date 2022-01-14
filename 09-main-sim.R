@@ -14,6 +14,7 @@ dynamicModules <- list("fireSense_dataPrepPredict",
 
 dynamicObjects <- list(
   .runName = runName,
+  .studyAreaName = studyAreaName,
   ATAstack = simOutPreamble[["ATAstack"]],
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
