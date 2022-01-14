@@ -14,7 +14,6 @@ dynamicModules <- list("fireSense_dataPrepPredict",
 
 dynamicObjects <- list(
   .runName = runName,
-  .studyAreaName = studyAreaName,
   ATAstack = simOutPreamble[["ATAstack"]],
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
@@ -112,7 +111,8 @@ dynamicParams <- list(
   Biomass_core = list(
     "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
     "vegLeadingProportion" = 0, ## apparently sppColorVect has no mixed color
-    ".plots" = c("object", "png", "raw")
+    ".plots" = c("object", "png", "raw"),
+    ".studyAreaName" = studyAreaName
   ),
   Biomass_regeneration = list(
     "fireInitialTime" = times$start + 1 #regeneration is scheduled earlier, so it starts in 2012
