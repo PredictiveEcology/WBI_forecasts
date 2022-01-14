@@ -41,4 +41,3 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
     )
   }
 }
-
