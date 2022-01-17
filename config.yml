@@ -2,6 +2,8 @@ default:
   batchmode: false
   cachedb: "sqlite"
   cacheformat: "qs"
+  climategcm: "CNRM-ESM2-1" ## '13GCMs_ensemble', 'CanESM5', 'CNRM-ESM2-1', 'CCSM4'
+  climatessp: 370 ## 245, 370, 585
   cloud:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
     googleuser: ""
@@ -9,15 +11,16 @@ default:
   codechecks: true
   delaystart: 0
   inputpaths: null
-  mapresfact: 1
   messagingNumCharsModule: 21
   paths:
     cachedir: "cache"
     scratchdir: "/tmp/scratch/WBI_fireSense"
   plot: true
   reproduciblealgorithm: 2
+  reupload: false
   run: 1
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  uselandrcs: true
   usememoise: false
   useprerun: true
   userequire: true
@@ -25,7 +28,7 @@ default:
 production:
   batchmode: true
   codechecks: false
-  delaystart: !expr sample(5L:15L, 1) # 5-15 minute delay to stagger starts
+  delaystart: !expr sample(15L:45L, 1) # 15-45 minute delay to stagger starts
   plot: false
 
 alex:
@@ -37,11 +40,13 @@ alex:
     googleuser: "achubaty@for-cast.ca"
     usecloud: false ## TODO: use cloud cache
   codechecks: false ## TODO: set false after all fixed
+  nreps: 5
   paths:
-    scratchdir: !expr if (grepl("forcast(01|02)", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_fireSense" else "/tmp/scratch/WBI_fireSense"
+    scratchdir: !expr if (grepl("for-cast[.]ca", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_forecasts" else "/tmp/scratch/WBI_forecasts"
+  reupload: !expr if (grepl("picea", Sys.info()[["nodename"]])) TRUE else FALSE
   slackchannel: "@alex.chubaty"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
-  useprerun: !expr if (grepl("spades", Sys.info()[["nodename"]])) TRUE else FALSE
+  useprerun: !expr if (grepl("spades|pseudotsuga", Sys.info()[["nodename"]])) TRUE else FALSE
 
 ian:
   cachedb: "sqlite"

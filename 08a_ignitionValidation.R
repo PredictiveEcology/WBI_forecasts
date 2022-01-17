@@ -142,7 +142,7 @@ validationOut2001 <- simInitAndSpades(
 
 igPred <- list.files(outputPath(validationOut2001), full.names = TRUE) %>%
   lapply(., raster)
-names(igPred) <- 2001:2019
+names(igPred) <- 2001:2020
 
 predDT <- lapply(names(igPred), FUN = function(year, rasList = igPred) {
   igProb <- na.omit(rasList[[year]][])
@@ -153,7 +153,7 @@ predDT <- lapply(names(igPred), FUN = function(year, rasList = igPred) {
   return(dt)
 })
 
-validationSum<- rbindlist(predDT)
+validationSum <- rbindlist(predDT)
 validationSum <- validationSum[, .(meanIgnitions = mean(ignitions),
                                   sd = sd(ignitions),
                                   min = min(ignitions),

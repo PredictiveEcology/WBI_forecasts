@@ -13,16 +13,6 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
-if (FALSE) {
-  Require::Require("PredictiveEcology/reproducible@development (>= 1.2.6.9011)") ## 2021-03-17
-  Require::Require("PredictiveEcology/SpaDES.core@rasterToMemoryUpdates (>= 1.0.6.9022)") ## 2021-03-17
-
-  Require::Require("PredictiveEcology/fireSenseUtils@development (>= 0.0.4.9052)", require = FALSE) ## force pemisc and others to be installed correctly
-
-  Require::Require("PredictiveEcology/SpaDES.install (>= 0.0.2)")
-  out <- makeSureAllPackagesInstalled(modulePath = "modules")
-}
-
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
@@ -35,15 +25,14 @@ source("01-init.R")
 source("02-paths.R")
 source("03-packages.R")
 source("04-options.R")
-#source("05-google-ids.R") ## gets sourced at top of each script 06, 07x, 08x
+source("05-google-ids.R")
 
 if (delayStart > 0) {
-  message(crayon::green("\nStaggered job start: delaying by", delayStart, "minutes."))
+  message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))
   Sys.sleep(delayStart*60)
 }
 
 source("06-studyArea.R")
-
 source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")

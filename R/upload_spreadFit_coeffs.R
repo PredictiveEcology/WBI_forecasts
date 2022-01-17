@@ -3,13 +3,8 @@ Require::Require("googledrive")
 
 source("05-google-ids.R")
 
-try(file.move(
-  file.path("outputs", studyAreaName, "figures", "spreadFit_coeffs.png"),
-  file.path("outputs", studyAreaName, "figures", sprintf("spreadFit_coeffs_%s_run_%02d.png", studyAreaName, run))
-))
-
 filesToUpload <- c(
-  paste0("figures/PCAcoeffLoadings_", studyAreaName, ".png")
+  sprintf("fireSense_SpreadFit_veg_coeffs_%s.txt", studyAreaName)
 )
 
 gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", gid]
