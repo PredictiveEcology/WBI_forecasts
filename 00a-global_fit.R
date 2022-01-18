@@ -27,6 +27,12 @@ if (!suppressWarnings(require("Require"))) {
   library(Require)
 }
 
+Require("PredictiveEcology/SpaDES.install@development")
+
+if (!"SpaDES.core" %in% rownames(installed.packages())) {
+  installSpaDES()
+}
+
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
