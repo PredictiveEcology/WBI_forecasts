@@ -96,6 +96,7 @@ spreadFitParams <- list(
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
     "mode" = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
+    "mutuallyExclusive" = list("youngAge" = c("class", "nf_")),
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
