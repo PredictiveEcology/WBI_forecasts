@@ -33,7 +33,7 @@ source("03-packages.R")
 source("04-options.R")
 source("05-google-ids.R")
 
-if (delayStart > 0) {
+if (delayStart > 0 & run == 1) {
   message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))
   Sys.sleep(delayStart*60)
 }
