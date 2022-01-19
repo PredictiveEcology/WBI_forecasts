@@ -37,7 +37,7 @@ opts <- options(
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCache" = TRUE,
   "reproducible.useCloud" = TRUE,
-  "reproducible.useGDAL" = TRUE,
+  "reproducible.useGDAL" = FALSE,
   "reproducible.useMemoise" = useMemoise,
   "reproducible.useNewDigestAlgorithm" = reproducibleAlgorithm,
   "reproducible.useRequire" = useRequire,
