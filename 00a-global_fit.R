@@ -30,7 +30,7 @@ if (!suppressWarnings(require("Require"))) {
 Require("PredictiveEcology/SpaDES.install@development")
 
 if (!"SpaDES.core" %in% rownames(installed.packages())) {
-  installSpaDES()
+  SpaDES.install::installSpaDES()
 }
 
 switch(Sys.info()[["user"]],
