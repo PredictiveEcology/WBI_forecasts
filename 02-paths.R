@@ -24,7 +24,7 @@ escapeFitPaths <- defaultPaths
 escapeFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_escapeFit")
 
 spreadFitPaths <- defaultPaths
-spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit")
+spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit", runName)
 
 ## main (dynamic) simulation
 dynamicPaths <-  defaultPaths

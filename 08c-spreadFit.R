@@ -1,3 +1,4 @@
+spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit", runName)
 do.call(setPaths, spreadFitPaths)
 
 gid_spreadOut <- gdriveSims[studyArea == studyAreaName & simObject == "spreadOut" & runID == run, gid]
