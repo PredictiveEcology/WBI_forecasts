@@ -9,7 +9,7 @@ if (!all(.spatialPkgs %in% installed.packages())) {
 Require(c("data.table", "plyr", "pryr",
           "PredictiveEcology/LandR@development", ## TODO: workaround weird raster/sf method problem
           "SpaDES.core"))
-Require(c("RCurl", "XML"), require = FALSE)
+Require(c("googledrive", "httr", "RCurl", "XML"), require = FALSE)
 Require(c("archive", "slackr"), upgrade = FALSE)
 
 out <- SpaDES.install::makeSureAllPackagesInstalled(modulePath = defaultPaths$modulePath)
