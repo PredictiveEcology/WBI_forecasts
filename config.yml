@@ -70,8 +70,10 @@ eliot:
   codechecks: false
   inputpaths: ~/data
   messagingNumCharsModule: 24
-  paths:
-    scratchdir: "/tmp/scratch/WBI_fireSense"
   reproduciblealgorithm: 2
-  studyarea: "YT" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  studyarea: "BC" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: true
+  useprerun: false
+  userequire: false
+  paths:
+    scratchdir: "/data/scratch/WBI_forecasts"

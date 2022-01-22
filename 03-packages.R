@@ -6,7 +6,7 @@ if (!all(.spatialPkgs %in% installed.packages())) {
 }
 
 Require(c("data.table", "plyr", "pryr", "SpaDES.core")) ## ensure plyr loaded before dplyr or there will be problems
-Require("RCurl", require = FALSE)
+Require(c("RCurl", "XML"), require = FALSE)
 Require(c("archive", "slackr"), upgrade = FALSE)
 
 out <- SpaDES.install::makeSureAllPackagesInstalled(modulePath = defaultPaths$modulePath)
