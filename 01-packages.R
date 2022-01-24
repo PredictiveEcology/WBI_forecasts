@@ -15,6 +15,7 @@ if (!dir.exists(pkgDir)) {
 }
 
 .libPaths(pkgDir)
+message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
 
 if (!require("Require", quietly = TRUE)) {
   install.packages("Require")
