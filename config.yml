@@ -8,6 +8,7 @@ default:
     cachedir: "1vuXsTRma-vySEAvkofP8aTUqZhUVsxd0"
     googleuser: ""
     usecloud: false
+    googledrivecache: null
   codechecks: true
   delaystart: 0
   inputpaths: null
@@ -67,6 +68,7 @@ eliot:
     #cachedir: ""
     googleuser: 'eliotmcintire@gmail.com'
     usecloud: false
+    googledrivecache: ".secret"
   codechecks: false
   inputpaths: ~/data
   messagingNumCharsModule: 24

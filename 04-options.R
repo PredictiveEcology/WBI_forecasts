@@ -51,5 +51,9 @@ opts <- options(
 httr::set_config(httr::config(http_version = 0))
 httr::timeout(seconds = 10)
 
+googledrivecache <- config::get("cloud")[["googledrivecache"]]
+if (!is.null(googledrivecache))
+  options(gargle_oauth_cache = googledrivecache)
+
 drive_auth(email = config::get("cloud")[["googleuser"]], use_oob = quickPlot::isRstudioServer())
 message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))
