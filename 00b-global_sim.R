@@ -1,35 +1,9 @@
-if (!exists("pkgDir")) {
-  pkgDir <- file.path("packages", version$platform, paste0(version$major, ".",
-                                                           strsplit(version$minor, "[.]")[[1]][1]))
+moduleDir <- "modules"
 
-  if (!dir.exists(pkgDir)) {
-    dir.create(pkgDir, recursive = TRUE)
-  }
-  .libPaths(pkgDir)
-}
-
-if (!suppressWarnings(require("Require"))) {
-  install.packages("Require")
-  library(Require)
-}
-
-Require("PredictiveEcology/SpaDES.install@development")
-
-if (!"SpaDES.core" %in% rownames(installed.packages())) {
-  installSpaDES()
-}
-
-switch(Sys.info()[["user"]],
-       "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
-       "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
-       "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
-       Sys.setenv(R_CONFIG_ACTIVE = "test")
-)
-#Sys.getenv("R_CONFIG_ACTIVE") ## verify
+source("03-packages.R")
 
 source("01-init.R")
 source("02-paths.R")
-source("03-packages.R")
 source("04-options.R")
 source("05-google-ids.R")
 

@@ -3,10 +3,9 @@
 ################################################################################
 
 cacheDBconn <- if (config::get("cachedb") == "sqlite") {
-  Require("RSQLite")
   NULL ## default to sqlite
 } else if (config::get("cachedb") == "postgresql") {
-  Require("RPostgres")
+  Require("RPostgres", require = FALSE)
   DBI::dbConnect(drv = RPostgres::Postgres(),
                  host = Sys.getenv("PGHOST"),
                  port = Sys.getenv("PGPORT"),
@@ -48,8 +47,6 @@ opts <- options(
   "spades.restartR.restartDir" = defaultPaths[["outputPath"]],
   "spades.useRequire" = useRequire
 )
-
-Require(c("googledrive", "httr"))
 
 httr::set_config(httr::config(http_version = 0))
 httr::timeout(seconds = 10)

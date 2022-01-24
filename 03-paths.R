@@ -4,7 +4,7 @@
 
 defaultPaths <- list(
   cachePath = cacheDir,
-  modulePath = "modules",
+  modulePath = moduleDir,
   inputPath = "inputs",
   outputPath = file.path("outputs", studyAreaName)
 )
