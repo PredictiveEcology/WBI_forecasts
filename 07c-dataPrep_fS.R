@@ -1,4 +1,5 @@
 ## NOTE: 07a-dataPrep_2001.R and 07b-dataPrep_2011.R need to be run before this script
+do.call(setPaths, dataPrepPaths)
 
 gid_fSsimDataPrep <- gdriveSims[studyArea == studyAreaName & simObject == "fSsimDataPrep", gid]
 upload_fSsimDataPrep <- reupload | length(gid_fSsimDataPrep) == 0
