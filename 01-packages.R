@@ -1,4 +1,7 @@
-if (!exists("pkgDir")) {
+if (file.exists(".Renviron")) readRenviron(".Renviron")
+
+pkgDir <- Sys.getenv("PRJ_PKG_DIR")
+if (!nzchar(pkgDir)) {
   pkgDir <- file.path("packages", version$platform, paste0(version$major, ".",
                                                            strsplit(version$minor, "[.]")[[1]][1]))
 }
