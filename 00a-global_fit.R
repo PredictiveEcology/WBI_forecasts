@@ -26,21 +26,17 @@ if (delayStart > 0) {
   Sys.sleep(delayStart*60)
 }
 
-usePrerun = FALSE; reupload = FALSE;
 source("06-studyArea.R")
 
-usePrerun = FALSE; reupload = TRUE;
 source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")
-usePrerun = TRUE; reupload = FALSE;
 
 message(crayon::red("Data prep", runName, "complete"))
 
-#source("08a-ignitionFit.R")
-#source("08b-escapeFit.R")
+source("08a-ignitionFit.R")
+source("08b-escapeFit.R")
 
-usePrerun = FALSE; reupload = TRUE;
 for (i in 1:nReps) {
   run <- i
   runName <- gsub("run[0-9][0-9]", sprintf("run%02d", run), runName)
@@ -55,4 +51,3 @@ for (i in 1:nReps) {
     file.rename("Rplots.pdf", file.path(Paths$outputPath, "figures", sprintf("spreadFit_plots_%s.pdf", runName)))
   }
 }
-usePrerun = TRUE; reupload = FALSE
