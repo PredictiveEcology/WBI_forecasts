@@ -1,7 +1,3 @@
-.starttime <- Sys.time()
-
-if (file.exists(".Renviron")) readRenviron(".Renviron")
-
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
