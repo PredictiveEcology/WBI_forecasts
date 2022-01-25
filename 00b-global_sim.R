@@ -1,9 +1,9 @@
 moduleDir <- "modules"
 
-source("03-packages.R")
+source("01-packages.R")
 
-source("01-init.R")
-source("02-paths.R")
+source("02-init.R")
+source("03-paths.R")
 source("04-options.R")
 source("05-google-ids.R")
 
