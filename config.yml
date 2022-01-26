@@ -20,6 +20,7 @@ default:
   reproduciblealgorithm: 2
   reupload: false
   run: 1
+  simfileformat: "qs"
   studyarea: "RIA" ## AB, BC, SK, MB, YT, NT, NU, RIA
   uselandrcs: true
   usememoise: false
@@ -35,7 +36,7 @@ production:
 alex:
   inherits: production
   cachedb: !expr if (grepl("spades", Sys.info()[["nodename"]])) "sqlite" else "postgresql"
-  cacheformat: "qs"
+  cacheformat: "rds"
   cloud:
     #cachedir: ""
     googleuser: "achubaty@for-cast.ca"
@@ -45,6 +46,7 @@ alex:
   paths:
     scratchdir: !expr if (grepl("for-cast[.]ca", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_forecasts" else "/tmp/scratch/WBI_forecasts"
   reupload: !expr if (grepl("picea", Sys.info()[["nodename"]])) TRUE else FALSE
+  simfileformat: "rds"
   slackchannel: "@alex.chubaty"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: !expr if (grepl("spades|pseudotsuga", Sys.info()[["nodename"]])) TRUE else FALSE

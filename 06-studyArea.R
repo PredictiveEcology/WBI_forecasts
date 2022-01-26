@@ -19,19 +19,13 @@ preambleParams <- list(
   )
 )
 
-fsimOutPreamble <- simFile(paste0("simOutPreamble_", studyAreaName, "_", climateGCM, "_", climateSSP), Paths$outputPath, ext = "qs")
+fsimOutPreamble <- simFile(paste0("simOutPreamble_", studyAreaName, "_", climateGCM, "_", climateSSP),
+                           Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   if (!file.exists(fsimOutPreamble)) {
     googledrive::drive_download(file = as_id(gid_preamble), path = fsimOutPreamble)
   }
   simOutPreamble <- loadSimList(fsimOutPreamble)
-
-  ## TODO: remove this workaround for memory issues in data.table objects:
-  lapply(names(simOutPreamble), function(x) {
-    if (is(x, "data.table")) {
-      assign(x, copy(simOutPreamble[[x]]), envir = simOutPreamble)
-    }
-  })
 } else {
   simOutPreamble <- Cache(simInitAndSpades,
                           times = list(start = 0, end = 1),

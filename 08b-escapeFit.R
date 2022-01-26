@@ -13,19 +13,12 @@ escapeFitObjects <- list(
   fireSense_escapeCovariates = fSsimDataPrep$fireSense_escapeCovariates
 )
 
-fescapeOut <- file.path(Paths$outputPath, paste0("escapeOut_", studyAreaName, ".qs"))
+fescapeOut <- simFile(paste0("escapeOut_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   if (!file.exists(fescapeOut)) {
     googledrive::drive_download(file = as_id(gid_escapeOut), path = fescapeOut)
   }
   escapeOut <- loadSimList(fescapeOut)
-
-  ## TODO: remove this workaround for memory issues in data.table objects:
-  lapply(names(escapeOut), function(x) {
-    if (is(x, "data.table")) {
-      assign(x, copy(escapeOut[[x]]), envir = escapeOut)
-    }
-  })
 } else {
   escapeOut <- simInitAndSpades(
     times = list(start = 0, end = 1),

@@ -36,19 +36,12 @@ fSdataPrepObjects <- list(
 
 invisible(replicate(10, gc()))
 
-ffSsimDataPrep <- file.path(Paths$outputPath, paste0("fSsimDataPrep_", studyAreaName, ".qs"))
+ffSsimDataPrep <- simFile(paste0("fSsimDataPrep_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_fSsimDataPrep)) {
   if (!file.exists(ffSsimDataPrep)) {
     googledrive::drive_download(file = as_id(gid_fSsimDataPrep), path = ffSsimDataPrep)
   }
   fSsimDataPrep <- loadSimList(ffSsimDataPrep)
-
-  ## TODO: remove this workaround for memory issues in data.table objects:
-  lapply(names(fSsimDataPrep), function(x) {
-    if (is(x, "data.table")) {
-      assign(x, copy(fSsimDataPrep[[x]]), envir = fSsimDataPrep)
-    }
-  })
 } else {
   fSsimDataPrep <- Cache(
     simInitAndSpades,

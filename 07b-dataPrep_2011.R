@@ -1,4 +1,5 @@
 ## NOTE: 07a-dataPrep_2001.R needs to be run before this script
+
 do.call(setPaths, dataPrepPaths)
 
 gid_biomassMaps2011 <- gdriveSims[studyArea == studyAreaName & simObject == "biomassMaps2011", gid]
@@ -28,7 +29,7 @@ dataPrepOutputs2011 <- data.frame(
                   "rawBiomassMap2011_borealDataPrep.rds"))
 )
 
-fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
+fbiomassMaps2011 <- simFile(paste0("biomassMaps2011_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2011)) {
   if (!file.exists(fbiomassMaps2011)) {
     googledrive::drive_download(file = as_id(gid_biomassMaps2011), path = fbiomassMaps2011)
@@ -37,13 +38,6 @@ if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2011)) {
 
   ## TODO: fix these upstream
   biomassMaps2011[["sufficientLight"]] <- as.data.frame(biomassMaps2011[["sufficientLight"]])
-
-  ## TODO: remove this workaround for memory issues in data.table objects:
-  lapply(names(biomassMaps2011), function(x) {
-    if (is(x, "data.table")) {
-      assign(x, copy(biomassMaps2011[[x]]), envir = biomassMaps2011)
-    }
-  })
 } else {
   biomassMaps2011 <- Cache(
     simInitAndSpades,

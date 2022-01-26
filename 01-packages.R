@@ -40,5 +40,5 @@ Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
 ##       ensure plyr loaded before dplyr or there will be problems
 Require(c("data.table", "plyr", "pryr",
           "PredictiveEcology/LandR@development", ## TODO: workaround weird raster/sf method problem
-          "PredictiveEcology/SpaDES.core@development",
+          "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9002)",
           "archive", "config", "googledrive", "httr", "slackr"), upgrade = FALSE)

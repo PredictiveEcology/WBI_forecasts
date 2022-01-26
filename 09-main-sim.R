@@ -139,7 +139,7 @@ dynamicParams <- list(
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 
-fsim <- file.path(Paths$outputPath, paste0(runName, ".qs"))
+fsim <- simFile(runName, Paths$outputPath, ext = simFileFormat)
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
