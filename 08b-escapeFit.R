@@ -19,6 +19,13 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
     googledrive::drive_download(file = as_id(gid_escapeOut), path = fescapeOut)
   }
   escapeOut <- loadSimList(fescapeOut)
+
+  ## TODO: remove this workaround for memory issues in data.table objects:
+  lapply(names(escapeOut), function(x) {
+    if (is(x, "data.table")) {
+      assign(x, copy(escapeOut[[x]]), envir = escapeOut)
+    }
+  })
 } else {
   escapeOut <- simInitAndSpades(
     times = list(start = 0, end = 1),

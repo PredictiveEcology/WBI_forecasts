@@ -145,6 +145,13 @@ if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
     googledrive::drive_download(file = as_id(gid_spreadOut), path = fspreadOut)
   }
   spreadOut <- loadSimList(fspreadOut)
+
+  ## TODO: remove this workaround for memory issues in data.table objects:
+  lapply(names(spreadOut), function(x) {
+    if (is(x, "data.table")) {
+      assign(x, copy(spreadOut[[x]]), envir = spreadOut)
+    }
+  })
 } else {
   spreadOut <- simInitAndSpades(
     times = list(start = 0, end = 1),

@@ -38,6 +38,13 @@ if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2011)) {
 
   ## TODO: fix these upstream
   biomassMaps2011[["sufficientLight"]] <- as.data.frame(biomassMaps2011[["sufficientLight"]])
+
+  ## TODO: remove this workaround for memory issues in data.table objects:
+  lapply(names(biomassMaps2011), function(x) {
+    if (is(x, "data.table")) {
+      assign(x, copy(biomassMaps2011[[x]]), envir = biomassMaps2011)
+    }
+  })
 } else {
   biomassMaps2011 <- Cache(
     simInitAndSpades,
