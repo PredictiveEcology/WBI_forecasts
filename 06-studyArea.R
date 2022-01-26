@@ -25,6 +25,13 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
     googledrive::drive_download(file = as_id(gid_preamble), path = fsimOutPreamble)
   }
   simOutPreamble <- loadSimList(fsimOutPreamble)
+
+  ## TODO: remove this workaround for memory issues in data.table objects:
+  lapply(names(simOutPreamble), function(x) {
+    if (is(x, "data.table")) {
+      assign(x, copy(simOutPreamble[[x]]), envir = simOutPreamble)
+    }
+  })
 } else {
   simOutPreamble <- Cache(simInitAndSpades,
                           times = list(start = 0, end = 1),
