@@ -1,5 +1,4 @@
 ## NOTE: 07a-dataPrep_2001.R needs to be run before this script
-
 do.call(setPaths, dataPrepPaths)
 
 gid_biomassMaps2011 <- gdriveSims[studyArea == studyAreaName & simObject == "biomassMaps2011", gid]
