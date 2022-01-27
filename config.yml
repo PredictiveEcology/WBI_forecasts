@@ -36,7 +36,7 @@ production:
 alex:
   inherits: production
   cachedb: !expr if (grepl("spades", Sys.info()[["nodename"]])) "sqlite" else "postgresql"
-  cacheformat: "rds"
+  cacheformat: "qs"
   cloud:
     #cachedir: ""
     googleuser: "achubaty@for-cast.ca"
@@ -46,7 +46,7 @@ alex:
   paths:
     scratchdir: !expr if (grepl("for-cast[.]ca", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_forecasts" else "/tmp/scratch/WBI_forecasts"
   reupload: !expr if (grepl("picea", Sys.info()[["nodename"]])) TRUE else FALSE
-  simfileformat: "rds"
+  simfileformat: "qs"
   slackchannel: "@alex.chubaty"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: !expr if (grepl("spades|pseudotsuga", Sys.info()[["nodename"]])) TRUE else FALSE
