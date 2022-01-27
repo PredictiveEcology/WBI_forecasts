@@ -20,19 +20,20 @@ dynamicObjects <- list(
   CMInormal = simOutPreamble[["CMInormal"]],
   CMIstack = simOutPreamble[["CMIStack"]],
   cohortData = fSsimDataPrep[["cohortData2011"]],
+  covMinMax_spread = spreadOut[["covMinMax_spread"]],
+  covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
   ecoregion = biomassMaps2011[["ecoregion"]],
   ecoregionMap = biomassMaps2011[["ecoregionMap"]],
   flammableRTM = fSsimDataPrep[["flammableRTM"]],
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
-  covMinMax_spread = spreadOut[["covMinMax_spread"]],
-  covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
   landcoverDT = fSsimDataPrep[["landcoverDT"]],
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = biomassMaps2011[["minRelativeB"]],
   PCAveg = fSsimDataPrep[["PCAveg"]],
-  pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
+  pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
+  #pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]], ## TODO: why is this slightly off?
   projectedClimateLayers = simOutPreamble[["projectedClimateRasters"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
@@ -138,7 +139,7 @@ dynamicParams <- list(
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 
-fsim <- file.path(Paths$outputPath, paste0(runName, ".qs"))
+fsim <- simFile(runName, Paths$outputPath, ext = simFileFormat)
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,

@@ -75,7 +75,7 @@ ignitionFitObjects <- list(
   ignitionFitRTM = fSsimDataPrep[["ignitionFitRTM"]]
 )
 
-fignitionOut <- file.path(Paths$outputPath, paste0("ignitionOut_", studyAreaName, ".qs"))
+fignitionOut <- simFile(paste0("ignitionOut_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_ignitionOut)) {
   if (!file.exists(fignitionOut)) {
     googledrive::drive_download(file = as_id(gid_ignitionOut), path = fignitionOut)

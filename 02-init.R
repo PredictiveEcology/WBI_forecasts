@@ -1,7 +1,3 @@
-.starttime <- Sys.time()
-
-if (file.exists(".Renviron")) readRenviron(".Renviron")
-
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
@@ -24,6 +20,7 @@ reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 reupload <- config::get("reupload")
 run <- config::get("run")
 scratchDir <- config::get("paths")[["scratchdir"]]
+simFileFormat <- config::get()[["simfileformat"]]
 studyAreaName <- config::get("studyarea")
 if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined
 useCloudCache <- config::get("cloud")[["usecloud"]]
