@@ -11,7 +11,7 @@ preambleObjects <- list(
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
     ".runName" = runName,
-    ".useCache" = TRUE,
+    ".useCache" = FALSE, # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
     "historicalFireYears" = 1991:2020,
@@ -27,16 +27,16 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   }
   simOutPreamble <- loadSimList(fsimOutPreamble)
 } else {
-  simOutPreamble <- Cache(simInitAndSpades,
+  simOutPreamble <- simInitAndSpades(
                           times = list(start = 0, end = 1),
                           params = preambleParams,
                           modules = c("WBI_dataPrep_studyArea"),
                           objects = preambleObjects,
-                          paths = preamblePaths,
+                          paths = preamblePaths#,
                           #useCache = "overwrite",
                           #useCloud = useCloudCache,
                           #cloudFolderID = cloudCacheFolderID,
-                          userTags = c("WBI_dataPrep_studyArea", studyAreaName)
+                          #userTags = c("WBI_dataPrep_studyArea", studyAreaName)
   )
   saveSimList(sim = simOutPreamble, filename = fsimOutPreamble, fileBackend = 2)
 

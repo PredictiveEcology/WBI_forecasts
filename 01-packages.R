@@ -22,11 +22,14 @@ if (!require("Require", quietly = TRUE)) {
   library(Require)
 }
 
+.spatialPkgs <- c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra")
+
 Require("PredictiveEcology/SpaDES.install@development")
-installSpaDES()
+#devtools::install("c:/Eliot/GitHub/climateData", args = "--no-multiarch", upgrade = FALSE, quick = TRUE);
+#devtools::install("c:/Eliot/GitHub/reproducible", args = "--no-multiarch", upgrade = FALSE, quick = TRUE);
+installSpaDES(dontUpdate = .spatialPkgs)
 
 if (FALSE) {
-  .spatialPkgs <- c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra")
   installSpatialPackages()
   #install.packages(c("raster", "terra"), repos = "https://rspatial.r-universe.dev")
   sf::sf_extSoftVersion() ## want GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
