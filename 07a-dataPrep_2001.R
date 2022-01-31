@@ -56,6 +56,9 @@ dataPrepParams2001 <- list(
     "types" = "KNN",
     ".studyAreaName" = paste0(studyAreaName, 2001)
   ),
+  Biomass_speciesFactorial = list(
+    factorialSize = "small" ## TODO: use medium?
+  ),
   Biomass_speciesParameters = list(
     constrainGrowthCurve = c(0, 1),
     constrainMaxANPP = c(3.0, 3.5),
