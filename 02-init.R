@@ -1,3 +1,7 @@
+if (getDTthreads() > 4) {
+  data.table::setDTthreads(4)
+}
+
 switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
