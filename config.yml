@@ -77,7 +77,7 @@ eliot:
   reproduciblealgorithm: 2
   studyarea: "BC" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: true
-  useprerun: false
+  useprerun: true
   userequire: false
   paths:
     scratchdir: "~/data/scratch/WBI_forecasts"

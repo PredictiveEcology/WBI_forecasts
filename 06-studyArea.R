@@ -11,7 +11,7 @@ preambleObjects <- list(
 preambleParams <- list(
   WBI_dataPrep_studyArea = list(
     ".runName" = runName,
-    ".useCache" = FALSE, # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
+    ".useCache" = ".inputObjects", # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
     "historicalFireYears" = 1991:2020,
