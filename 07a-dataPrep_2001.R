@@ -65,6 +65,7 @@ dataPrepParams2001 <- list(
     GAMMknots = 3,
     minimumPlotsPerGamm = 65,
     quantileAgeSubset = 98,
+    speciesFittingApproach = "focal",
     sppEquivCol = simOutPreamble$sppEquivCol
   )
 )
