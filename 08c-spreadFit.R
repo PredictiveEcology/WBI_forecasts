@@ -49,7 +49,7 @@ cores <-  if (peutils::user("ieddy")) {
   if (Sys.info()["nodename"] == "picea.for-cast.ca") {
     c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
   } else if (Sys.info()["nodename"] == "pseudotsuga.for-cast.ca") {
-    rep("localhost", 90)
+    rep("localhost", 100)
   } else if (grepl("spades", Sys.info()["nodename"])) {
     pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                      ipEnd = c(106, 217, 213, 220),
