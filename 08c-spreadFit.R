@@ -47,11 +47,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty")) {
   if (Sys.info()["nodename"] == "picea.for-cast.ca") {
-    if (studyAreaName %in% c("AB", "BC", "SK")) {
-      c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
-    } else {
-      c(rep("localhost", 32), rep("pinus.for-cast.ca", 16), rep("pseudotsuga.for-cast.ca", 52))
-    }
+    c(rep("localhost", 25), rep("pinus.for-cast.ca", 8), rep("pseudotsuga.for-cast.ca", 67))
   } else if (Sys.info()["nodename"] == "pseudotsuga.for-cast.ca") {
     rep("localhost", 100)
   } else if (grepl("spades", Sys.info()["nodename"])) {
