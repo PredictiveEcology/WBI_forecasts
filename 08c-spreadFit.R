@@ -47,9 +47,13 @@ cores <-  if (peutils::user("ieddy")) {
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty")) {
   if (Sys.info()["nodename"] == "picea.for-cast.ca") {
-    c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+    if (studyAreaName %in% c("AB", "BC", "SK")) {
+      c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+    } else {
+      c(rep("localhost", 32), rep("pinus.for-cast.ca", 16), rep("pseudotsuga.for-cast.ca", 52))
+    }
   } else if (Sys.info()["nodename"] == "pseudotsuga.for-cast.ca") {
-    rep("localhost", 90)
+    rep("localhost", 100)
   } else if (grepl("spades", Sys.info()["nodename"])) {
     pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                      ipEnd = c(106, 217, 213, 220),
