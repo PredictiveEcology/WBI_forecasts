@@ -19,15 +19,17 @@ form <- switch(studyAreaName,
                             " + class2:pw(MDC, k_class2)",
                             " + class3:pw(MDC, k_class3)",
                             " - 1"), ## default
-               BC = paste0("ignitions ~ nonForest_highFlam:MDC",
+               BC = paste0("ignitions ~ youngAge:MDC",
+                           " + nonForest_highFlam:MDC",
                            " + nonForest_lowFlam:MDC",
                            " + class2:MDC",
                            " + class3:MDC",
+                           " + youngAge:pw(MDC, k_YA)",
                            " + nonForest_lowFlam:pw(MDC, k_NFLF)",
                            " + nonForest_highFlam:pw(MDC, k_NFHF)",
                            " + class2:pw(MDC, k_class2)",
                            " + class3:pw(MDC, k_class3)",
-                           " - 1"), ## remave youngAge due to non-convegence
+                           " - 1"), ## TODO: solve non-convergence problem!
                SK = paste0("ignitions ~ nonForest_highFlam:MDC",
                            " + nonForest_lowFlam:MDC",
                            " + class2:MDC",
@@ -36,7 +38,7 @@ form <- switch(studyAreaName,
                            " + nonForest_highFlam:pw(MDC, k_NFHF)",
                            " + class2:pw(MDC, k_class2)",
                            " + class3:pw(MDC, k_class3)",
-                           " - 1"), ## remave youngAge due to non-convegence
+                           " - 1"), ## remave youngAge due to non-convergence
                YT = paste0("ignitions ~ nonForest_highFlam:MDC",
                            " + nonForest_lowFlam:MDC",
                            " + class2:MDC",
@@ -45,11 +47,11 @@ form <- switch(studyAreaName,
                            " + nonForest_highFlam:pw(MDC, k_NFHF)",
                            " + class2:pw(MDC, k_class2)",
                            " + class3:pw(MDC, k_class3)",
-                           " - 1"), ## remave youngAge due to non-convegence
+                           " - 1"), ## remave youngAge due to large error bars
                fSsimDataPrep[["fireSense_ignitionFormula"]] ## default
 ) ## TODO: incorporate this in a more automated way in ignitionFit module
 
-nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
+nCores <- pmin(10, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     # .plotInitialTime = 1,
