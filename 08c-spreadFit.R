@@ -79,7 +79,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else {
-  rep("localhost", parallel::detectCores() / 2) ## needed even if spreadFit not being run!
+  min(100, rep("localhost", parallel::detectCores() / 2)) ## needed even if spreadFit not being run!
 }
 
 # NPar <- length(lower)
