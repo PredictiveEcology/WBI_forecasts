@@ -7,51 +7,51 @@ upload_ignitionOut <- reupload | length(gid_ignitionOut) == 0
 
 biggestObj <- as.numeric(object.size(fSsimDataPrep[["fireSense_ignitionCovariates"]]))/1e6 * 1.2
 
-if (studyAreaName == "AB") {
-  form <- paste0("ignitions ~ youngAge:MDC",
-                 " + nonForest_highFlam:MDC",
-                 " + nonForest_lowFlam:MDC",
-                 " + class2:MDC",
-                 " + class3:MDC",
-                 " + youngAge:pw(MDC, k_YA)",
-                 " + nonForest_lowFlam:pw(MDC, k_NFLF)",
-                 " + nonForest_highFlam:pw(MDC, k_NFHF)",
-                 " + class2:pw(MDC, k_class2)",
-                 " + class3:pw(MDC, k_class3)",
-                 " - 1")
-  # form <- paste0("ignitions ~ "
-  #                , "youngAge "
-  #                , "+ nonForest_highFlam "
-  #                #"+ nonForest_lowFlam ",
-  #                , "+ class2:MDC "
-  #                , "+ class3:MDC "
-  #                #"youngAge:pw(MDC, k_YA) + ",
-  #                #"nonForest_lowFlam:pw(MDC, k_YA) + ",
-  #                #"nonForest_highFlam:pw(MDC, k_YA) + ",
-  #                , "+ class2:pw(MDC, k_class2) "
-  #                # , "+ class3:pw(MDC, k_class3) "
-  #                , "- 1"
-  #                )
-  # form <- paste0("ignitions ~ "
-  #                , "MDC + "
-  #                #, "youngAge +"
-  #                , "+ nonForest_highFlam "
-  #                #"+ nonForest_lowFlam ",
-  #                , "+ class2:MDC "
-  #                , "+ class3:MDC "
-  #                #"youngAge:pw(MDC, k_YA) + ",
-  #                #"nonForest_lowFlam:pw(MDC, k_YA) + ",
-  #                #"nonForest_highFlam:pw(MDC, k_YA) + ",
-  #                , "+ class2:pw(MDC, k_class2) "
-  #                # , "+ class3:pw(MDC, k_class3) "
-  #                , "- 1"
-  # )
-  #form <- "ignitions ~ youngAge:MDC + MDC:nonForest_highFlam + MDC:class2 + MDC:class3 + class2:pw(MDC, k_class2) -1"
-} else {
-  form <- fSsimDataPrep[["fireSense_ignitionFormula"]]
-}
+form <- switch(studyAreaName,
+               AB =  paste0("ignitions ~ youngAge:MDC",
+                            " + nonForest_highFlam:MDC",
+                            " + nonForest_lowFlam:MDC",
+                            " + class2:MDC",
+                            " + class3:MDC",
+                            " + youngAge:pw(MDC, k_YA)",
+                            " + nonForest_lowFlam:pw(MDC, k_NFLF)",
+                            " + nonForest_highFlam:pw(MDC, k_NFHF)",
+                            " + class2:pw(MDC, k_class2)",
+                            " + class3:pw(MDC, k_class3)",
+                            " - 1"), ## default
+               BC = paste0("ignitions ~ youngAge:MDC",
+                           " + nonForest_highFlam:MDC",
+                           " + nonForest_lowFlam:MDC",
+                           " + class2:MDC",
+                           " + class3:MDC",
+                           " + youngAge:pw(MDC, k_YA)",
+                           " + nonForest_lowFlam:pw(MDC, k_NFLF)",
+                           " + nonForest_highFlam:pw(MDC, k_NFHF)",
+                           " + class2:pw(MDC, k_class2)",
+                           " + class3:pw(MDC, k_class3)",
+                           " - 1"), ## TODO: solve non-convergence problem!
+               SK = paste0("ignitions ~ nonForest_highFlam:MDC",
+                           " + nonForest_lowFlam:MDC",
+                           " + class2:MDC",
+                           " + class3:MDC",
+                           " + nonForest_lowFlam:pw(MDC, k_NFLF)",
+                           " + nonForest_highFlam:pw(MDC, k_NFHF)",
+                           " + class2:pw(MDC, k_class2)",
+                           " + class3:pw(MDC, k_class3)",
+                           " - 1"), ## remave youngAge due to non-convergence
+               YT = paste0("ignitions ~ nonForest_highFlam:MDC",
+                           " + nonForest_lowFlam:MDC",
+                           " + class2:MDC",
+                           " + class3:MDC",
+                           " + nonForest_lowFlam:pw(MDC, k_NFLF)",
+                           " + nonForest_highFlam:pw(MDC, k_NFHF)",
+                           " + class2:pw(MDC, k_class2)",
+                           " + class3:pw(MDC, k_class3)",
+                           " - 1"), ## remave youngAge due to large error bars
+               fSsimDataPrep[["fireSense_ignitionFormula"]] ## default
+) ## TODO: incorporate this in a more automated way in ignitionFit module
 
-nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
+nCores <- pmin(10, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     # .plotInitialTime = 1,
