@@ -30,6 +30,7 @@ usePlot <- config::get("plot")
 userInputPaths <- config::get("inputpaths")
 usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
+useTerra <- config::get("useterra")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 
 if (!exists("runName")) {

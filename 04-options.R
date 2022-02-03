@@ -40,6 +40,7 @@ opts <- options(
   "reproducible.useMemoise" = useMemoise,
   "reproducible.useNewDigestAlgorithm" = reproducibleAlgorithm,
   "reproducible.useRequire" = useRequire,
+  "reproducible.useTerra" = useTerra,
   "spades.messagingNumCharsModule" = messagingNumCharsModule,
   "spades.moduleCodeChecks" = codeChecks,
   "spades.nThreads" = 4,
