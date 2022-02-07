@@ -14,6 +14,7 @@ filesToUpload <- c(
 
 gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", gid]
 lapply(filesToUpload, function(f) {
-  retry(quote(drive_put(file.path("outputs", studyAreaName, f), unique(as_id(gid_results)))),
-        retries = 5, exponentialDecayBase = 2)
+  if (file.exists(f))
+    retry(quote(drive_put(file.path("outputs", studyAreaName, f), unique(as_id(gid_results)))),
+          retries = 5, exponentialDecayBase = 2)
 })

@@ -26,6 +26,7 @@ default:
   usememoise: false
   useprerun: true
   userequire: true
+  useterra: false
 
 production:
   batchmode: true
@@ -79,5 +80,6 @@ eliot:
   usememoise: true
   useprerun: true
   userequire: false
+  useterra: true
   paths:
     scratchdir: "~/data/scratch/WBI_forecasts"
