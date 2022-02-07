@@ -1,4 +1,4 @@
-studyAreas <- c("AB", "BC", "MB", "NT", "SK", "YT", "RIA")
+studyAreas <- c("AB", "BC", "MB", "NT", "SK", "YT")
 
 lapply(studyAreas, function(sA) {
 
