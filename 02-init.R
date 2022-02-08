@@ -35,6 +35,7 @@ usePlot <- config::get("plot")
 userInputPaths <- config::get("inputpaths")
 usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
+useTerra <- config::get("useterra")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 
 if (!exists("runName")) {
@@ -47,5 +48,5 @@ if (!exists("runName")) {
   run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
 }
 
-firstRunMDCplots <- if (run == 1) TRUE else FALSE
+firstRunMDCplots <- if (run == 1 && reupload) TRUE else FALSE
 firstRunIgnitionFit <- if (run == 1) TRUE else FALSE
