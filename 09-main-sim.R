@@ -153,10 +153,11 @@ mainSim <- simInitAndSpades(
 saveSimList(sim = mainSim, filename = fsim, fileBackend = 2)
 
 resultsDir <- file.path("outputs", runName)
-#archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
-utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip") ## TODO: use archive pkg
+tarball <- paste0(resultsDir, ".tar.gz")
+#archive::archive_write_dir(archive = tarball, dir = resultsDir) ## doesn't work
+utils::tar(tarball, resultsDir, compression = "gzip") ## TODO: use archive pkg
 
-retry(quote(drive_put(paste0(resultsDir, ".tar.gz"), unique(as_id(gid_results)))),
+retry(quote(drive_put(media = tarball, path = unique(as_id(gid_results)), name = basename(tarball))),
       retries = 5, exponentialDecayBase = 2)
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))
