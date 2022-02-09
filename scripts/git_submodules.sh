@@ -26,6 +26,14 @@ git submodule add https://github.com/PredictiveEcology/fireSense_dataPrepPredict
 git submodule add https://github.com/PredictiveEcology/Biomass_speciesFactorial modules/Biomass_speciesFactorial
 git submodule add https://github.com/PredictiveEcology/Biomass_yieldTables modules/Biomass_yieldTables
 
+## birds
+git submodule add https://github.com/tati-micheletti/birdsNWT modules/birdsNWT
+
+## caribou
+git submodule add https://github.com/tati-micheletti/caribouPopGrowthModel modules/caribouPopGrowthModel
+
+####################################################################################################
+
 cd modules/Biomass_borealDataPrep && git checkout development
 cd ../Biomass_core && git checkout development
 cd ../Biomass_regeneration && git checkout development

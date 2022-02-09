@@ -1,17 +1,3 @@
-#runName = "BC_CNRM-ESM2-1_SSP370_run01"
-#runName = "AB_CNRM-ESM2-1_SSP370_run01"
-#runName = "SK_CNRM-ESM2-1_SSP370_run01"
-#runName = "MB_CNRM-ESM2-1_SSP370_run01"
-#runName = "NT_CNRM-ESM2-1_SSP370_run01"
-#runName = "YT_CNRM-ESM2-1_SSP370_run01"
-
-#runName = "BC_CanESM5_SSP370_run01"
-#runName = "AB_CanESM5_SSP370_run01"
-#runName = "SK_CanESM5_SSP370_run01"
-#runName = "MB_CanESM5_SSP370_run01"
-#runName = "NT_CanESM5_SSP370_run01"
-#runName = "YT_CanESM5_SSP370_run01"
-
 moduleDir <- "modules"
 
 source("01-packages.R")
