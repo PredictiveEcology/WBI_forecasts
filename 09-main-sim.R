@@ -4,13 +4,18 @@ gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", g
 
 times <- list(start = 2011, end = 2100)
 
-dynamicModules <- list("fireSense_dataPrepPredict",
-                       "fireSense",
-                       "fireSense_IgnitionPredict",
-                       "fireSense_EscapePredict",
-                       "fireSense_SpreadPredict",
-                       "Biomass_core",
-                       "Biomass_regeneration")
+dynamicModules <- list(
+  "fireSense_dataPrepPredict",
+  "fireSense",
+   "fireSense_IgnitionPredict",
+   "fireSense_EscapePredict",
+   "fireSense_SpreadPredict",
+   "Biomass_core",
+   "Biomass_regeneration",
+   ifelse(isTRUE(useLandR.CS), "gmcsDataPrep", "")
+)
+dynamicModules <- lapply(dynamicModules, function(m) if (nzchar(m)) m)
+dynamicModules[sapply(dynamicModules, is.null)] <- NULL ## this is bananas!
 
 dynamicObjects <- list(
   .runName = runName,
@@ -134,6 +139,9 @@ dynamicParams <- list(
     .plotInitialTime = .plotInitialTime,
     plotIgnitions = FALSE,
     whichModulesToPrepare = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict")
+  ),
+  gmcsDataPrep = list(
+    "yearOfFirstClimateImpact" = times$start
   )
 )
 
