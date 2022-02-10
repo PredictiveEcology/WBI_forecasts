@@ -52,7 +52,7 @@ dataPrepParams2001 <- list(
   ),
   Biomass_speciesData = list(
     #"dataYear" = 2001, ## passed globally
-    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "sppEquivCol" = simOutPreamble[["sppEquivCol"]],
     "types" = "KNN",
     ".studyAreaName" = paste0(studyAreaName, 2001)
   ),

@@ -11,7 +11,7 @@ fSdataPrepParams <- list(
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
     "fireYears" = 2001:2020, # this will be fixed to post kNN only
-    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "sppEquivCol" = simOutPreamble[["sppEquivCol"]],
     "useCentroids" = TRUE,
     "usePCA" = FALSE,
     "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit")

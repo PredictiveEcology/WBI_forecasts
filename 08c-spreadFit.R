@@ -110,14 +110,14 @@ spreadFitParams <- list(
     #"onlyLoadDEOptim" = FALSE,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = NULL, # NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCache_DE" = FALSE,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    ".plot" = FALSE, #TRUE,
+    ".plot" = FALSE, # TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )

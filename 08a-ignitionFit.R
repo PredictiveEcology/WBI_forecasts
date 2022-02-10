@@ -51,7 +51,7 @@ form <- switch(studyAreaName,
                fSsimDataPrep[["fireSense_ignitionFormula"]] ## default
 ) ## TODO: incorporate this in a more automated way in ignitionFit module
 
-nCores <- pmin(10, pemisc::optimalClusterNum(biggestObj)/2 - 6)
+nCores <- pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 ignitionFitParams <- list(
   fireSense_IgnitionFit = list(
     # .plotInitialTime = 1,
