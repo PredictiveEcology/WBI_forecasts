@@ -23,7 +23,7 @@ dynamicObjects <- list(
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
   CMInormal = simOutPreamble[["CMInormal"]],
-  CMIstack = simOutPreamble[["CMIStack"]],
+  CMIstack = simOutPreamble[["CMIstack"]],
   cohortData = fSsimDataPrep[["cohortData2011"]],
   covMinMax_spread = spreadOut[["covMinMax_spread"]],
   covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
