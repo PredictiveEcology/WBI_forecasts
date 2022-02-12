@@ -17,9 +17,9 @@ source("07a-dataPrep_2001.R")
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")
 
-source("08a-ignitionFit.R") ## rerun ignition fit AB, BC, SK
-source("08b-escapeFit.R")
 usePrerun = TRUE; reupload = FALSE
+source("08a-ignitionFit.R")
+source("08b-escapeFit.R")
 source("08c-spreadFit.R")
 
 source("09-main-sim.R")
