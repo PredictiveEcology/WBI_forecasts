@@ -38,6 +38,7 @@ if (FALSE) {
 ## TODO: remove this workaround; can't check/install private github packages using `Require`
 remotes::install_github("LandSciTech/caribouMetrics") ## currently private repo
 remotes::install_github("PredictiveEcology/reproducible@terraInProjectInputs") ## needs update
+remotes::install_github("PredictiveEcology/climateData@development") ## needs update
 #out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
 
 Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
