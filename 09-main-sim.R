@@ -116,7 +116,7 @@ dynamicOutputs <- rbind(annualRasters, annualObjects, finalYearOutputs)
 dynamicParams <- list(
   Biomass_core = list(
     "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
-    "vegLeadingProportion" = 0, ## apparently sppColorVect has no mixed color
+    "vegLeadingProportion" = 0, ## apparently `sppColorVect` has no mixed colour
     ".plots" = c("object", "png", "raw"),
     ".studyAreaName" = studyAreaName
   ),
@@ -132,7 +132,7 @@ dynamicParams <- list(
     "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
   fireSense_ignitionPredict = list(
-    # "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2 #deprecated
+    ##
   ),
   fireSense = list(
     .plotInterval = NA,
