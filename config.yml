@@ -77,8 +77,8 @@ eliot:
   messagingNumCharsModule: 24
   reproduciblealgorithm: 2
   studyarea: "YT" ## AB, BC, SK, MB, YT, NT, NU, RIA
-  usememoise: true
-  useprerun: true
+  usememoise: false
+  useprerun: false
   userequire: false
   useterra: true
   paths:
