@@ -61,3 +61,6 @@
 [submodule "modules/caribouPopGrowthModel"]
 	path = modules/caribouPopGrowthModel
 	url = https://github.com/tati-micheletti/caribouPopGrowthModel
+[submodule "modules/canClimateData"]
+	path = modules/canClimateData
+	url = https://github.com/PredictiveEcology/canClimateData.git
