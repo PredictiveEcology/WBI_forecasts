@@ -10,7 +10,7 @@ fSdataPrepParams <- list(
     ".useCache" = ".inputObjects",
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
-    "fireYears" = 2001:2020, # this will be fixed to post kNN only
+    "fireYears" = 2001:2020,
     "sppEquivCol" = simOutPreamble[["sppEquivCol"]],
     "useCentroids" = TRUE,
     "usePCA" = FALSE,
@@ -28,7 +28,7 @@ fSdataPrepObjects <- list(
   pixelGroupMap2011 = biomassMaps2011[["pixelGroupMap"]],
   rasterToMatch = simOutPreamble[["rasterToMatch"]], ## this needs to be masked
   rstLCC = biomassMaps2011[["rstLCC"]],
-  sppEquiv = as.data.table(simOutPreamble[["sppEquiv"]]),
+  sppEquiv = simOutPreamble[["sppEquiv"]],
   standAgeMap2001 = biomassMaps2001[["standAgeMap"]],
   standAgeMap2011 = biomassMaps2011[["standAgeMap"]],
   studyArea = simOutPreamble[["studyArea"]]
