@@ -76,7 +76,7 @@ eliot:
   inputpaths: ~/data
   messagingNumCharsModule: 24
   reproduciblealgorithm: 2
-  studyarea: "BC" ## AB, BC, SK, MB, YT, NT, NU, RIA
+  studyarea: "YT" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: true
   useprerun: true
   userequire: false
