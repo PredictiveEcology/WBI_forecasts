@@ -1,4 +1,5 @@
 ## NOTE: 07a-dataPrep_2001.R and 07b-dataPrep_2011.R need to be run before this script
+do.call(setPaths, dataPrepPaths)
 
 gid_fSsimDataPrep <- gdriveSims[studyArea == studyAreaName & simObject == "fSsimDataPrep", gid]
 upload_fSsimDataPrep <- reupload | length(gid_fSsimDataPrep) == 0
@@ -9,9 +10,10 @@ fSdataPrepParams <- list(
     ".useCache" = ".inputObjects",
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
-    "fireYears" = 2001:2020, # this will be fixed to post kNN only
-    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "fireYears" = 2001:2020,
+    "sppEquivCol" = simOutPreamble[["sppEquivCol"]],
     "useCentroids" = TRUE,
+    "usePCA" = FALSE,
     "whichModulesToPrepare" = c("fireSense_IgnitionFit", "fireSense_EscapeFit", "fireSense_SpreadFit")
   )
 )
@@ -26,7 +28,7 @@ fSdataPrepObjects <- list(
   pixelGroupMap2011 = biomassMaps2011[["pixelGroupMap"]],
   rasterToMatch = simOutPreamble[["rasterToMatch"]], ## this needs to be masked
   rstLCC = biomassMaps2011[["rstLCC"]],
-  sppEquiv = as.data.table(simOutPreamble[["sppEquiv"]]),
+  sppEquiv = simOutPreamble[["sppEquiv"]],
   standAgeMap2001 = biomassMaps2001[["standAgeMap"]],
   standAgeMap2011 = biomassMaps2011[["standAgeMap"]],
   studyArea = simOutPreamble[["studyArea"]]
@@ -34,7 +36,7 @@ fSdataPrepObjects <- list(
 
 invisible(replicate(10, gc()))
 
-ffSsimDataPrep <- file.path(Paths$outputPath, paste0("fSsimDataPrep_", studyAreaName, ".qs"))
+ffSsimDataPrep <- simFile(paste0("fSsimDataPrep_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_fSsimDataPrep)) {
   if (!file.exists(ffSsimDataPrep)) {
     googledrive::drive_download(file = as_id(gid_fSsimDataPrep), path = ffSsimDataPrep)

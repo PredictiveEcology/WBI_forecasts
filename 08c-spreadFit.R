@@ -1,3 +1,4 @@
+spreadFitPaths[["cachePath"]] <- file.path(cacheDir, "cache_spreadFit", runName)
 do.call(setPaths, spreadFitPaths)
 
 gid_spreadOut <- gdriveSims[studyArea == studyAreaName & simObject == "spreadOut" & runID == run, gid]
@@ -45,8 +46,14 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else if (peutils::user("achubaty")) {
-  if (Sys.info()["nodename"] == "picea.for-cast.ca") {
-    c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+  if (Sys.info()[["nodename"]] == "picea.for-cast.ca") {
+    if (fitUsing == 3) {
+      c(rep("localhost", 25), rep("pinus.for-cast.ca", 8), rep("pseudotsuga.for-cast.ca", 67))
+    } else if (fitUsing == 2) {
+      c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+    }
+  } else if (Sys.info()[["nodename"]] == "pseudotsuga.for-cast.ca") {
+    rep("localhost", 100)
   } else if (grepl("spades", Sys.info()["nodename"])) {
     pemisc::makeIpsForNetworkCluster(ipStart = "10.20.0",
                                      ipEnd = c(106, 217, 213, 220),
@@ -76,7 +83,7 @@ cores <-  if (peutils::user("ieddy")) {
                                    internalProcesses = 10,
                                    sizeGbEachProcess = 1)
 } else {
-  rep("localhost", parallel::detectCores() / 2) ## needed even if spreadFit not being run!
+  min(100, rep("localhost", parallel::detectCores() / 2)) ## needed even if spreadFit not being run!
 }
 
 # NPar <- length(lower)
@@ -96,20 +103,21 @@ spreadFitParams <- list(
     "lower" = lower,
     "maxFireSpread" = max(0.28, upper[1]),
     "mode" = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
+    "mutuallyExclusive" = list("youngAge" = c("class", "nf_")),
     "NP" = length(cores),
     "objFunCoresInternal" = 1L,
     "objfunFireReps" = 100,
     #"onlyLoadDEOptim" = FALSE,
     "rescaleAll" = TRUE,
     "trace" = 1,
-    "SNLL_FS_thresh" = NULL,# NULL means 'autocalibrate' to find suitable threshold value
+    "SNLL_FS_thresh" = NULL, # NULL means 'autocalibrate' to find suitable threshold value
     "upper" = upper,
     #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCache_DE" = FALSE,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
     "visualizeDEoptim" = FALSE,
-    ".plot" = FALSE, #TRUE,
+    ".plot" = FALSE, # TRUE,
     ".plotSize" = list(height = 1600, width = 2000)
   )
 )
@@ -135,7 +143,7 @@ spreadFitObjects <- list(
   studyArea = fSsimDataPrep[["studyArea"]]
 )
 
-fspreadOut <- file.path(Paths$outputPath, paste0("spreadOut_", studyAreaName, "_", run, ".qs"))
+fspreadOut <- simFile(paste0("spreadOut_", studyAreaName, "_", run), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
   if (!file.exists(fspreadOut)) {
     googledrive::drive_download(file = as_id(gid_spreadOut), path = fspreadOut)

@@ -29,7 +29,7 @@ dataPrepOutputs2011 <- data.frame(
                   "rawBiomassMap2011_borealDataPrep.rds"))
 )
 
-fbiomassMaps2011 <- file.path(Paths$outputPath, paste0("biomassMaps2011_", studyAreaName, ".qs"))
+fbiomassMaps2011 <- simFile(paste0("biomassMaps2011_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2011)) {
   if (!file.exists(fbiomassMaps2011)) {
     googledrive::drive_download(file = as_id(gid_biomassMaps2011), path = fbiomassMaps2011)

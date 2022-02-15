@@ -4,13 +4,18 @@ gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", g
 
 times <- list(start = 2011, end = 2100)
 
-dynamicModules <- list("fireSense_dataPrepPredict",
-                       "fireSense",
-                       "fireSense_IgnitionPredict",
-                       "fireSense_EscapePredict",
-                       "fireSense_SpreadPredict",
-                       "Biomass_core",
-                       "Biomass_regeneration")
+dynamicModules <- list(
+  "fireSense_dataPrepPredict",
+  "fireSense",
+   "fireSense_IgnitionPredict",
+   "fireSense_EscapePredict",
+   "fireSense_SpreadPredict",
+   "Biomass_core",
+   "Biomass_regeneration",
+   ifelse(isTRUE(useLandR.CS), "gmcsDataPrep", "")
+)
+dynamicModules <- lapply(dynamicModules, function(m) if (nzchar(m)) m)
+dynamicModules[sapply(dynamicModules, is.null)] <- NULL ## this is bananas!
 
 dynamicObjects <- list(
   .runName = runName,
@@ -18,21 +23,22 @@ dynamicObjects <- list(
   biomassMap = biomassMaps2011$biomassMap,
   climateComponentsTouse = fSsimDataPrep[["climateComponentsToUse"]],
   CMInormal = simOutPreamble[["CMInormal"]],
-  CMIstack = simOutPreamble[["CMIStack"]],
+  CMIstack = simOutPreamble[["CMIstack"]],
   cohortData = fSsimDataPrep[["cohortData2011"]],
+  covMinMax_spread = spreadOut[["covMinMax_spread"]],
+  covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
   ecoregion = biomassMaps2011[["ecoregion"]],
   ecoregionMap = biomassMaps2011[["ecoregionMap"]],
   flammableRTM = fSsimDataPrep[["flammableRTM"]],
   fireSense_IgnitionFitted = ignitionOut[["fireSense_IgnitionFitted"]],
   fireSense_EscapeFitted = escapeOut[["fireSense_EscapeFitted"]],
   fireSense_SpreadFitted = spreadOut[["fireSense_SpreadFitted"]],
-  covMinMax_spread = spreadOut[["covMinMax_spread"]],
-  covMinMax_ignition = ignitionOut[["covMinMax_ignition"]],
   landcoverDT = fSsimDataPrep[["landcoverDT"]],
   nonForest_timeSinceDisturbance = fSsimDataPrep[["nonForest_timeSinceDisturbance2011"]],
   minRelativeB = biomassMaps2011[["minRelativeB"]],
   PCAveg = fSsimDataPrep[["PCAveg"]],
-  pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]],
+  pixelGroupMap = biomassMaps2011[["pixelGroupMap"]],
+  #pixelGroupMap = fSsimDataPrep[["pixelGroupMap2011"]], ## TODO: why is this slightly off?
   projectedClimateLayers = simOutPreamble[["projectedClimateRasters"]],
   rasterToMatch = biomassMaps2011[["rasterToMatch"]],
   rasterToMatchLarge = biomassMaps2011[["rasterToMatchLarge"]],
@@ -110,7 +116,7 @@ dynamicOutputs <- rbind(annualRasters, annualObjects, finalYearOutputs)
 dynamicParams <- list(
   Biomass_core = list(
     "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
-    "vegLeadingProportion" = 0, ## apparently sppColorVect has no mixed color
+    "vegLeadingProportion" = 0, ## apparently `sppColorVect` has no mixed colour
     ".plots" = c("object", "png", "raw"),
     ".studyAreaName" = studyAreaName
   ),
@@ -126,19 +132,22 @@ dynamicParams <- list(
     "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
   fireSense_ignitionPredict = list(
-    # "rescaleFactor" = 1 / fSsimDataPrep@params$fireSense_dataPrepFit$igAggFactor^2 #deprecated
+    ##
   ),
   fireSense = list(
     .plotInterval = NA,
     .plotInitialTime = .plotInitialTime,
     plotIgnitions = FALSE,
     whichModulesToPrepare = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict")
+  ),
+  gmcsDataPrep = list(
+    "yearOfFirstClimateImpact" = times$start
   )
 )
 
 ## TODO: delete unused objects, including previous simLists to free up memory
 
-fsim <- file.path(Paths$outputPath, paste0(runName, ".qs"))
+fsim <- simFile(runName, Paths$outputPath, ext = simFileFormat)
 mainSim <- simInitAndSpades(
   times = times,
   modules = dynamicModules,
@@ -152,10 +161,10 @@ mainSim <- simInitAndSpades(
 saveSimList(sim = mainSim, filename = fsim, fileBackend = 2)
 
 resultsDir <- file.path("outputs", runName)
-#archive::archive_write_dir(archive = paste0(resultsDir, ".tar.gz"), dir = resultsDir) ## doesn't work
-utils::tar(paste0(resultsDir, ".tar.gz"), resultsDir, compression = "gzip") ## TODO: use archive pkg
+tarball <- paste0(resultsDir, ".tar.gz")
+#archive::archive_write_dir(archive = tarball, dir = resultsDir) ## doesn't work
+utils::tar(tarball, resultsDir, compression = "gzip") ## TODO: use archive pkg
 
-retry(quote(drive_put(paste0(resultsDir, ".tar.gz"), unique(as_id(gid_results)))),
-      retries = 5, exponentialDecayBase = 2)
+## we will upload at the end to prevent timeouts from delaying subsequent sims
 
 SpaDES.project::notify_slack(runName = runName, channel = config::get("slackchannel"))

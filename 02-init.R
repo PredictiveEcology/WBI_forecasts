@@ -1,8 +1,14 @@
-.starttime <- Sys.time()
+if (getDTthreads() > 4) {
+  data.table::setDTthreads(4)
+}
 
-if (file.exists(".Renviron")) readRenviron(".Renviron")
-
-Require::Require("config")
+switch(Sys.info()[["user"]],
+       "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
+       "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
+       "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
+       Sys.setenv(R_CONFIG_ACTIVE = "test")
+)
+#Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
 cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
@@ -11,6 +17,7 @@ climateSSP <- as.numeric(config::get("climatessp"))
 cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
 delayStart <- config::get("delaystart")
+fitUsing <- if (grepl("for-cast[.]ca", Sys.info()[["nodename"]])) 3 else 0
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
 nReps <- config::get("nreps")
@@ -18,6 +25,7 @@ reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 reupload <- config::get("reupload")
 run <- config::get("run")
 scratchDir <- config::get("paths")[["scratchdir"]]
+simFileFormat <- config::get()[["simfileformat"]]
 studyAreaName <- config::get("studyarea")
 if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined
 useCloudCache <- config::get("cloud")[["usecloud"]]
@@ -27,6 +35,7 @@ usePlot <- config::get("plot")
 userInputPaths <- config::get("inputpaths")
 usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
+useTerra <- config::get("useterra")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 
 if (!exists("runName")) {
@@ -39,5 +48,5 @@ if (!exists("runName")) {
   run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
 }
 
-firstRunMDCplots <- if (run == 1) TRUE else FALSE
+firstRunMDCplots <- if (run == 1 && reupload) TRUE else FALSE
 firstRunIgnitionFit <- if (run == 1) TRUE else FALSE

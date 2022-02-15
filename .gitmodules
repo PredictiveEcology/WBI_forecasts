@@ -52,3 +52,15 @@
 [submodule "modules/Biomass_speciesFactorial"]
 	path = modules/Biomass_speciesFactorial
 	url = https://github.com/PredictiveEcology/Biomass_speciesFactorial
+[submodule "data_summaries"]
+	path = data_summaries
+	url = https://github.com/PredictiveEcology/WBI_data
+[submodule "modules/birdsNWT"]
+	path = modules/birdsNWT
+	url = https://github.com/tati-micheletti/birdsNWT
+[submodule "modules/caribouPopGrowthModel"]
+	path = modules/caribouPopGrowthModel
+	url = https://github.com/tati-micheletti/caribouPopGrowthModel
+[submodule "modules/canClimateData"]
+	path = modules/canClimateData
+	url = https://github.com/PredictiveEcology/canClimateData.git

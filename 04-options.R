@@ -3,10 +3,9 @@
 ################################################################################
 
 cacheDBconn <- if (config::get("cachedb") == "sqlite") {
-  Require("RSQLite")
   NULL ## default to sqlite
 } else if (config::get("cachedb") == "postgresql") {
-  Require("RPostgres")
+  Require("RPostgres", require = FALSE)
   DBI::dbConnect(drv = RPostgres::Postgres(),
                  host = Sys.getenv("PGHOST"),
                  port = Sys.getenv("PGPORT"),
@@ -37,10 +36,11 @@ opts <- options(
   "reproducible.showSimilar" = TRUE,
   "reproducible.useCache" = TRUE,
   "reproducible.useCloud" = TRUE,
-  "reproducible.useGDAL" = TRUE,
+  "reproducible.useGDAL" = FALSE,
   "reproducible.useMemoise" = useMemoise,
   "reproducible.useNewDigestAlgorithm" = reproducibleAlgorithm,
   "reproducible.useRequire" = useRequire,
+  "reproducible.useTerra" = useTerra,
   "spades.messagingNumCharsModule" = messagingNumCharsModule,
   "spades.moduleCodeChecks" = codeChecks,
   "spades.nThreads" = 4,
@@ -49,10 +49,12 @@ opts <- options(
   "spades.useRequire" = useRequire
 )
 
-Require(c("googledrive", "httr"))
-
 httr::set_config(httr::config(http_version = 0))
 httr::timeout(seconds = 10)
+
+googledrivecache <- config::get("cloud")[["googledrivecache"]]
+if (!is.null(googledrivecache))
+  options(gargle_oauth_cache = googledrivecache)
 
 drive_auth(email = config::get("cloud")[["googleuser"]], use_oob = quickPlot::isRstudioServer())
 message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))

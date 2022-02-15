@@ -2,40 +2,46 @@ do.call(setPaths, preamblePaths)
 
 gid_preamble <- gdriveSims[studyArea == studyAreaName & simObject == "simOutPreamble" &
                              gcm == climateGCM & ssp == climateSSP, gid]
-upload_preamble <- reupload | length(gid_preamble) == 0
+upload_preamble <- run == 1 & (reupload | length(gid_preamble) == 0)
 
 preambleObjects <- list(
   .runName = runName
 )
 
 preambleParams <- list(
-  WBI_dataPrep_studyArea = list(
+  canClimateData = list(
     ".runName" = runName,
-    ".useCache" = TRUE,
+    ".useCache" = ".inputObjects", # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
     "climateGCM" = climateGCM,
     "climateSSP" = climateSSP,
     "historicalFireYears" = 1991:2020,
     "studyAreaName" = studyAreaName
+  ),
+  WBI_dataPrep_studyArea = list(
+    ".runName" = runName,
+    ".useCache" = ".inputObjects", # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
+    "studyAreaName" = studyAreaName
   )
 )
 
-fsimOutPreamble <- simFile(paste0("simOutPreamble_", studyAreaName, "_", climateGCM, "_", climateSSP), Paths$outputPath, ext = "qs")
+fsimOutPreamble <- simFile(paste0("simOutPreamble_", studyAreaName, "_", climateGCM, "_", climateSSP),
+                           Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   if (!file.exists(fsimOutPreamble)) {
     googledrive::drive_download(file = as_id(gid_preamble), path = fsimOutPreamble)
   }
   simOutPreamble <- loadSimList(fsimOutPreamble)
 } else {
-  simOutPreamble <- Cache(simInitAndSpades,
-                          times = list(start = 0, end = 1),
-                          params = preambleParams,
-                          modules = c("WBI_dataPrep_studyArea"),
-                          objects = preambleObjects,
-                          paths = preamblePaths,
-                          #useCache = "overwrite",
-                          #useCloud = useCloudCache,
-                          #cloudFolderID = cloudCacheFolderID,
-                          userTags = c("WBI_dataPrep_studyArea", studyAreaName)
+  simOutPreamble <- simInitAndSpades(
+    times = list(start = 0, end = 1),
+    params = preambleParams,
+    modules = c("WBI_dataPrep_studyArea", "canClimateData"),
+    objects = preambleObjects,
+    paths = preamblePaths#,
+    #useCache = "overwrite",
+    #useCloud = useCloudCache,
+    #cloudFolderID = cloudCacheFolderID,
+    #userTags = c("WBI_dataPrep_studyArea", studyAreaName)
   )
   saveSimList(sim = simOutPreamble, filename = fsimOutPreamble, fileBackend = 2)
 

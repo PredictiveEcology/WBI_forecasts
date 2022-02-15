@@ -12,20 +12,12 @@ dataPrep <- list(
   useCache = TRUE
 )
 
-dataPrepModules <- if (isTRUE(useLandR.CS)) {
-  list(
-    "Biomass_speciesData",
-    "Biomass_speciesFactorial",
-    "Biomass_borealDataPrep",
-    "Biomass_speciesParameters"
-  )
-} else {
-  list(
-    "Biomass_speciesData",
-    "Biomass_speciesFactorial",
-    "Biomass_borealDataPrep"
-  )
-}
+dataPrepModules <- list(
+  "Biomass_speciesData",
+  "Biomass_speciesFactorial",
+  "Biomass_borealDataPrep",
+  "Biomass_speciesParameters"
+)
 
 dataPrepParams2001 <- list(
   .globals = list("dataYear" = 2001),
@@ -52,9 +44,12 @@ dataPrepParams2001 <- list(
   ),
   Biomass_speciesData = list(
     #"dataYear" = 2001, ## passed globally
-    "sppEquivCol" = simOutPreamble$sppEquivCol,
+    "sppEquivCol" = simOutPreamble[["sppEquivCol"]],
     "types" = "KNN",
     ".studyAreaName" = paste0(studyAreaName, 2001)
+  ),
+  Biomass_speciesFactorial = list(
+    factorialSize = "small" ## TODO: use medium?
   ),
   Biomass_speciesParameters = list(
     constrainGrowthCurve = c(0, 1),
@@ -65,6 +60,7 @@ dataPrepParams2001 <- list(
     GAMMknots = 3,
     minimumPlotsPerGamm = 65,
     quantileAgeSubset = 98,
+    speciesFittingApproach = "focal",
     sppEquivCol = simOutPreamble$sppEquivCol
   )
 )
@@ -95,7 +91,7 @@ dataPrepObjects <- list(
   studyAreaReporting = simOutPreamble[["studyAreaReporting"]]
 )
 
-fbiomassMaps2001 <- file.path(Paths$outputPath, paste0("biomassMaps2001_", studyAreaName, ".qs"))
+fbiomassMaps2001 <- simFile(paste0("biomassMaps2001_", studyAreaName), Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_biomassMaps2001)) {
   if (!file.exists(fbiomassMaps2001)) {
     googledrive::drive_download(file = as_id(gid_biomassMaps2001), path = fbiomassMaps2001)
