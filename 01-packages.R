@@ -39,6 +39,7 @@ if (FALSE) {
 remotes::install_github("LandSciTech/caribouMetrics") ## currently private repo
 remotes::install_github("PredictiveEcology/reproducible@terraInProjectInputs") ## needs update
 remotes::install_github("PredictiveEcology/climateData@development") ## needs update
+remotes::install_github("ianmseddy/PSPclean@development") ## nedes update
 #out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
 
 Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
