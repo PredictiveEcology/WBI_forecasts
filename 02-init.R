@@ -6,6 +6,7 @@ switch(Sys.info()[["user"]],
        "achubaty" = Sys.setenv(R_CONFIG_ACTIVE = "alex"),
        "ieddy" = Sys.setenv(R_CONFIG_ACTIVE = "ian"),
        "emcintir" = Sys.setenv(R_CONFIG_ACTIVE = "eliot"),
+       "tmichele" = Sys.setenv(R_CONFIG_ACTIVE = "tati"),
        Sys.setenv(R_CONFIG_ACTIVE = "test")
 )
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
