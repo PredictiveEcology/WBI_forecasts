@@ -28,10 +28,13 @@ fsimOutPreamble <- simFile(paste0("simOutPreamble_", studyAreaName, "_", climate
                            Paths$outputPath, ext = simFileFormat)
 if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   if (!file.exists(fsimOutPreamble)) {
+    message("Downloading preamble simulation results from google drive...")
     googledrive::drive_download(file = as_id(gid_preamble), path = fsimOutPreamble)
   }
+  message("Loading preamble simulation results...")
   simOutPreamble <- loadSimList(fsimOutPreamble)
 } else {
+  message("Running preamble simulations...")
   simOutPreamble <- simInitAndSpades(
     times = list(start = 0, end = 1),
     params = preambleParams,
