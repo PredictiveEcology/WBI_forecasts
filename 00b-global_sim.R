@@ -24,4 +24,8 @@ source("08c-spreadFit.R")
 
 source("09-main-sim.R")
 
+source("10b-post-processing-birds.R")
+source("10c-post-processing-caribou.R")
+source("10a-post-processing-landscape.R")
+
 message(crayon::red("Simulation", runName, "complete"))
