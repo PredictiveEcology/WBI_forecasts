@@ -35,12 +35,7 @@ if (FALSE) {
   sf::sf_extSoftVersion() ## want GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 }
 
-## TODO: remove this workaround; can't check/install private github packages using `Require`
-remotes::install_github("LandSciTech/caribouMetrics") ## currently private repo
-remotes::install_github("PredictiveEcology/reproducible@terraInProjectInputs") ## needs update
-remotes::install_github("PredictiveEcology/climateData@development") ## needs update
-remotes::install_github("ianmseddy/PSPclean@development") ## nedes update
-#out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
+out <- makeSureAllPackagesInstalled(modulePath = "modules")
 
 Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
 
