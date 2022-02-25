@@ -92,27 +92,28 @@ cores <-  if (peutils::user("ieddy")) {
 
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
-    # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
-    "cloudFolderID_DE" = cloudCacheFolderID,
-    "cores" = cores,
-    "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
-    "doObjFunAssertions" = FALSE,
-    "iterDEoptim" = if (peutils::user("emcintir")) 300 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 300 else 150,
-    "iterThresh" = 396L,
-    "lower" = lower,
-    "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
-    "mutuallyExclusive" = list("youngAge" = c("class", "nf_")),
-    "NP" = length(cores),
-    "objFunCoresInternal" = 1L,
-    "objfunFireReps" = 100,
-    #"onlyLoadDEOptim" = FALSE,
-    "rescaleAll" = TRUE,
-    "trace" = 1,
-    "SNLL_FS_thresh" = NULL, # NULL means 'autocalibrate' to find suitable threshold value
-    "upper" = upper,
-    #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
+    # cacheId_DE = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
+    cloudFolderID_DE = cloudCacheFolderID,
+    cores = cores,
+    DEoptimTests = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
+    doObjFunAssertions = FALSE,
+    iterDEoptim = if (peutils::user("emcintir")) 300 else 150,
+    iterStep = if (peutils::user("emcintir")) 300 else 150,
+    iterThresh = 396L,
+    libPathDEoptim = libPathDEoptim,
+    lower = lower,
+    maxFireSpread = max(0.28, upper[1]),
+    mode = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
+    mutuallyExclusive = list("youngAge" = c("class", "nf_")),
+    NP = length(cores),
+    objFunCoresInternal = 1L,
+    objfunFireReps = 100,
+    # onlyLoadDEOptim = FALSE,
+    rescaleAll = TRUE,
+    trace = 1,
+    SNLL_FS_thresh = NULL, # NULL means 'autocalibrate' to find suitable threshold value
+    upper = upper,
+    # urlDEOptimObject = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCache_DE" = FALSE,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,

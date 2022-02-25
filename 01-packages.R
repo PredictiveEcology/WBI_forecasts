@@ -25,8 +25,7 @@ if (!require("Require", quietly = TRUE)) {
 .spatialPkgs <- c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra")
 
 Require("PredictiveEcology/SpaDES.install@development")
-#devtools::install("c:/Eliot/GitHub/climateData", args = "--no-multiarch", upgrade = FALSE, quick = TRUE);
-#devtools::install("c:/Eliot/GitHub/reproducible", args = "--no-multiarch", upgrade = FALSE, quick = TRUE);
+
 installSpaDES(dontUpdate = .spatialPkgs)
 
 if (FALSE) {
@@ -42,6 +41,7 @@ Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
 ## NOTE: always load packages LAST, after installation above;
 ##       ensure plyr loaded before dplyr or there will be problems
 Require(c("data.table", "plyr", "pryr",
+          "PredictiveEcology/reproducible@development (>= 1.2.8.9040)",
           "PredictiveEcology/LandR@development", ## TODO: workaround weird raster/sf method problem
-          "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9002)",
+          "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9003)",
           "archive", "config", "googledrive", "httr", "slackr"), upgrade = FALSE)

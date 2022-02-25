@@ -8,6 +8,8 @@ preambleObjects <- list(
   .runName = runName
 )
 
+preambleModules <- list("WBI_dataPrep_studyArea", "canClimateData")
+
 preambleParams <- list(
   canClimateData = list(
     ".runName" = runName,
@@ -35,13 +37,14 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
   simOutPreamble <- simInitAndSpades(
     times = list(start = 0, end = 1),
     params = preambleParams,
-    modules = c("WBI_dataPrep_studyArea", "canClimateData"),
+    modules = preambleModules,
+    loadOrder = unlist(preambleModules),
     objects = preambleObjects,
     paths = preamblePaths#,
     #useCache = "overwrite",
     #useCloud = useCloudCache,
     #cloudFolderID = cloudCacheFolderID,
-    #userTags = c("WBI_dataPrep_studyArea", studyAreaName)
+    #userTags = c("preamble", studyAreaName)
   )
   saveSimList(sim = simOutPreamble, filename = fsimOutPreamble, fileBackend = 2)
 
@@ -55,6 +58,27 @@ if (isTRUE(usePrerun) & isFALSE(upload_preamble)) {
       gdriveSims
     )
   }
+}
+
+if (isTRUE(firstRunMDCplots)) {
+  ggMDC <- fireSenseUtils::compareMDC(
+    historicalMDC = simOutPreamble$historicalClimateRasters$MDC,
+    projectedMDC = simOutPreamble$projectedClimateRasters$MDC,
+    flammableRTM = simOutPreamble$flammableRTM
+  )
+  fggMDC <- file.path(preamblePaths$outputPath, "figures", paste0("compareMDC_", studyAreaName, "_",
+                                                                  climateGCM, "_", climateSSP, ".png"))
+  checkPath(dirname(fggMDC), create = TRUE)
+
+  ggplot2::ggsave(plot = ggMDC, filename = fggMDC)
+}
+
+if (isTRUE(upload_preamble)) {
+  googledrive::drive_put(
+    media = fggMDC,
+    path = unique(as_id(gdriveSims[studyArea == studyAreaName & simObject == "results", gid])),
+    name = basename(fggMDC)
+  )
 }
 
 nSpecies <- length(unique(simOutPreamble$sppEquiv$LandR))
