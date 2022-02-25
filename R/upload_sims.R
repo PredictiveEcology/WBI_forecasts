@@ -14,6 +14,6 @@ m <- which(basename(files2upload) == "AB_CanESM5_SSP370_run01.tar.gz")
 lapply(files2upload[-c(1:m)], function(tarball) {
   studyAreaName <- substr(basename(tarball), 1, 2)
   gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", gid]
-    retry(quote(drive_put(media = tarball, path = unique(as_id(gid_results)), name = basename(tarball))),
+  retry(quote(drive_put(media = tarball, path = unique(as_id(gid_results)), name = basename(tarball))),
         retries = 5, exponentialDecayBase = 2)
 })
