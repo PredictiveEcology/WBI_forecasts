@@ -25,8 +25,8 @@ cache
 config_db.yml
 inputs/
 inputs
-outputs/
-outputs
+outputs*/
+outputs*
 
 # saved simLists
 spreadOut*
