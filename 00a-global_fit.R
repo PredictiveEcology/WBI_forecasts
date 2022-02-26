@@ -1,5 +1,3 @@
-moduleDir <- "modules"
-
 source("01-packages.R")
 
 source("02-init.R")
@@ -11,10 +9,11 @@ if (delayStart > 0) {
   message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))
   Sys.sleep(delayStart*60)
 }
-
+usePrerun = TRUE; reupload = FALSE
 source("06-studyArea.R")
 
 source("07a-dataPrep_2001.R")
+usePrerun = FALSE;
 source("07b-dataPrep_2011.R")
 source("07c-dataPrep_fS.R")
 

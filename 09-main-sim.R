@@ -1,7 +1,5 @@
 do.call(setPaths, dynamicPaths)
 
-gid_results <- gdriveSims[studyArea == studyAreaName & simObject == "results", gid]
-
 times <- list(start = 2011, end = 2100)
 
 dynamicModules <- list(
@@ -115,21 +113,21 @@ dynamicOutputs <- rbind(annualRasters, annualObjects, finalYearOutputs)
 
 dynamicParams <- list(
   Biomass_core = list(
-    "sppEquivCol" = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
-    "vegLeadingProportion" = 0, ## apparently `sppColorVect` has no mixed colour
-    ".plots" = c("object", "png", "raw"),
-    ".studyAreaName" = studyAreaName
+    sppEquivCol = fSsimDataPrep@params$fireSense_dataPrepFit$sppEquivCol,
+    vegLeadingProportion = 0, ## apparently `sppColorVect` has no mixed colour
+    .plots = c("object", "png", "raw"),
+    .studyAreaName = studyAreaName
   ),
   Biomass_regeneration = list(
-    "fireInitialTime" = times$start + 1 #regeneration is scheduled earlier, so it starts in 2012
+    fireInitialTime = times$start + 1 #regeneration is scheduled earlier, so it starts in 2012
   ),
   fireSense_dataPrepPredict = list(
-    "fireTimeStep" = 1,
-    "sppEquivCol" = simOutPreamble$sppEquivCol,
-    "whichModulesToPrepare" = c("fireSense_IgnitionPredict",
-                                "fireSense_EscapePredict",
-                                "fireSense_SpreadPredict"),
-    "missingLCCgroup" = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
+    fireTimeStep = 1,
+    sppEquivCol = simOutPreamble$sppEquivCol,
+    whichModulesToPrepare = c("fireSense_IgnitionPredict",
+                              "fireSense_EscapePredict",
+                              "fireSense_SpreadPredict"),
+    missingLCCgroup = fSsimDataPrep@params$fireSense_dataPrepFit$missingLCCgroup
   ),
   fireSense_ignitionPredict = list(
     ##
@@ -141,7 +139,8 @@ dynamicParams <- list(
     whichModulesToPrepare = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict")
   ),
   gmcsDataPrep = list(
-    "yearOfFirstClimateImpact" = times$start
+    doPlotting = TRUE,
+    yearOfFirstClimateImpact = times$start
   )
 )
 

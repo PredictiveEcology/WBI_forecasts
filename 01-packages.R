@@ -25,8 +25,7 @@ if (!require("Require", quietly = TRUE)) {
 .spatialPkgs <- c("lwgeom", "rgdal", "rgeos", "sf", "sp", "raster", "terra")
 
 Require("PredictiveEcology/SpaDES.install@development")
-#devtools::install("c:/Eliot/GitHub/climateData", args = "--no-multiarch", upgrade = FALSE, quick = TRUE);
-#devtools::install("c:/Eliot/GitHub/reproducible", args = "--no-multiarch", upgrade = FALSE, quick = TRUE);
+
 installSpaDES(dontUpdate = .spatialPkgs)
 
 if (FALSE) {
@@ -35,18 +34,14 @@ if (FALSE) {
   sf::sf_extSoftVersion() ## want at least GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 }
 
-## TODO: remove this workaround; can't check/install private github packages using `Require`
-remotes::install_github("LandSciTech/caribouMetrics") ## currently private repo
-remotes::install_github("PredictiveEcology/reproducible@terraInProjectInputs") ## needs update
-remotes::install_github("PredictiveEcology/climateData@development") ## needs update
-remotes::install_github("ianmseddy/PSPclean@development") ## nedes update
-#out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
+out <- makeSureAllPackagesInstalled(modulePath = "modules")
 
 Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
 
 ## NOTE: always load packages LAST, after installation above;
 ##       ensure plyr loaded before dplyr or there will be problems
 Require(c("data.table", "plyr", "pryr",
+          "PredictiveEcology/reproducible@development (>= 1.2.8.9040)",
           "PredictiveEcology/LandR@development", ## TODO: workaround weird raster/sf method problem
-          "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9002)",
+          "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9003)",
           "archive", "config", "googledrive", "httr", "slackr"), upgrade = FALSE)
