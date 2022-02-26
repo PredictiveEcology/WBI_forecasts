@@ -9,7 +9,7 @@ fSdataPrepParams <- list(
     .studyAreaName = studyAreaName,
     .useCache = ".inputObjects",
     fireYears = 2001:2020,
-    igAggFactor = 10000 / unique(res(simOutPreamble[["rasterToMatch"]])),
+    igAggFactor = 10000 / unique(raster::res(simOutPreamble[["rasterToMatch"]])),
     sppEquivCol = simOutPreamble[["sppEquivCol"]],
     useCentroids = TRUE,
     usePCA = FALSE,
