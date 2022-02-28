@@ -51,6 +51,8 @@ cores <-  if (peutils::user("ieddy")) {
       c(rep("localhost", 25), rep("pinus.for-cast.ca", 8), rep("pseudotsuga.for-cast.ca", 67))
     } else if (fitUsing == 2) {
       c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+    } else if (fitUsing == 1) {
+      rep("pseudotsuga.for-cast.ca", 100)
     }
   } else if (Sys.info()[["nodename"]] == "pseudotsuga.for-cast.ca") {
     rep("localhost", 100)
