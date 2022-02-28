@@ -12,7 +12,7 @@ form <- fSsimDataPrep[["fireSense_ignitionFormula"]]
 nCores <- if (studyAreaName == "NT") {
   2 ## 450+ GB RAM with just 2 cores
 } else {
-  pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
+  pmin(8, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 }
 
 ignitionFitParams <- list(
