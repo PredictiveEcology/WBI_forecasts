@@ -12,12 +12,12 @@ preambleModules <- list("WBI_dataPrep_studyArea", "canClimateData")
 
 preambleParams <- list(
   canClimateData = list(
-    ".runName" = runName,
-    ".useCache" = ".inputObjects", # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
-    "climateGCM" = climateGCM,
-    "climateSSP" = climateSSP,
-    "historicalFireYears" = 1991:2020,
-    "studyAreaName" = studyAreaName
+    .runName = runName,
+    .useCache = ".inputObjects", # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
+    climateGCM = climateGCM,
+    climateSSP = climateSSP,
+    historicalFireYears = 1991:2020,
+    studyAreaName = studyAreaName
   ),
   WBI_dataPrep_studyArea = list(
     ".runName" = runName,
