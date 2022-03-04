@@ -5,10 +5,10 @@ source("03-paths.R")
 source("04-options.R")
 source("05-google-ids.R")
 
-if (delayStart > 0) {
-  message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))
-  Sys.sleep(delayStart*60)
-}
+# if (delayStart > 0) {
+#   message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))
+#   Sys.sleep(delayStart*60)
+# }
 
 reupload = FALSE; usePrerun = FALSE;
 source("06-studyArea.R")
