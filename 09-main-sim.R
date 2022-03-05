@@ -140,6 +140,7 @@ dynamicParams <- list(
     whichModulesToPrepare = c("fireSense_IgnitionPredict", "fireSense_EscapePredict", "fireSense_SpreadPredict")
   ),
   gmcsDataPrep = list(
+    .useCache = FALSE, # default: ".inputObjects"
     doPlotting = TRUE,
     yearOfFirstClimateImpact = times$start
   )
