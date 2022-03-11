@@ -1,9 +1,19 @@
-#source("01-packages.R")
-
-library(Require)
+library("Require")
 Require(c("googledrive", "purrr"))
 
-drive_auth(email = "achubaty@for-cast.ca", use_oob = quickPlot::isRstudioServer())
+token <- Require::normPath(list.files(".", "western-boreal-initiative-.*[.]json")[1])
+haveToken <- isTRUE(length(token) == 1)
+
+if (haveToken) {
+  drive_auth(path = token)
+} else {
+  message(crayon::red("No Google service account token found. Trying user authentication..."))
+  drive_auth(email = "achubaty@for-cast.ca", use_oob = quickPlot::isRstudioServer())
+}
+
+message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))
+
+# upload --------------------------------------------------------------------------------------
 
 source("05-google-ids.R")
 
