@@ -16,62 +16,63 @@ source("05-google-ids.R")
 usePrerun <- TRUE
 doUpload <- TRUE
 
-gid_results <- lapply(studyAreaNames, function(sAN) {
-  gdriveSims[studyArea == sAN & simObject == "results", gid]
-})
-names(gid_results) <- studyAreaNames
-
 do.call(setPaths, posthocPaths)
 
 posthocModules <- list("Biomass_summary", "fireSense_summary")
 
-posthocParams <- list(
-  Biomass_summary = list(
-    climateScenarios = climateScenarios,
-    simOutputPath = dirname(defaultPaths$outputPath), ## "outputs"
-    studyAreaNames = studyAreaNames,
-    reps = Nreps,
-    upload = doUpload,
-    year = years
-  ),
-  fireSense_summary = list(
-    climateScenarios = climateScenarios,
-    simOutputPath = dirname(defaultPaths$outputPath), ## "outputs"
-    studyAreaNames = studyAreaNames,
-    reps = Nreps,
-    upload = doUpload
+source("modules/WBI_dataPrep_studyArea/R/sppEquiv.R") ## makeSppEquivWBI()
+
+parallel::mclapply(studyAreaNames, function(sAN) {
+  gid_results <- gdriveSims[studyArea == sAN & simObject == "results", gid]
+  names(gid_results) <- sAN
+
+  ## params
+  posthocParams <- list(
+    Biomass_summary = list(
+      climateScenarios = climateScenarios,
+      simOutputPath = dirname(defaultPaths$outputPath), ## "outputs"
+      studyAreaNames = sAN,
+      reps = Nreps,
+      upload = doUpload,
+      year = years
+    ),
+    fireSense_summary = list(
+      climateScenarios = climateScenarios,
+      simOutputPath = dirname(defaultPaths$outputPath), ## "outputs"
+      studyAreaNames = sAN,
+      reps = Nreps,
+      upload = doUpload
+    )
   )
-)
 
-# tree species used
-## TODO:
-source("modules/Ontario_preamble/R/sppEquiv.R") ## makeSppEquivON()
-sppEquiv <- makeSppEquivON()
+  ## objects
+  sppEquiv <- makeSppEquivWBI(sAN)
+  treeSpecies <- unique(sppEquiv[, c("LandR", "Type")])
+  setnames(treeSpecies, "LandR", "Species")
 
-treeSpecies <- unique(sppEquiv[, c("LandR", "Type")])
-setnames(treeSpecies, "LandR", "Species")
+  sim_SA <- loadSimList(file.path("outputs", sAN,
+                                  paste0("simOutPreamble_", sAN, "_",
+                                         gsub("SSP", "", climateScenarios[[1]]), ".qs")))
+  rasterToMatch <- sim_SA$rasterToMatchReporting
+  rm(sim_SA)
 
-## same RTM for all sims, so it doesn't matter which one we load
-sim_SA <- loadSimList(file.path("outputs", studyAreaNames[[1]],
-                                paste0("simOutPreamble_", studyAreaNames[[1]], "_",
-                                       gsub("SSP", "", climateScenarios[[1]]), ".qs")))
-rasterToMatch <- sim_SA$rasterToMatchReporting
-rm(sim_SA)
+  posthocObjects <- list(
+    rasterToMatch = rasterToMatch,
+    treeSpecies = treeSpecies,
+    uploadTo = gid_results
+  )
 
-posthocObjects <- list(
-  rasterToMatch = rasterToMatch,
-  treeSpecies = treeSpecies,
-  uploadTo = gid_results
-)
+  posthocSim <- simInitAndSpades(
+    times = list(start = 0, end = 1),
+    params = posthocParams,
+    modules = posthocModules,
+    loadOrder = unlist(posthocModules),
+    objects = posthocObjects,
+    paths = posthocPaths
+  )
 
-posthocSim <- simInitAndSpades(
-  times = list(start = 0, end = 1),
-  params = posthocParams,
-  modules = posthocModules,
-  loadOrder = unlist(posthocModules),
-  objects = posthocObjects,
-  paths = posthocPaths
-)
+  TRUE
+})
 
 # simulation summaries ------------------------------------------------------------------------
 
@@ -79,4 +80,3 @@ posthocSim <- simInitAndSpades(
 
 #sim <- loadSimList("outputs/AOU_CCSM4_RCP85_res250_rep02/AOU_CCSM4_RCP85_res250_rep02.qs")
 #et <- elapsedTime(sim, units = "hours")
-
