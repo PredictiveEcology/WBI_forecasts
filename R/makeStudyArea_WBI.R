@@ -2,6 +2,16 @@
 
 makeStudyArea <- function(studyAreaName){
 
+  studyAreaNameLong <- switch(studyAreaName,
+                              AB = "Alberta",
+                              BC = "British Columbia",
+                              SK = "Saskatchewan",
+                              MB = "Manitoba",
+                              NT = "Northwest Territories & Nunavut",
+                              NU = "Northwest Territories & Nunavut",
+                              YT = "Yukon",
+                              RIA = "RIA")
+
 provs <- c("British Columbia", "Alberta", "Saskatchewan", "Manitoba")
 terrs <- c("Yukon", "Northwest Territories", "Nunavut")
 WB <- c(provs, terrs)

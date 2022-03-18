@@ -36,7 +36,7 @@ if (FALSE) {
   sf::sf_extSoftVersion() ## want GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 }
 
-out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
+# out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
 
 Require(c("RCurl", "RPostgres", "XML"), require = FALSE)
 

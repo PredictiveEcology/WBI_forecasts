@@ -100,3 +100,4 @@ tati:
   simfileformat: "qs"
   studyarea: "AB" ## AB, BC, SK, MB, YT, NT, NU, RIA
   useprerun: !expr if (grepl("spades|pseudotsuga", Sys.info()[["nodename"]])) TRUE else FALSE
+  userequire: false
