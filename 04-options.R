@@ -52,9 +52,20 @@ opts <- options(
 httr::set_config(httr::config(http_version = 0))
 httr::timeout(seconds = 10)
 
-googledrivecache <- config::get("cloud")[["googledrivecache"]]
-if (!is.null(googledrivecache))
-  options(gargle_oauth_cache = googledrivecache)
+token <- Require::normPath(list.files(".", "western-boreal-initiative-.*[.]json")[1])
+haveToken <- isTRUE(length(token) == 1)
 
-drive_auth(email = config::get("cloud")[["googleuser"]], use_oob = quickPlot::isRstudioServer())
+if (haveToken) {
+  drive_auth(path = token)
+} else {
+  message(crayon::red("No Google service account token found. Trying user authentication..."))
+
+  googledrivecache <- config::get("cloud")[["googledrivecache"]]
+  if (!is.null(googledrivecache)) {
+    options(gargle_oauth_cache = googledrivecache)
+  }
+
+  drive_auth(email = config::get("cloud")[["googleuser"]], use_oob = quickPlot::isRstudioServer())
+}
+
 message(crayon::silver("Authenticating as: "), crayon::green(drive_user()$emailAddress))
