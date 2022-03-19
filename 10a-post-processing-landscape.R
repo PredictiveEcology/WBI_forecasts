@@ -1,52 +1,82 @@
 moduleDir <- "modules"
-usePrerun <- TRUE
+
+years <- c(2011, 2100)
+Nreps <- 5 ## adjust as needed
+studyAreaNames <- c("AB", "BC", "MB", "NT", "SK", "YT")
+climateScenarios <- c("CanESM5_SSP370", "CanESM5_SSP585", "CNRM-ESM2-1_SSP370", "CNRM-ESM2-1_SSP585")
+
+runName <- sprintf("%s_%s_run01", studyAreaNames[1], climateScenarios[1]) ## need a runName for gids
 
 source("01-packages.R")
-
 source("02-init.R")
 source("03-paths.R")
-source("04-options.R")
+source("04-options.R"); options(mc.cores = nReps);
 source("05-google-ids.R")
 
-if (delayStart > 0 & run == 1) {
-  message(crayon::green("\nStaggered job start: delaying", runName, "by", delayStart, "minutes."))
-  Sys.sleep(delayStart*60)
-}
+usePrerun <- TRUE
+doUpload <- TRUE
 
-source("06-studyArea.R")
-source("07a-dataPrep_2001.R")
-source("07b-dataPrep_2011.R")
+do.call(setPaths, posthocPaths)
 
-#####
+posthocModules <- list("Biomass_summary", "fireSense_summary")
 
+source("modules/WBI_dataPrep_studyArea/R/sppEquiv.R") ## makeSppEquivWBI()
 
-studyAreas <- c("AB", "BC", "MB", "NT", "SK", "YT")
+parallel::mclapply(studyAreaNames, function(sAN) {
+  gid_results <- gdriveSims[studyArea == sAN & simObject == "results", gid]
+  names(gid_results) <- sAN
 
-lapply(studyAreas, function(sA) {
+  ## params
+  posthocParams <- list(
+    Biomass_summary = list(
+      climateScenarios = climateScenarios,
+      simOutputPath = dirname(defaultPaths$outputPath), ## "outputs"
+      studyAreaNames = sAN,
+      reps = Nreps,
+      upload = doUpload,
+      year = years
+    ),
+    fireSense_summary = list(
+      climateScenarios = climateScenarios,
+      simOutputPath = dirname(defaultPaths$outputPath), ## "outputs"
+      studyAreaNames = sAN,
+      reps = Nreps,
+      upload = doUpload
+    )
+  )
 
-  runNames <- paste0(sA, "_CCSM4_RCP85_run", 1:5)
+  ## objects
+  sppEquiv <- makeSppEquivWBI(sAN)
+  treeSpecies <- unique(sppEquiv[, c("LandR", "Type")])
+  setnames(treeSpecies, "LandR", "Species")
 
-  ##  TODO: annual? decadal?
-  ##  1. summarize mean ignition prob values
-  ##    a. create raster of mean values
-  ##    b. histogram
-  ##    c. `summary(simOut$fireSense_IgnitionPredicted[])`
-  ##
-  ##  2. summarize mean escape prob values
-  ##    a. create raster of mean values
-  ##    b. histogram
-  ##    c. `summary(simOut$fireSense_EscapePredicted[])`
-  ##
-  ##  3. summarize mean spread prob values
-  ##    a. create raster of mean values
-  ##    b. histogram
-  ##    c. `summary(simOut$fireSense_SpreadPredicted[])`
+  sim_SA <- loadSimList(file.path("outputs", sAN,
+                                  paste0("simOutPreamble_", sAN, "_",
+                                         gsub("SSP", "", climateScenarios[[1]]), ".qs")))
+  rasterToMatch <- sim_SA$rasterToMatchReporting
+  rm(sim_SA)
+
+  posthocObjects <- list(
+    rasterToMatch = rasterToMatch,
+    treeSpecies = treeSpecies,
+    uploadTo = gid_results
+  )
+
+  posthocSim <- simInitAndSpades(
+    times = list(start = 0, end = 1),
+    params = posthocParams,
+    modules = posthocModules,
+    loadOrder = unlist(posthocModules),
+    objects = posthocObjects,
+    paths = posthocPaths
+  )
+
+  TRUE
 })
 
-## - classify landscapee (leading/dominant veg type/species)
-## - decid ==> conifer  &  conifer ==> conifer maps
+# simulation summaries ------------------------------------------------------------------------
 
-## add additional scripts *e.g., to source functions) to the project dir's R/ subfolder
-## - need to explicitly source the files there
+## TODO: sim summary module?
 
-## TODO ensure these functions get into a package! LandR
+#sim <- loadSimList("outputs/AOU_CCSM4_RCP85_res250_rep02/AOU_CCSM4_RCP85_res250_rep02.qs")
+#et <- elapsedTime(sim, units = "hours")

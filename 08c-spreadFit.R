@@ -51,6 +51,8 @@ cores <-  if (peutils::user("ieddy")) {
       c(rep("localhost", 25), rep("pinus.for-cast.ca", 8), rep("pseudotsuga.for-cast.ca", 67))
     } else if (fitUsing == 2) {
       c(rep("localhost", 68), rep("pinus.for-cast.ca", 32))
+    } else if (fitUsing == 1) {
+      rep("pseudotsuga.for-cast.ca", 100)
     }
   } else if (Sys.info()[["nodename"]] == "pseudotsuga.for-cast.ca") {
     rep("localhost", 100)
@@ -92,27 +94,28 @@ cores <-  if (peutils::user("ieddy")) {
 
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
-    # "cacheId_DE" = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
-    "cloudFolderID_DE" = cloudCacheFolderID,
-    "cores" = cores,
-    "DEoptimTests" = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
-    "doObjFunAssertions" = FALSE,
-    "iterDEoptim" = if (peutils::user("emcintir")) 300 else 150,
-    "iterStep" = if (peutils::user("emcintir")) 300 else 150,
-    "iterThresh" = 396L,
-    "lower" = lower,
-    "maxFireSpread" = max(0.28, upper[1]),
-    "mode" = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
-    "mutuallyExclusive" = list("youngAge" = c("class", "nf_")),
-    "NP" = length(cores),
-    "objFunCoresInternal" = 1L,
-    "objfunFireReps" = 100,
-    #"onlyLoadDEOptim" = FALSE,
-    "rescaleAll" = TRUE,
-    "trace" = 1,
-    "SNLL_FS_thresh" = NULL, # NULL means 'autocalibrate' to find suitable threshold value
-    "upper" = upper,
-    #"urlDEOptimObject" = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
+    # cacheId_DE = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
+    cloudFolderID_DE = cloudCacheFolderID,
+    cores = cores,
+    DEoptimTests = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
+    doObjFunAssertions = FALSE,
+    iterDEoptim = if (peutils::user("emcintir")) 300 else 150,
+    iterStep = if (peutils::user("emcintir")) 300 else 150,
+    iterThresh = 396L,
+    libPathDEoptim = libPathDEoptim,
+    lower = lower,
+    maxFireSpread = max(0.28, upper[1]),
+    mode = c("fit", "visualize"), ## combo of "debug", "fit", "visualize"
+    mutuallyExclusive = list("youngAge" = c("class", "nf_")),
+    NP = length(cores),
+    objFunCoresInternal = 1L,
+    objfunFireReps = 100,
+    # onlyLoadDEOptim = FALSE,
+    rescaleAll = TRUE,
+    trace = 1,
+    SNLL_FS_thresh = NULL, # NULL means 'autocalibrate' to find suitable threshold value
+    upper = upper,
+    # urlDEOptimObject = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
     "useCache_DE" = FALSE,
     "useCloud_DE" = useCloudCache,
     "verbose" = TRUE,
@@ -163,7 +166,7 @@ if (isTRUE(usePrerun) & isFALSE(upload_spreadOut)) {
     if (!dir.exists(tempdir())) {
       dir.create(tempdir()) ## TODO: why is this dir being removed in the first place?
     }
-    fdf <- googledrive::drive_put(media = fspreadOut, path = gdriveURL, name = basename(fspreadOut))
+    fdf <- googledrive::drive_put(media = fspreadOut, path = as_id(gdriveURL), name = basename(fspreadOut))
     gid_spreadOut <- as.character(fdf$id)
     rm(fdf)
     gdriveSims <- update_googleids(

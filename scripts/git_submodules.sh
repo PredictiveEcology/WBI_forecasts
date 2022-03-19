@@ -1,5 +1,6 @@
 #!/bin/bash
 
+git submodule add https://github.com/PredictiveEcology/canClimateData modules/canClimateData
 git submodule add https://github.com/PredictiveEcology/WBI_dataPrep_studyArea modules/WBI_dataPrep_studyArea
 
 ## LandR
