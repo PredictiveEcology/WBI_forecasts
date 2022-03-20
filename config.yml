@@ -73,7 +73,7 @@ eliot:
   cacheformat: "qs"
   cloud:
     #cachedir: ""
-    googleuser: 'eliotmcintire@gmail.com'
+    googleuser: "eliotmcintire@gmail.com"
     usecloud: false
     googledrivecache: ".secret"
   codechecks: false

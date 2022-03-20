@@ -4,18 +4,28 @@
 #                                          #
 ############################################
 
+source("01a-packages-libPath.R")
+
+nodeName <- Sys.info()[["nodename"]]
+studyAreaNames <- if (nodeName == "picea.for-cast.ca") {
+  c("AB", "BC", "SK", "MB")
+} else if (nodeName == "pseudotsuga.for-cast.ca") {
+  c("YT", "NT")
+}
+climateGCMs <- c("CanESM5", "CNMR-ESM2-1")
+climateSSPs <- c("SSP370", "SSP585")
+
 for (RP in c(paste0("run0", 1:5))) {
-  for (CS in c("CanESM5", "CNMR-ESM2-1")) {
-    for (SS in c("SSP370", "SSP585")) {
-      for (P in c("AB", "BC", "SK", "MB")) { #"YT", "NT"
-
-        fls <- list.files(paste0("~/GitHub/WBI_forecasts/outputs/", P, "/posthoc/"))
+  for (CS in climateGCMs) {
+    for (SS in climateSSPs) {
+      for (P in studyAreaNames) {
+        fls <- list.files(file.path("outputs", P, "posthoc"))
         if (length(fls) != 0) {
-
+          ## TODO: is this same as the grepMulti in usefulFuns? conflicts???
           grepMulti <- function(x, patterns, unwanted = NULL) {
             rescued <- sapply(x, function(fun) all(sapply(X = patterns, FUN = grepl, fun)))
             recovered <- x[rescued]
-            if (!is.null(unwanted)){
+            if (!is.null(unwanted)) {
               discard <- sapply(recovered, function(fun) all(sapply(X = unwanted, FUN = grepl, fun)))
               afterFiltering <- recovered[!discard]
               return(afterFiltering)
@@ -27,7 +37,7 @@ for (RP in c(paste0("run0", 1:5))) {
           allFls <- grepMulti(fls,
                               patterns = c(RP, CS, SS, P),
                               unwanted = ".aux.xml")
-          if (length(allFls) == 115*5){
+          if (length(allFls) == 115*5) {
             message(crayon::green(paste0("Simulations done for:", paste(P, SS, CS, RP, collapse = " "))))
             next
           }
@@ -38,43 +48,11 @@ for (RP in c(paste0("run0", 1:5))) {
 
         moduleDir <- "modules"
 
-        usrEmail <- ifelse(Sys.info()[["user"]] == "tmichele",
-                           "tati.micheletti@gmail.com",
-                           NULL)
-        googledrive::drive_auth(usrEmail)
+        source("01-packages.R")
 
-        skipUpdates <- ifelse(Sys.info()[["user"]] == "tmichele", TRUE, FALSE)
+        message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
+        Require(c("caribouMetrics", "raster", "sf", "tictoc", "usefulFuns"))
 
-        if(!skipUpdates){
-          source("01-packages.R")
-        } else {
-          if (file.exists(".Renviron")) readRenviron(".Renviron")
-          .libPaths(normalizePath(
-            file.path("packages", version$platform, paste0(version$major, ".", strsplit(version$minor, "[.]")[[1]][1])),
-            winslash = "/",
-            mustWork = FALSE
-          ))
-          message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
-          library("Require")
-          library("data.table")
-          library("plyr")
-          library("pryr")
-          library("SpaDES.core")
-          library("archive")
-          library("config")
-          library("googledrive")
-          library("httr")
-          library("raster")
-          library("usefulFuns")
-          library("caribouMetrics")
-          library("sf")
-          library("tictoc")
-          # On March 1st this is trying to install reproducible. I don't want it!!!
-          # Require(c("data.table", "plyr", "pryr",
-          #           "PredictiveEcology/LandR@development", ## TODO: workaround weird raster/sf method problem
-          #           "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9002)",
-          #           "archive", "config", "googledrive", "httr", "slackr"), upgrade = FALSE)
-        }
         tic(paste0("Finished for ", runName, ". ELAPSED TIME: "))
         source("02-init.R")
         source("03-paths.R")
@@ -84,11 +62,10 @@ for (RP in c(paste0("run0", 1:5))) {
         options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
         source("05-google-ids.R")
         source("R/makeStudyArea_WBI.R")
-        source("R/birdPredictionCoresCalc_WBI.R")
-        source("R/checkBirdsAvailable_WBI.R")
-        source("modules/birdsNWT/R/loadStaticLayers.R")
-        source("R/rstCurrentBurnListGenerator_WBI.R")
-        Require("raster")
+        source("R/birdPredictionCoresCalc_WBI.R") ## TODO: put in separate module??
+        source("R/checkBirdsAvailable_WBI.R") ## TODO: put in separate module??
+        source("modules/birdsNWT/R/loadStaticLayers.R") ## TODO: put in separate module??
+        source("R/rstCurrentBurnListGenerator_WBI.R") ## TODO: put in separate module??
 
         stepCacheTag <- c(paste0("cache:10b"),
                           paste0("runName:", runName))
@@ -100,7 +77,7 @@ for (RP in c(paste0("run0", 1:5))) {
         Run <- strsplit(runName, split = "_")[[1]][4]
         Province <- strsplit(runName, split = "_")[[1]][1]
         ClimateModel <- strsplit(runName, split = "_")[[1]][2]
-        RCP <- strsplit(runName, split = "_")[[1]][3]
+        SSP <- strsplit(runName, split = "_")[[1]][3]
         # Determine study area long name
         studyAreaLongName <- switch(studyAreaName,
                                     AB = "Alberta",
@@ -116,7 +93,7 @@ for (RP in c(paste0("run0", 1:5))) {
 
         pathRTM <- file.path(Paths$inputPath, paste0(studyAreaName, "_rtm.tif"))
 
-        if (file.exists(pathRTM)){
+        if (file.exists(pathRTM)) {
           rasterToMatch <- raster(pathRTM)
         } else stop("RTM doesn't exist. Please run script 'source('06-studyArea.R')'")
 
@@ -127,7 +104,7 @@ for (RP in c(paste0("run0", 1:5))) {
 
         pathSA <- file.path(Paths[["inputPath"]], paste0(studyAreaName, "_SA.qs"))
 
-        if (file.exists(pathSA)){
+        if (file.exists(pathSA)) {
           studyArea <- qs::qread(pathSA)
         } else {
           studyArea <- makeStudyArea(studyAreaName)
@@ -243,7 +220,7 @@ for (RP in c(paste0("run0", 1:5))) {
             "predictionInterval" = predictionInterval,
             "nCores" = length(bSpG), #"auto", # If not to parallelize, use 1
             "version" = birdModelVersion,
-            "RCP" = RCP,
+            "RCP" = SSP,
             "climateModel" = ClimateModel,
             "climateResolution" = NULL,
             "climateFilePath" = NULL
@@ -282,13 +259,13 @@ for (RP in c(paste0("run0", 1:5))) {
         # Reset input paths to the folder where simulation outputs are
         setPaths(inputPath = file.path(getwd(), "outputs", runName)) # THIS IS THE ORIGINAL FOR WHEN THE RUNS ARE DONE
 
-        rstCurrentBurnList <-  rstCurrentBurnListGenerator_WBI(pathInputs = Paths$inputPath)
+        rstCurrentBurnList <- rstCurrentBurnListGenerator_WBI(pathInputs = Paths$inputPath)
 
         # Add objects
         objects <- list(
           "studyArea" = studyArea,
           "rasterToMatch" = rasterToMatch,
-          "usrEmail" = usrEmail,
+          "usrEmail" = config::get("cloud")[["googleuser"]],
           "waterRaster" = waterRaster,
           "wetlandsRaster" = wetlandsRaster,
           "uplandsRaster" = uplandsRaster,
@@ -309,7 +286,7 @@ for (RP in c(paste0("run0", 1:5))) {
         )
 
         message(crayon::yellow(paste0("Starting simulations for BIRDS and BOO using ",
-                                      paste(ClimateModel, RCP, collapse = " "),
+                                      paste(ClimateModel, SSP, collapse = " "),
                                       " for ", Province, " (", Run, ")")))
 
         simOut <- simInitAndSpades(times = Times,
@@ -324,4 +301,3 @@ for (RP in c(paste0("run0", 1:5))) {
     }
   }
 }
-
