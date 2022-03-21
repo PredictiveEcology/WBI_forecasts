@@ -37,7 +37,7 @@ if (FALSE) {
 
 ## TODO: remove this workaround; can't check/install private github packages using `Require`
 remotes::install_github("LandSciTech/caribouMetrics") ## currently private repo
-remotes::install_github("PredictiveEcology/reproducible@terraInProjectInputs") ## needs update
+remotes::install_github("PredictiveEcology/reproducible@development") ## needs update
 remotes::install_github("PredictiveEcology/climateData@development") ## needs update
 remotes::install_github("ianmseddy/PSPclean@development") ## nedes update
 #out <- makeSureAllPackagesInstalled(modulePath = moduleDir)
