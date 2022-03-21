@@ -15,7 +15,7 @@ default:
   messagingNumCharsModule: 21
   paths:
     cachedir: "cache"
-    scratchdir: "/tmp/scratch/WBI_fireSense"
+    scratchdir: "/tmp/scratch/WBI_forecasts"
   plot: true
   reproduciblealgorithm: 2
   reupload: false
