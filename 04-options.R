@@ -55,7 +55,7 @@ httr::set_config(httr::config(http_version = 0))
 httr::timeout(seconds = 10)
 
 token <- Require::normPath(list.files(".", "western-boreal-initiative-.*[.]json")[1])
-haveToken <- isTRUE(length(token) == 1)
+haveToken <- all(isTRUE(length(token) == 1), !is.na(token))
 
 if (haveToken) {
   drive_auth(path = token)
