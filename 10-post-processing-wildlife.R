@@ -3,13 +3,34 @@
 #    P O S T H O C     W I L D L I F E     #
 #                                          #
 ############################################
+# source("01a-packages-libPath.R")
+
+if (file.exists(".Renviron")) readRenviron(".Renviron")
+
+pkgDir <- Sys.getenv("PRJ_PKG_DIR")
+if (!nzchar(pkgDir)) {
+  pkgDir <- "packages" ## default: use subdir within project directory
+}
+pkgDir <- normalizePath(
+  file.path(pkgDir, version$platform, paste0(version$major, ".", strsplit(version$minor, "[.]")[[1]][1])),
+  winslash = "/",
+  mustWork = FALSE
+)
+
+if (!dir.exists(pkgDir)) {
+  dir.create(pkgDir, recursive = TRUE)
+}
+
+.libPaths(pkgDir)
+message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
+
 
 for (RP in c(paste0("run0", 1:5))) {
-  for (CS in c("CanESM5", "CNMR-ESM2-1")) {
+  for (CS in c("CanESM5", "CNRM-ESM2-1")) {
     for (SS in c("SSP370", "SSP585")) {
-      for (P in c("AB", "BC", "SK", "MB")) { #"YT", "NT"
-
+      for (P in c("AB", "BC", "SK", "MB", "NT")) { #"AB", "BC", "SK", "MB", "YT", "NT" # SKIPPING "YT"
         fls <- list.files(paste0("~/GitHub/WBI_forecasts/outputs/", P, "/posthoc/"))
+
         if (length(fls) != 0) {
 
           grepMulti <- function(x, patterns, unwanted = NULL) {
@@ -38,22 +59,6 @@ for (RP in c(paste0("run0", 1:5))) {
 
         moduleDir <- "modules"
 
-        usrEmail <- ifelse(Sys.info()[["user"]] == "tmichele",
-                           "tati.micheletti@gmail.com",
-                           NULL)
-        googledrive::drive_auth(usrEmail)
-
-        skipUpdates <- ifelse(Sys.info()[["user"]] == "tmichele", TRUE, FALSE)
-
-        if(!skipUpdates){
-          source("01-packages.R")
-        } else {
-          if (file.exists(".Renviron")) readRenviron(".Renviron")
-          .libPaths(normalizePath(
-            file.path("packages", version$platform, paste0(version$major, ".", strsplit(version$minor, "[.]")[[1]][1])),
-            winslash = "/",
-            mustWork = FALSE
-          ))
           message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
           library("Require")
           library("data.table")
@@ -61,7 +66,6 @@ for (RP in c(paste0("run0", 1:5))) {
           library("pryr")
           library("SpaDES.core")
           library("archive")
-          library("config")
           library("googledrive")
           library("httr")
           library("raster")
@@ -74,12 +78,11 @@ for (RP in c(paste0("run0", 1:5))) {
           #           "PredictiveEcology/LandR@development", ## TODO: workaround weird raster/sf method problem
           #           "PredictiveEcology/SpaDES.core@development (>= 1.0.10.9002)",
           #           "archive", "config", "googledrive", "httr", "slackr"), upgrade = FALSE)
-        }
         tic(paste0("Finished for ", runName, ". ELAPSED TIME: "))
         source("02-init.R")
         source("03-paths.R")
         source("04-options.R")
-        maxLimit <- 10000 # in MB
+        maxLimit <- 20000 # in MB
         on.exit(options(future.globals.maxSize = 500*1024^2))
         options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
         source("05-google-ids.R")
@@ -89,7 +92,6 @@ for (RP in c(paste0("run0", 1:5))) {
         source("modules/birdsNWT/R/loadStaticLayers.R")
         source("R/rstCurrentBurnListGenerator_WBI.R")
         Require("raster")
-
         stepCacheTag <- c(paste0("cache:10b"),
                           paste0("runName:", runName))
 
@@ -288,7 +290,10 @@ for (RP in c(paste0("run0", 1:5))) {
         objects <- list(
           "studyArea" = studyArea,
           "rasterToMatch" = rasterToMatch,
-          "usrEmail" = usrEmail,
+          # "usrEmail" = ifelse(Sys.info()[["user"]] == "tmichele",
+          #                     "tati.micheletti@gmail.com",
+          #                     NULL),
+          "usrEmail" = config::get("cloud")[["googleuser"]],
           "waterRaster" = waterRaster,
           "wetlandsRaster" = wetlandsRaster,
           "uplandsRaster" = uplandsRaster,
