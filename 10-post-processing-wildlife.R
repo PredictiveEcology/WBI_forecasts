@@ -4,13 +4,32 @@
 #                                          #
 ############################################
 
-source("01a-packages-libPath.R")
+# source("01a-packages-libPath.R")
+source("01-packages.R")
+message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
+
+Require(c("caribouMetrics", "raster", "sf", "tictoc", "usefulFuns"))
+
+source("02-init.R")
+source("03-paths.R")
+source("04-options.R")
+maxLimit <- 10000 # in MB
+on.exit(options(future.globals.maxSize = 500*1024^2))
+options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
+
+source("05-google-ids.R")
+
+source("R/makeStudyArea_WBI.R")
+source("R/birdPredictionCoresCalc_WBI.R") ## TODO: put in separate module??
+source("R/checkBirdsAvailable_WBI.R") ## TODO: put in separate module??
+source("modules/birdsNWT/R/loadStaticLayers.R") ## TODO: put in separate module??
+source("R/rstCurrentBurnListGenerator_WBI.R") ## TODO: put in separate module??
 
 nodeName <- Sys.info()[["nodename"]]
 studyAreaNames <- if (nodeName == "picea.for-cast.ca") {
   c("AB", "BC", "SK", "MB")
 } else if (nodeName == "pseudotsuga.for-cast.ca") {
-  c("YT", "NT")
+  c("NT", "YT")
 }
 climateGCMs <- c("CanESM5", "CNMR-ESM2-1")
 climateSSPs <- c("SSP370", "SSP585")
@@ -46,26 +65,9 @@ for (RP in c(paste0("run0", 1:5))) {
 
         runName <- paste(P, CS, SS, RP, sep = "_")
 
-        moduleDir <- "modules"
-
-        source("01-packages.R")
-
-        message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
-        Require(c("caribouMetrics", "raster", "sf", "tictoc", "usefulFuns"))
+        source("03-paths.R") ## reset paths for runName
 
         tic(paste0("Finished for ", runName, ". ELAPSED TIME: "))
-        source("02-init.R")
-        source("03-paths.R")
-        source("04-options.R")
-        maxLimit <- 10000 # in MB
-        on.exit(options(future.globals.maxSize = 500*1024^2))
-        options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
-        source("05-google-ids.R")
-        source("R/makeStudyArea_WBI.R")
-        source("R/birdPredictionCoresCalc_WBI.R") ## TODO: put in separate module??
-        source("R/checkBirdsAvailable_WBI.R") ## TODO: put in separate module??
-        source("modules/birdsNWT/R/loadStaticLayers.R") ## TODO: put in separate module??
-        source("R/rstCurrentBurnListGenerator_WBI.R") ## TODO: put in separate module??
 
         stepCacheTag <- c(paste0("cache:10b"),
                           paste0("runName:", runName))
