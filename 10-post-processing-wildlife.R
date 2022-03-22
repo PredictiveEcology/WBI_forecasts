@@ -13,7 +13,7 @@ Require(c("caribouMetrics", "raster", "sf", "tictoc", "usefulFuns"))
 source("02-init.R")
 source("03-paths.R")
 source("04-options.R")
-maxLimit <- 10000 # in MB
+maxLimit <- 20000 # in MB
 on.exit(options(future.globals.maxSize = 500*1024^2))
 options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
 
@@ -232,7 +232,6 @@ for (RP in c(paste0("run0", 1:5))) {
             "climateModel" = ClimateModel,
             "useFuture" = FALSE,
             "recoveryTime" = 40,
-            # "whichPolysToIgnore" = c("Yates", "Bistcho", "Maxhamish"),
             ".useDummyData" = FALSE,
             ".growthInterval" = 10,
             "recruitmentModelVersion" = "Johnson", # Johnson or ECCC
