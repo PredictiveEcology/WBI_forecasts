@@ -1,6 +1,5 @@
 rstCurrentBurnListGenerator_WBI <- function(pathInputs){
-
-  rstPath <- grepMulti(x = list.files(path = Paths$inputPath, full.names = TRUE),
+  rstPath <- grepMulti(x = list.files(path = pathInputs, full.names = TRUE),
                        patterns = c("rstCurrentBurn"),
                        unwanted = c("aux", "xml"))
 if (length(rstPath) == 0)
@@ -24,5 +23,3 @@ if (length(rstPath) == 0)
                  ys1, " to ", ys2))
   return(rstCurrentBurnList)
 }
-
-
