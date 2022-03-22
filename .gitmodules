@@ -64,3 +64,9 @@
 [submodule "modules/canClimateData"]
 	path = modules/canClimateData
 	url = https://github.com/PredictiveEcology/canClimateData.git
+[submodule "modules/Biomass_summary"]
+	path = modules/Biomass_summary
+	url = https://github.com/PredictiveEcology/Biomass_summary
+[submodule "modules/fireSense_summary"]
+	path = modules/fireSense_summary
+	url = https://github.com/PredictiveEcology/fireSense_summary
