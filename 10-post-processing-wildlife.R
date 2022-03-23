@@ -70,12 +70,12 @@ for (RP in c(paste0("run0", 1:5))) {
         scratchDir <- scratchDirOrig
         source("03-paths.R") ## reset paths for runName
 
+        do.call(setPaths, posthocPaths)
+
         tic(paste0("Finished for ", runName, ". ELAPSED TIME: "))
 
         stepCacheTag <- c(paste0("cache:10b"),
                           paste0("runName:", runName))
-
-        do.call(setPaths, posthocPaths)
 
         # Derive parameters from runName
         scenario <- runName
@@ -95,8 +95,7 @@ for (RP in c(paste0("run0", 1:5))) {
                                     RIA = "RIA")
 
         # RTM
-
-        pathRTM <- file.path(Paths$inputPath, paste0(studyAreaName, "_rtm.tif"))
+        pathRTM <- file.path(posthocPaths[["inputPath"]], paste0(studyAreaName, "_rtm.tif"))
 
         if (file.exists(pathRTM)) {
           rasterToMatch <- raster(pathRTM)
@@ -107,7 +106,7 @@ for (RP in c(paste0("run0", 1:5))) {
 
         # STUDY AREA
 
-        pathSA <- file.path(Paths[["inputPath"]], paste0(studyAreaName, "_SA.qs"))
+        pathSA <- file.path(posthocPaths[["inputPath"]], paste0(studyAreaName, "_SA.qs"))
 
         if (file.exists(pathSA)) {
           studyArea <- qs::qread(pathSA)
@@ -130,7 +129,7 @@ for (RP in c(paste0("run0", 1:5))) {
 
         pixelsWithDataAtInitialization <- Cache(loadStaticLayers,
                                                 fileURL = urlStaticLayers, # Add Cache when fun is ready
-                                                pathData = Paths[["inputPath"]],
+                                                pathData = posthocPaths[["inputPath"]],
                                                 studyArea = studyArea,
                                                 rasterToMatch = rasterToMatch,
                                                 Province = Province,
@@ -177,7 +176,7 @@ for (RP in c(paste0("run0", 1:5))) {
                           15:17, # Cropland, barren and Urban
                           19) # Ice and snow
 
-        landcoverMap <- Cache(LandR::prepInputsLCC, destinationPath = Paths$inputPath,
+        landcoverMap <- Cache(LandR::prepInputsLCC, destinationPath = posthocPaths[["inputPath"]],
                               studyArea = studyArea,
                               rasterToMatch = rasterToMatch,
                               filename2 = paste0("LCC_", Province, ".tif"),
@@ -255,15 +254,15 @@ for (RP in c(paste0("run0", 1:5))) {
         Times <- list(start = 2011, end = 2091)
 
         # Setting some inputs before changing input path
-        zipClimateDataFilesFolder <- file.path(Paths[["inputPath"]], "climate/future")
-        climateDataFolder <- checkPath(file.path(Paths[["inputPath"]],
-                                                 "climate/future", "climate_MSY"),
+        zipClimateDataFilesFolder <- file.path(posthocPaths[["inputPath"]], "climate", "future")
+        climateDataFolder <- checkPath(file.path(posthocPaths[["inputPath"]],
+                                                 "climate", "future", "climate_MSY"),
                                        create = TRUE)
 
         # Reset input paths to the folder where simulation outputs are
         setPaths(inputPath = file.path(getwd(), "outputs", runName)) # THIS IS THE ORIGINAL FOR WHEN THE RUNS ARE DONE
 
-        rstCurrentBurnList <- rstCurrentBurnListGenerator_WBI(pathInputs = Paths$inputPath)
+        rstCurrentBurnList <- rstCurrentBurnListGenerator_WBI(pathInputs = posthocPaths[["inputPath"]])
 
         # Add objects
         objects <- list(
@@ -297,7 +296,7 @@ for (RP in c(paste0("run0", 1:5))) {
                                    params = parameters,
                                    modules = modules,
                                    objects = objects,
-                                   paths = Paths,
+                                   paths = posthocPaths,
                                    loadOrder = unlist(modules))
 
         toc()
