@@ -34,5 +34,5 @@ dynamicPaths$outputPath <- file.path("outputs", runName)
 
 ## postprocessing paths
 posthocPaths <- defaultPaths
-posthocPaths[["cachePath"]] <- file.path(cacheDir, "cache_posthoc")
+posthocPaths[["cachePath"]] <- file.path(cacheDir, "cache_posthoc", studyAreaName)
 posthocPaths[["outputPath"]] <- dirname(defaultPaths[["outputPath"]])
