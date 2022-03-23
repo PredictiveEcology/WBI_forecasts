@@ -12,6 +12,8 @@ Require(c("caribouMetrics", "raster", "sf", "tictoc", "usefulFuns"))
 
 source("02-init.R")
 source("03-paths.R")
+scratchDirOrig <- scratchDir
+
 source("04-options.R")
 maxLimit <- 20000 # in MB
 on.exit(options(future.globals.maxSize = 500*1024^2))
@@ -65,7 +67,7 @@ for (RP in c(paste0("run0", 1:5))) {
 
         runName <- paste(P, CS, SS, RP, sep = "_")
         studyAreaName <- P
-
+        scratchDir <- scratchDirOrig
         source("03-paths.R") ## reset paths for runName
 
         tic(paste0("Finished for ", runName, ". ELAPSED TIME: "))
