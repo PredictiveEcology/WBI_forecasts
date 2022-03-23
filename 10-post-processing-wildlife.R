@@ -72,6 +72,16 @@ for (RP in c(paste0("run0", 1:5))) {
 
         do.call(setPaths, posthocPaths)
 
+        ## if a study area is already being processed in another R session, skip it and do next one
+        lockfile <- file.path(posthocPaths[["outputPath"]], paste0("00-LOCK_", studyAreaName))
+        if (file.exists(lockfile)) {
+          message("Found lockfile for study area ", studyAreaName, ". Skipping.")
+          next
+        } else {
+          file.create(lockfile)
+          on.exit({unlink(lockfile)}, add = TRUE)
+        }
+
         tic(paste0("Finished for ", runName, ". ELAPSED TIME: "))
 
         stepCacheTag <- c(paste0("cache:10b"),
