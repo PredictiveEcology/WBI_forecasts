@@ -64,6 +64,7 @@ for (RP in c(paste0("run0", 1:5))) {
         message(crayon::yellow(paste0("Simulations starting for:", paste(P, SS, CS, RP, collapse = " "))))
 
         runName <- paste(P, CS, SS, RP, sep = "_")
+        studyAreaName <- P
 
         source("03-paths.R") ## reset paths for runName
 
