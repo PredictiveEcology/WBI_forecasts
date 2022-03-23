@@ -271,7 +271,7 @@ for (RP in c(paste0("run0", 1:5))) {
                                        create = TRUE)
 
         # Reset input paths to the folder where simulation outputs are
-        setPaths(inputPath = file.path(getwd(), "outputs", runName)) # THIS IS THE ORIGINAL FOR WHEN THE RUNS ARE DONE
+        posthocPaths[["inputPath"]] <- file.path("outputs", runName) # THIS IS THE ORIGINAL FOR WHEN THE RUNS ARE DONE
 
         rstCurrentBurnList <- rstCurrentBurnListGenerator_WBI(pathInputs = posthocPaths[["inputPath"]])
 
