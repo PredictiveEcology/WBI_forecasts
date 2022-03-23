@@ -31,7 +31,7 @@ studyAreaNames <- if (nodeName == "picea.for-cast.ca") {
 } else if (nodeName == "pseudotsuga.for-cast.ca") {
   c("NT", "YT")
 }
-climateGCMs <- c("CanESM5", "CNMR-ESM2-1")
+climateGCMs <- c("CanESM5", "CNRM-ESM2-1")
 climateSSPs <- c("SSP370", "SSP585")
 
 for (RP in c(paste0("run0", 1:5))) {
