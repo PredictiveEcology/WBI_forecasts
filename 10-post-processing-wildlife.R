@@ -11,8 +11,9 @@ message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
 Require(c("caribouMetrics", "raster", "sf", "tictoc", "usefulFuns"))
 
 source("02-init.R")
-source("03-paths.R")
+
 scratchDirOrig <- scratchDir
+source("03-paths.R")
 
 source("04-options.R")
 maxLimit <- 20000 # in MB
