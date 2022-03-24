@@ -17,8 +17,10 @@ source("03-paths.R")
 
 source("04-options.R")
 maxLimit <- 20000 # in MB
-on.exit(options(future.globals.maxSize = 500*1024^2))
-options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
+options(
+  future.globals.maxSize = maxLimit*1024^2, ## we use ~6 GB for layers here
+  NCONNECTIONS = 120L  ## R cannot exceed 125 connections; use fewer to be safe
+)
 
 source("05-google-ids.R")
 

@@ -1,10 +1,8 @@
-.NCONNECTIONS <- 120
-
 birdPredictionCoresCalc_WBI <- function(birdSpecies = NULL,
                                         availableCores = parallel::detectCores() - 3,
                                         availableRAM = as.numeric(system("awk '/MemAvailable/ {print $2}' /proc/meminfo", intern = TRUE)) * 0.00000095367432,
                                         sizeGbEachProcess = 10) { # if TRUE, return number of cores, FALSE
-  availableCores <- min(availableCores, .NCONNECTIONS - 3)
+  availableCores <- min(availableCores, getOption("NCONNECTIONS", 120L) - 3)
   # returns IP of workers
   if (is.null(birdSpecies)) {
     stop("Please provide a vector of the bird species")
@@ -71,7 +69,7 @@ chunk <- function(toDivide, nGroups) {
                             baseProcess = "cores", # can also be "RAM" when that is the limiting factor!
                             internalProcesses = 10,
                             sizeGbEachProcess = 35) {
-  availableCores <- min(availableCores, .NCONNECTIONS - 3)
+  availableCores <- min(availableCores, getOption("NCONNECTIONS", 120L) - 3)
 
   NP <- ifelse(baseProcess == "cores",
     nProcess * internalProcesses,
@@ -95,7 +93,7 @@ chunk <- function(toDivide, nGroups) {
                       sizeGbEachProcess,
                       availableCores,
                       availableRAM) {
-  availableCores <- min(availableCores, .NCONNECTIONS)
+  availableCores <- min(availableCores, getOption("NCONNECTIONS", 120L))
 
   if (proc == "cores") {
     if (availableCores < NP) {
@@ -126,7 +124,7 @@ optimalClusterNumGeneralized <- function(memRequiredMB = 500,
                                          maxNumClusters = parallel::detectCores(),
                                          NumCoresAvailable = parallel::detectCores(),
                                          availMem = pemisc::availableMemory() / 1e+06) {
-  NumCoresAvailable <- min(NumCoresAvailable, .NCONNECTIONS)
+  NumCoresAvailable <- min(NumCoresAvailable, getOption("NCONNECTIONS", 120L))
 
   if (maxNumClusters > 0) {
     if (is.null(availMem)) {
