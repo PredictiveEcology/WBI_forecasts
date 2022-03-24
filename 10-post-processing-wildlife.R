@@ -313,6 +313,8 @@ for (RP in c(paste0("run0", 1:5))) {
                                    loadOrder = unlist(modules))
 
         toc()
+
+        if (file.exists(lockfile)) unlink(lockfile)
       }
     }
   }
