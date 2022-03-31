@@ -28,7 +28,7 @@ message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
 for (RP in c(paste0("run0", 1:5))) {
   for (CS in c("CanESM5", "CNRM-ESM2-1")) {
     for (SS in c("SSP370", "SSP585")) {
-      for (P in c("AB", "BC", "SK", "MB", "YT")) { #"AB", "BC", "SK", "MB", "YT", "NT" # SKIPPING "YT"
+      for (P in c("AB", "BC", "SK", "MB", "YT", "NT")) { #"AB", "BC", "SK", "MB", "YT", "NT" # SKIPPING "YT"
         fls <- list.files(paste0("~/GitHub/WBI_forecasts/outputs/", P, "/posthoc/"))
 
         if (length(fls) != 0) {
@@ -141,7 +141,6 @@ for (RP in c(paste0("run0", 1:5))) {
           NROW(birdSpecies) else
             birdPredictionCoresCalc_WBI(birdSpecies = birdSpecies[["Species"]],
                                         sizeGbEachProcess = 8)
-
         # Defining model version
         if (!exists("birdModelVersion")) birdModelVersion <- c("reducedBAM") # Default if not provided
         predictionInterval <- 20
@@ -233,7 +232,7 @@ for (RP in c(paste0("run0", 1:5))) {
         # Add Parameters
         parameters <- list(
           birdsNWT = list(
-            "predictLastYear" = TRUE,
+            "predictLastYear" = FALSE,
             "lowMem" = TRUE,
             "scenario" = scenario, # composed by 2letterProvince_climateModel_SSP_runX
             "useStaticPredictionsForNonForest" = TRUE,
@@ -312,6 +311,12 @@ for (RP in c(paste0("run0", 1:5))) {
           "shortProvinceName" = Province
         )
 
+        outputsBoo <- data.frame(objectName = c("predictedCaribou",
+                                                "disturbances"),
+                                 file = c(paste0("predictedCaribou_Year2091_", runName),
+                                          paste0("disturbances_Year2091_", runName)),
+                                 saveTime = Times$end)
+
         message(crayon::yellow(paste0("Starting simulations for BIRDS and BOO using ",
                                       paste(ClimateModel, RCP, collapse = " "),
                                       " for ", Province, " (", Run, ")")))
@@ -321,6 +326,7 @@ for (RP in c(paste0("run0", 1:5))) {
                                    modules = modules,
                                    objects = objects,
                                    paths = Paths,
+                                   outputs = outputsBoo,
                                    loadOrder = unlist(modules))
 
         toc()
