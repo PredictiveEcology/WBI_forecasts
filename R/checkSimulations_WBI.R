@@ -1,4 +1,5 @@
-checkSimulations_WBI <- function(outFolder = "/home/tmichele/GitHub/WBI_forecasts/outputs/"){
+checkSimulations_WBI <- function(outFolder = "/home/tmichele/GitHub/WBI_forecasts/outputs/",
+                                 returnAll = FALSE, sleep30 = TRUE){
 
   Require::Require("tictoc")
 
@@ -15,12 +16,12 @@ checkSimulations_WBI <- function(outFolder = "/home/tmichele/GitHub/WBI_forecast
   }
   percCompleted <- 0
   while (percCompleted < 99.9) {
-    Sys.sleep(30*60)
+   if (sleep30) Sys.sleep(30*60)
   rp <- c(paste0("run0", 1:5))
   ys <- c(2011, 2031, 2051, 2071, 2091)
   ps <- c("AB", "BC", "SK", "MB", "YT", "NT")
   ss <- c("SSP370", "SSP585")
-  cs <- c("CanESM5", "CNMR-ESM2-1")
+  cs <- c("CanESM5", "CNRM-ESM2-1")
   bs <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
           "BARS", "BAWW", "BBCU", "BBMA", "BBWA", "BBWO", "BCCH", "BEKI",
           "BHCO", "BHVI", "BLBW", "BLJA", "BLPW", "BOBO", "BOCH", "BOWA",
@@ -66,6 +67,11 @@ existingFiles   <- na.omit(unlist(lapply(rp, function(RP){
   })))
 percCompleted <- 100*(length(existingFiles)/length(expectedFiles))
 print(paste0("Completed: ", round(percCompleted, 2), "%: ", format(Sys.time(), "%A %B %d %X %Y")))
+a <- strsplit(existingFiles, split = "_predicted")
+b <- unique(unlist(lapply(X = a, FUN = function(aa) return(aa[1]))))
+if (returnAll) return(b)
   }
 }
-checkSimulations_WBI()
+sims <- sort(checkSimulations_WBI(returnAll = TRUE, sleep30 = FALSE))
+print(sims)
+
