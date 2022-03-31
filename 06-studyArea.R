@@ -20,9 +20,9 @@ preambleParams <- list(
     studyAreaName = studyAreaName
   ),
   WBI_dataPrep_studyArea = list(
-    ".runName" = runName,
-    ".useCache" = ".inputObjects", # Since there is only one event and it is saved manually below, TRUE here would essentially save 2x
-    "studyAreaName" = studyAreaName
+    .runName = runName,
+    .useCache = .inputObjects,
+    studyAreaName = studyAreaName
   )
 )
 

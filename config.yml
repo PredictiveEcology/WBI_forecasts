@@ -61,7 +61,7 @@ ian:
   cacheformat: "qs"
   cloud:
     #cachedir: ""
-    googleuser: 'ianmseddy@gmail.com'
+    googleuser: "ianmseddy@gmail.com"
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
   reproduciblealgorithm: 2 #use old digest
