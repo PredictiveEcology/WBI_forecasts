@@ -31,17 +31,12 @@ source("modules/birdsNWT/R/loadStaticLayers.R") ## TODO: put in separate module?
 source("R/rstCurrentBurnListGenerator_WBI.R") ## TODO: put in separate module??
 
 nodeName <- Sys.info()[["nodename"]]
-if (nodeName == "picea.for-cast.ca") {
-  studyAreaNames <- c("AB", "BC", "SK", "MB") ## TODO: lockfile enables running all areas on both machines w/o conflicts
-  wildlifeModules <- list("birdsNWT", "caribouPopGrowthModel")
-} else if (nodeName == "pseudotsuga.for-cast.ca") {
-  studyAreaNames <- c("NT", "YT") ## TODO: lockfile enables running all areas on both machines w/o conflicts
-  wildlifeModules <- list("birdsNWT") ## skipping caribou for now due to error
-}
+studyAreaNames <- c("AB", "BC", "SK", "MB", "NT", "YT")
+wildlifeModules <- list("birdsNWT", "caribouPopGrowthModel")
 climateGCMs <- c("CanESM5", "CNRM-ESM2-1")
 climateSSPs <- c("SSP370", "SSP585")
 
-for (RP in c(paste0("run0", 1:5))) {
+for (RP in c(paste0("run0", 1:nReps))) {
   for (CS in climateGCMs) {
     for (SS in climateSSPs) {
       for (P in studyAreaNames) {
