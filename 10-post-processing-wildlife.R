@@ -126,10 +126,12 @@ for (RP in c(paste0("run0", 1:nReps))) {
         ## Calculate number of cores and divide in groups if needed
         birdSpecies <- checkBirdsAvailable_WBI(whichRun = Run)
 
-        cores <- if (NROW(birdSpecies) < 4)
-          NROW(birdSpecies) else
-            birdPredictionCoresCalc_WBI(birdSpecies = birdSpecies[["Species"]],
-                                        sizeGbEachProcess = 8)
+        cores <- if (NROW(birdSpecies) < 4) {
+          NROW(birdSpecies)
+        } else {
+          birdPredictionCoresCalc_WBI(birdSpecies = birdSpecies[["Species"]], sizeGbEachProcess = 8)
+        }
+
         # Defining model version
         if (!exists("birdModelVersion")) birdModelVersion <- c("reducedBAM") # Default if not provided
         predictionInterval <- 20
@@ -216,7 +218,8 @@ for (RP in c(paste0("run0", 1:nReps))) {
         forestOnly <- raster::setValues(x = landcoverMap, watersValsToChange)
         forestOnly[!is.na(forestOnly)] <- 1
 
-        bSpG <- birdSpecies[Species %in% cores[["birdSpecies"]][["Group1"]], Species]
+        #bSpG <- birdSpecies[Species %in% cores[["birdSpecies"]][[groupID]], Species] ## TODO: revisit
+        bSpG <- birdSpecies[, Species]
 
         # Add Parameters
         parameters <- list(
