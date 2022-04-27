@@ -1,7 +1,3 @@
-################################################################################
-## Options
-################################################################################
-
 cache_conn <- if (config::get("cachedb") == "sqlite") {
   NULL ## default to sqlite
 } else if (config::get("cachedb") == "postgresql") {
@@ -18,6 +14,7 @@ cache_conn <- if (config::get("cachedb") == "sqlite") {
 
 maxMemory <- 5e+12
 
+terra::terraOptions(tempdir = checkPath(file.path(scratchDir, "terra"), create = TRUE))
 raster::rasterOptions(default = TRUE)
 opts <- options(
   "encoding" = "UTF-8",
