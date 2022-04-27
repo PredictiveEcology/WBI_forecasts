@@ -72,6 +72,13 @@ for (RP in c(paste0("run0", 1:nReps))) {
 
         do.call(setPaths, posthocPaths)
 
+        ## if a study area is already complete, skip it and do next one
+        donefile <- file.path(posthocPaths[["outputPath"]], paste0("00-DONE_", studyAreaName))
+        if (file.exists(donefile)) {
+          message("Postprocessing for study area ", studyAreaName, " previously completed. Skipping.")
+          next
+        }
+
         ## if a study area is already being processed in another R session, skip it and do next one
         lockfile <- file.path(posthocPaths[["outputPath"]], paste0("00-LOCK_", studyAreaName))
         if (file.exists(lockfile)) {
@@ -319,6 +326,8 @@ for (RP in c(paste0("run0", 1:nReps))) {
                                    loadOrder = unlist(modules))
 
         toc()
+
+        file.create(donefile)
 
         if (file.exists(lockfile)) unlink(lockfile)
       }
