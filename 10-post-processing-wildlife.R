@@ -32,7 +32,7 @@ source("R/rstCurrentBurnListGenerator_WBI.R") ## TODO: put in separate module??
 
 nodeName <- Sys.info()[["nodename"]]
 studyAreaNames <- c("AB", "BC", "SK", "MB", "NT", "YT")
-wildlifeModules <- list("birdsNWT", "caribouPopGrowthModel")
+wildlifeModules <- list("birdsNWT")#, "caribouPopGrowthModel")
 climateGCMs <- c("CanESM5", "CNRM-ESM2-1")
 climateSSPs <- c("SSP370", "SSP585")
 
@@ -73,7 +73,7 @@ for (RP in c(paste0("run0", 1:nReps))) {
         do.call(setPaths, posthocPaths)
 
         ## if a study area is already complete, skip it and do next one
-        donefile <- file.path(posthocPaths[["outputPath"]], paste0("00-DONE_", studyAreaName))
+        donefile <- file.path(posthocPaths[["outputPath"]], paste0("00-DONE_", paste(P, SS, CS, RP, collapse = "_")))
         if (file.exists(donefile)) {
           message("Postprocessing for study area ", studyAreaName, " previously completed. Skipping.")
           next
