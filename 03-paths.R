@@ -35,3 +35,8 @@ dynamicPaths$outputPath <- file.path("outputs", runName)
 posthocPaths <- defaultPaths
 posthocPaths$cachePath <- file.path(cacheDir, "cache_posthoc")
 posthocPaths$outputPath <- checkPath(file.path(defaultPaths[["outputPath"]], "posthoc"), create = TRUE)
+
+## summary paths
+summaryPaths <- defaultPaths
+summaryPaths$cachePath <- file.path(cacheDir, "cache_summary")
+summaryPaths$outputPath <- checkPath(file.path(dirname(defaultPaths[["outputPath"]]), "summary"), create = TRUE)
