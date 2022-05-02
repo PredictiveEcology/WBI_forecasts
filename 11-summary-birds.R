@@ -1,63 +1,19 @@
-# Summarizing birds per province
-
-# Setup
-
-if (file.exists(".Renviron")) readRenviron(".Renviron")
-
-pkgDir <- Sys.getenv("PRJ_PKG_DIR")
-if (!nzchar(pkgDir)) {
-  pkgDir <- "packages" ## default: use subdir within project directory
-}
-pkgDir <- normalizePath(
-  file.path(pkgDir, version$platform, paste0(version$major, ".", strsplit(version$minor, "[.]")[[1]][1])),
-  winslash = "/",
-  mustWork = FALSE
-)
-
-if (!dir.exists(pkgDir)) {
-  dir.create(pkgDir, recursive = TRUE)
-}
-
-grepMulti <- function(x, patterns, unwanted = NULL) {
-  rescued <- sapply(x, function(fun) all(sapply(X = patterns, FUN = grepl, fun)))
-  recovered <- x[rescued]
-  if (!is.null(unwanted)){
-    discard <- sapply(recovered, function(fun) all(sapply(X = unwanted, FUN = grepl, fun)))
-    afterFiltering <- recovered[!discard]
-    return(afterFiltering)
-  } else {
-    return(recovered)
-  }
-}
-
 moduleDir <- "modules"
 
-.libPaths(pkgDir)
-message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
+source("01-packages.R")
 
-library("Require")
-library("data.table")
-library("plyr")
-library("pryr")
-library("SpaDES.core")
-library("archive")
-library("googledrive")
-library("httr")
-library("raster")
-library("usefulFuns")
-library("caribouMetrics")
-library("sf")
-library("tictoc")
-library("future")
-library("future.apply")
+Require(c("caribouMetrics", "future", "future.apply", "sf", "tictoc", "usefulFuns"))
 
 source("02-init.R")
 source("03-paths.R")
 source("04-options.R")
+
 maxLimit <- 20000 # in MB
 on.exit(options(future.globals.maxSize = 500*1024^2))
 options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specific case, which uses approximately 6GB of layers
+
 source("05-google-ids.R")
+
 source("R/makeStudyArea_WBI.R")
 do.call(setPaths, summaryPaths)
 
@@ -103,7 +59,7 @@ allBirds <- lapply(Species, function(BIRD){
     tic(paste0("Finished for ", P, " for ", BIRD, " (",
                which(Species == BIRD), " of ", length(Species),
                "). ELAPSED TIME: "))
-    if (!file.exists(fileName)){
+    if (!file.exists(fileName)) {
       allRuns <- rbindlist(lapply(c(paste0("run0", 1:5)), function(RP) {
         allCS <- rbindlist(lapply(c("CanESM5", "CNRM-ESM2-1"), function(CS) {
           allSS <- rbindlist(lapply(c("SSP370", "SSP585"), function(SS) {
@@ -135,9 +91,8 @@ allBirds <- lapply(Species, function(BIRD){
               # 2. Extract the values per pixel
               # 3. Put in a table with the following columns:
               #     Species, ClimateModel, SSP, Province, Year, Run, PixelID, val
-              ras <- grepMulti(x = list.files(path = Paths$inputPath, full.names = TRUE), patterns = paste(P, CS, SS, RP, "predicted",
-                                                                                                           BIRD, paste0("Year", Y, ".tif"),
-                                                                                                           sep = "_"),
+              ras <- grepMulti(x = list.files(path = Paths$inputPath, full.names = TRUE),
+                               patterns = paste(P, CS, SS, RP, "predicted", BIRD, paste0("Year", Y, ".tif"), sep = "_"),
                                unwanted = "aux.xml")
 
               if (length(ras) == 0) stop(paste0("Raster ", ras, " not found. Please check the file exists"))
