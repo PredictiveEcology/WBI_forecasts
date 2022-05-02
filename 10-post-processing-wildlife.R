@@ -28,7 +28,7 @@ message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
 for (RP in c(paste0("run0", 1:5))) {
   for (CS in c("CanESM5", "CNRM-ESM2-1")) {
     for (SS in c("SSP370", "SSP585")) {
-      for (P in c("AB", "BC", "SK", "MB", "YT", "NT")) { #"AB", "BC", "SK", "MB", "YT", "NT" # SKIPPING "YT"
+      for (P in c("AB", "BC", "SK", "MB", "YT", "NT")) {
         fls <- list.files(paste0("~/GitHub/WBI_forecasts/outputs/", P, "/posthoc/"))
 
         if (length(fls) != 0) {
@@ -228,7 +228,6 @@ for (RP in c(paste0("run0", 1:5))) {
         forestOnly[!is.na(forestOnly)] <- 1
 
         bSpG <- birdSpecies[Species %in% cores[["birdSpecies"]][["Group1"]], Species]
-
         # Add Parameters
         parameters <- list(
           birdsNWT = list(
