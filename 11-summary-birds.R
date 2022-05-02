@@ -2,7 +2,7 @@ moduleDir <- "modules"
 
 source("01-packages.R")
 
-Require(c("caribouMetrics", "future", "future.apply", "sf", "tictoc", "usefulFuns"))
+Require(c("caribouMetrics", "future", "future.apply", "raster", "sf", "tictoc", "usefulFuns"))
 
 source("02-init.R")
 source("03-paths.R")
