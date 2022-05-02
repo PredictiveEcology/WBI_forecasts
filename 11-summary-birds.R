@@ -48,14 +48,15 @@ Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
              "VATH", "VEER", "VESP", "WAVI", "WBNU", "WCSP", "WETA", "WEWP",
              "WIPT", "WISN", "WIWA", "WIWR", "WTSP", "WWCR", "YBFL", "YBSA",
              "YEWA", "YHBL", "YRWA")
+
 tic("Total elapsed time: ")
 allBirds <- lapply(Species, function(BIRD){
   message(paste0("Running provinces for ", BIRD))
   tic(paste0("Total elapsed time for ", BIRD))
   plan("multicore")
   allP <- future_lapply(c("AB", "BC", "SK", "MB", "YT", "NT"), function(P) {
-    fileName <- file.path(Paths$outputPath,
-                          paste0(P, "_", BIRD, "_summary.qs"))
+    fileName <- file.path(summaryPaths$outputPath, paste0(P, "_", BIRD, "_summary.qs"))
+
     tic(paste0("Finished for ", P, " for ", BIRD, " (",
                which(Species == BIRD), " of ", length(Species),
                "). ELAPSED TIME: "))
@@ -65,7 +66,7 @@ allBirds <- lapply(Species, function(BIRD){
           allSS <- rbindlist(lapply(c("SSP370", "SSP585"), function(SS) {
             runName <- paste(P, CS, SS, RP, sep = "_")
             print(paste0("Running ", runName))
-            setPaths(inputPath = file.path(getwd(), "outputs", P, "posthoc"))
+            setPaths(inputPath = file.path("outputs", P, "posthoc"))
             # Derive parameters from runName
             scenario <- runName
             Run <- strsplit(runName, split = "_")[[1]][4]
@@ -114,11 +115,13 @@ allBirds <- lapply(Species, function(BIRD){
       }))
       qs::qsave(allRuns, file = fileName)
       gc()
-    } else allRuns <- NA
+    } else {
+      allRuns <- NA
+    }
     toc()
     gc()
     return(allRuns)
-}, future.seed = NULL)
+  }, future.seed = NULL)
   plan("sequential")
   toc()
 })
