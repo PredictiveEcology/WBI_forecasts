@@ -61,22 +61,6 @@ source("05-google-ids.R")
 source("R/makeStudyArea_WBI.R")
 do.call(setPaths, summaryPaths)
 
-# Once all species are ready, we can change the list and re-run
-# Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
-#              "BARS", "BAWW", "BBCU", "BBWA", "BBWO", "BEKI", "BHCO", "BHVI",
-#              "BLBW", "BLPW", "BOBO", "BOWA", "BRBL", "BRCR", "BTNW", "CAWA",
-#              "CEDW", "CHSP", "CMWA", "COGR", "CORA", "COYE", "DOWO", "EAKI",
-#              "EAPH", "EUST", "FOSP", "GCFL", "GCKI", "GCSP", "GRYE", "HAFL",
-#              "HAWO", "HOLA", "HOSP", "HOWR", "KILL", "BBMA", "BCCH", "BLJA",
-#              "BOCH", "CCSP", "CONW", "CSWA", "DEJU", "EVGR", "GCTH", "GRAJ",
-#              "GRCA")
-
-# When the next 12 get completed
-# Species <- c("BBMA", "BCCH", "BLJA",
-#              "BOCH", "CCSP", "CONW", "CSWA", "DEJU", "EVGR", "GCTH", "GRAJ",
-#              "GRCA")
-
-# When all species are completed
 Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
              "BARS", "BAWW", "BBCU", "BBMA", "BBWA", "BBWO", "BCCH", "BEKI",
              "BHCO", "BHVI", "BLBW", "BLJA", "BLPW", "BOBO", "BOCH", "BOWA",
@@ -92,6 +76,15 @@ Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
              "VATH", "VEER", "VESP", "WAVI", "WBNU", "WCSP", "WETA", "WEWP",
              "WIPT", "WISN", "WIWA", "WIWR", "WTSP", "WWCR", "YBFL", "YBSA",
              "YEWA", "YHBL", "YRWA")
+
+# Anything to Cleanup?
+# Data.table of the
+# alternative: NULL
+doCleanup <- data.table(climateModel = "CanESM5",
+                        SSP = c("SSP370", "SSP585"),
+                        Province = "NT",
+                        Run = "run01")
+
 tic("Total elapsed time: ")
 allBirds <- lapply(Species, function(BIRD){
   message(paste0("Running provinces for ", BIRD))
@@ -159,17 +152,94 @@ allBirds <- lapply(Species, function(BIRD){
       }))
       qs::qsave(allRuns, file = fileName)
       gc()
-    } else allRuns <- NA
+    } else {
+     if (all(!is.null(doCleanup),
+             P %in% unique(doCleanup[["Province"]]))){
+       whatToCleanup <- doCleanup[Province == P, ]
+       # 1. Cleanup any wrong runs
+       # 1.2. Use the table whatToCleanup to remove specific rows
+       oldRuns <- qs::qread(fileName)
+       for (index in 1:NROW(whatToCleanup)){
+         oldRuns <- oldRuns[!(climateModel == whatToCleanup[index, climateModel] &
+                                       SSP == whatToCleanup[index, SSP] &
+                                       Province == whatToCleanup[index, Province] &
+                                       Run == whatToCleanup[index, Run]), ]
+       }
+       # 2. Incorporate the missing ones (based on what was specified!) in the
+       # original table
+      nReps <- unique(whatToCleanup[["Run"]])
+      nClim <- unique(whatToCleanup[["climateModel"]])
+      nSSP <- unique(whatToCleanup[["SSP"]])
+       newRuns <- rbindlist(lapply(nReps, function(RP) {
+         allCS <- rbindlist(lapply(nClim, function(CS) {
+           allSS <- rbindlist(lapply(nSSP, function(SS) {
+             runName <- paste(P, CS, SS, RP, sep = "_")
+             print(paste0("Re-running ", runName))
+             setPaths(inputPath = file.path(getwd(), "outputs", P, "posthoc"))
+             # Derive parameters from runName
+             scenario <- runName
+             Run <- strsplit(runName, split = "_")[[1]][4]
+             Province <- strsplit(runName, split = "_")[[1]][1]
+             ClimateModel <- strsplit(runName, split = "_")[[1]][2]
+             RCP <- strsplit(runName, split = "_")[[1]][3]
+             # Determine study area long name
+             studyAreaLongName <- switch(studyAreaName,
+                                         AB = "Alberta",
+                                         BC = "British Columbia",
+                                         SK = "Saskatchewan",
+                                         MB = "Manitoba",
+                                         NT = "Northwest Territories & Nunavut",
+                                         NU = "Northwest Territories & Nunavut",
+                                         YT = "Yukon",
+                                         RIA = "RIA")
+
+             allY <- rbindlist(lapply(seq(2011, 2091, by = 20), function(Y) {
+
+               # File Structure in Paths$inputPath "AB_CanESM5_SSP370_run02_predicted_RWBL_Year2071.tif"
+
+               # 1. Get each map for the specific prov, CS, SSP, Year, run, species
+               # 2. Extract the values per pixel
+               # 3. Put in a table with the following columns:
+               #     Species, ClimateModel, SSP, Province, Year, Run, PixelID, val
+               ras <- grepMulti(x = list.files(path = Paths$inputPath, full.names = TRUE),
+                                patterns = paste(P, CS, SS, RP, "predicted",
+                                                 BIRD, paste0("Year", Y, ".tif"),
+                                                 sep = "_"),
+                                unwanted = "aux.xml")
+
+               if (length(ras) == 0) stop(paste0("Raster ", ras,
+                                                 " not found. Please check",
+                                                 "the file exists"))
+               ras <- raster(ras)
+               DT <- na.omit(data.table(Species = BIRD,
+                                        climateModel = CS,
+                                        SSP = SS,
+                                        Province = P,
+                                        Year = Y,
+                                        Run = RP,
+                                        pixelID = seq(1:ncell(ras)),
+                                        val = getValues(ras)))
+               return(DT)
+             }))
+             gc()
+             return(allY)
+           }))
+         }))
+       }))
+       # Put together both tables and save
+       newRuns <- rbind(oldRuns, newRuns, use.names = TRUE)
+       setkey(newRuns, "climateModel", "SSP", "Year", "Run", "pixelID")
+       qs::qsave(newRuns, file = fileName)
+       gc()
+     } else allRuns <- NA
+    }
     toc()
     gc()
     return(allRuns)
-}, future.seed = NULL)
+}),
+future.seed = NULL)
   plan("sequential")
   toc()
 })
 toc()
 
-# Once all birds have been ran we need to lapply over them, and over Provinces and
-# make summaries? Or just use the boxplot approach?
-# Or a boxplot of the difference between 2011 and 2091
-# Then make maps of the change through time --> gif (all Provs together)
