@@ -110,6 +110,12 @@ whichReadyPlots <- rbindlist(lapply(Species, function(BIRD){
   return(DT)
 }))
 
+
+##########################
+# PREPARE SUMMARY TABLES #
+##########################
+
+
 fileName <- file.path(Paths$outputPath, "allBirds_listPlotTable.qs")
 quick <- TRUE
 plan("multicore", workers = length(Species))
@@ -300,6 +306,11 @@ drive_upload(fNam, as_id("1iOqbk1cr8vldm-doo5wUgcCsluG3Odmu"))
 # Need to collate all different lists together and save the tables
 # as a lists file and then make the box plot (something like)
 
+##########################
+#  P R E P A R E  PLOT   #
+##########################
+
+
 lapply(unique(DTorganized[["summaryDT"]][, Province]), function(PV){
 
   DTplot <- DTorganized[["summaryDT"]][Province == PV, ]
@@ -379,92 +390,21 @@ lapply(unique(DTorganized[["summaryDT"]][, Province]), function(PV){
   drive_upload(fileName, as_id(folderID))
 })
 
+
+##########################
+# P R E P A R E  M A P S #
+##########################
+
+
 library("rasterVis")
 library("gridExtra")
 library("viridis")
 
 Provinces <- c("AB", "BC", "SK", "MB", "YT", "NT")
 Years <- seq(2011, 2091, by = 20)
-
-Species <- "ALFL"
 overwriteMaps <- TRUE
-
 lapply(Species, function(BIRD){
   lapply(Provinces, function(PV){
-    # Before we go for each year, we need to make sure we will have the maps at the same range always
-    # MEAN
-    # mapPathM <- file.path(Paths$outputPath,
-    #                      paste0(paste0(BIRD, "_", Provinces, "_", 2011, "_averageDensity"), ".tif"))
-    # originalMapTemplateM <- lapply(mapPathM, raster::raster)
-    # maxValM <- round(max(unlist(lapply(originalMapTemplateM, maxValue))), 3)
-    # seqAtM <- seq(0, maxValM, by = maxValM/10)
-    # palM <- viridis(n = 10, option = "D")
-    # # DEVIATION
-    # mapPathSD <- file.path(Paths$outputPath,
-    #                      paste0(paste0(BIRD, "_", Provinces, "_", 2011, "_sdDensity"), ".tif"))
-    # originalMapTemplateSD <- lapply(mapPathM, raster::raster)
-    # maxValD <- round(max(unlist(lapply(originalMapTemplateSD, maxValue))), 3)
-    # seqAtD <- seq(0, maxValD, by = maxValD/10)
-    # palD <- viridis(n = 10, option = "A")
-    # lapply(Years, function(Y){ # Commenting out to speed up the generation of the other maps
-    #   # Get the species maps and make pretty
-    #   meanFigPath <- paste0("Fig_", paste0(BIRD, "_", PV, "_", Y, "_averageDensity"), ".png")
-    #   sdFigPath <- paste0("Fig_", paste0(BIRD, "_", PV, "_", Y, "_sdDensity"), ".png")
-    #   lapply(c("meanFigPath", "sdFigPath"), function(pth){
-    #     FigPath <- get(pth)
-    #     if (any(!file.exists(FigPath),
-    #             overwriteMaps)){
-    #       if (pth == "meanFigPath"){
-    #         rasName <- paste0(BIRD, "_", PV, "_", Y, "_averageDensity")
-    #         subTitle <- paste0("Average ", BIRD," density for ", Y, " for ", PV)
-    #         maxValC <- maxValM
-    #         seqAtC <- seqAtM
-    #         palC <- palM
-    #       } else {
-    #         rasName <- paste0(BIRD, "_", PV, "_", Y, "_sdDensity")
-    #         subTitle <- paste0("Density uncertainty for ", BIRD, " for ", Y, " for ", PV)
-    #         maxValC <- maxValD
-    #         seqAtC <- seqAtD
-    #         palC <- palD
-    #       }
-    #       message("Creating map for ", BIRD, " for ", Y, " for ", PV)
-    #       # Load the tif
-    #       mapPath <- file.path(Paths$outputPath,
-    #                            paste0(rasName, ".tif"))
-    #       if (!file.exists(mapPath)) stop(paste0(mapPath,
-    #                                              " doesn't exist. Is the location correct?"))
-    #       originalMap <- raster::raster(mapPath)
-    #       png(filename = FigPath,
-    #           width = 21, height = 29,
-    #           units = "cm", res = 120)
-    #       print(levelplot(originalMap,
-    #                       # main = BIRD,
-    #                       sub = subTitle,
-    #                       maxpixels = 7e6,
-    #                       margin = FALSE,
-    #                       colorkey = list(
-    #                         space = 'bottom',
-    #                         labels = list(at = seqAtC, font = 4),
-    #                         axis.line = list(col = 'black'),
-    #                         width = 0.75
-    #                       ),
-    #                       par.settings = list(
-    #                         strip.border = list(col = 'transparent'),
-    #                         strip.background = list(col = 'transparent'),
-    #                         axis.line = list(col = 'transparent')),
-    #                       scales = list(draw = FALSE),
-    #                       col.regions = palC,
-    #                       at = seqAtC,
-    #                       par.strip.text = list(cex = 0.8,
-    #                                             lines = 1,
-    #                                             col = "black")))
-    #       dev.off()
-    #     }
-    #     if (!is.null(folderID))
-    #       drive_upload(FigPath, as_id(folderID))
-    #   })
-    # })
-
     meanFigPath <- paste0("Fig_", paste0(BIRD, "_", PV, "_meanDiffDensity"), ".png")
     sdFigPath <- paste0("Fig_", paste0(BIRD, "_", PV, "_sdDiffDensity"), ".png")
     lapply(c("meanFigPath", "sdFigPath"), function(pth){
@@ -504,27 +444,6 @@ lapply(Species, function(BIRD){
                      main = subTitle,
                      axes=FALSE, box=FALSE,
                      zlim = c(minValM, maxValM))
-        # print(levelplot(originalMap,
-        #                 # main = BIRD,
-        #                 sub = subTitle,
-        #                 maxpixels = 7e6,
-        #                 margin = FALSE,
-        #                 colorkey = list(
-        #                   space = 'bottom',
-        #                   labels = list(at = seqAt, font = 4),
-        #                   axis.line = list(col = 'black'),
-        #                   width = 0.75
-        #                 ),
-        #                 par.settings = list(
-        #                   strip.border = list(col = 'transparent'),
-        #                   strip.background = list(col = 'transparent'),
-        #                   axis.line = list(col = 'transparent')),
-        #                 scales = list(draw = FALSE),
-        #                 col.regions = pal,
-        #                 at = seqAt,
-        #                 par.strip.text = list(cex = 0.8,
-        #                                       lines = 1,
-        #                                       col = "black")))
         dev.off()
       }
       if (!is.null(folderID))
@@ -532,6 +451,7 @@ lapply(Species, function(BIRD){
     })
   })
 })
+
 
 # Once everything is ready, we upload the following to "1iOqbk1cr8vldm-doo5wUgcCsluG3Odmu":
 # 1. Full tables and template maps for each bird and province: paste0(PV, "_", BIRD, "_summary.qs"); file.path(Paths$inputPath, paste0(PV, "_birdTemplate.tif"))
