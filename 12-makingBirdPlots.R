@@ -64,11 +64,6 @@ source("R/makeStudyArea_WBI.R")
 do.call(setPaths, summaryPaths)
 folderID <- "1iOqbk1cr8vldm-doo5wUgcCsluG3Odmu"
 
-############################
-overwriteFinalTable <- TRUE  # <~~~~~~~~~ ATTENTION
-############################
-
-
 # When all species are completed
 Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
              "BARS", "BAWW", "BBCU", "BBMA", "BBWA", "BBWO", "BCCH", "BEKI",
@@ -101,8 +96,6 @@ whichReadyPlots <- rbindlist(lapply(Species, function(BIRD){
   DT <- rbindlist(lapply(c("AB", "BC", "SK", "MB", "YT", "NT"), function(PV){
     fileName <- file.path(Paths$outputPath,
                           paste0(BIRD, "_", PV, "_plotTable.qs"))
-    # fileName <- file.path(Paths$outputPath,
-    #                       paste0(PV, "_", BIRD, "_", "_summary.qs"))
     return(data.table(Species = BIRD,
                       Province = PV,
                       Ready = file.exists(fileName)))
@@ -110,33 +103,40 @@ whichReadyPlots <- rbindlist(lapply(Species, function(BIRD){
   return(DT)
 }))
 
-
 ##########################
 # PREPARE SUMMARY TABLES #
 ##########################
 
+############################
+overwriteFinalTable <- FALSE  # <~~~~~~~~~ ATTENTION
+rewritePlotTable <- FALSE
+rewriteProvPlotTable <- FALSE
+whichProvPlotTableToRewrite <- ""
+rewriteDensityRasters <- FALSE
+############################
+
+Provinces <- c("AB", "BC", "SK", "MB", "YT", "NT")
 
 fileName <- file.path(Paths$outputPath, "allBirds_listPlotTable.qs")
-quick <- TRUE
-plan("multicore", workers = length(Species))
+
 if (any(!file.exists(fileName),
         overwriteFinalTable)) {
-DT <- future_lapply(Species, function(BIRD){
+DT <- lapply(Species, function(BIRD){
   index <- which(Species == BIRD)
   fileName <- file.path(Paths$outputPath,
-                        paste0(BIRD, "_plotTable.qs")) # <~~~~~ SHOULD REMOVE THESE
-  if (any(quick,
+                        paste0(BIRD, "_plotTable.qs"))
+  if (any(rewritePlotTable,
           !file.exists(fileName))){
-    message(paste0(fileName, " doesn't exists. Creating."))
+    message(paste0(fileName, " doesn't exists or needs to be re-written. Creating."))
     tic(paste0("Time elapsed for ", BIRD, ": "))
-  DT <- lapply(c("AB", "BC", "SK", "MB", "YT", "NT"), function(PV){
+  plan("multicore", workers = length(Provinces))
+  DT <- future_lapply(Provinces, function(PV) {
   fileName <- file.path(Paths$outputPath,
                         paste0(PV, "_", BIRD, "_summary.qs"))
   if (!file.exists(fileName)){
     message("Province ", PV, " for ", BIRD, " was still not processed. Skipping the species")
   } else {
     message("Processing ", PV, " for ", BIRD, ". Loading the table...")
-    Sys.sleep((index-1)*10)
     TB <- qs::qread(fileName)
     toc()
     # Load Raster to Match
@@ -156,7 +156,8 @@ DT <- future_lapply(Species, function(BIRD){
       lapply(unique(TB[, Year]), function(Y){
         meanRasName <- paste0(BIRD, "_", PV, "_", Y, "_averageDensity")
         sdRasName <- paste0(BIRD, "_", PV, "_", Y, "_sdDensity")
-        if (any(!file.exists(meanRasName),
+        if (any(rewriteDensityRasters,
+                !file.exists(meanRasName),
                 !file.exists(sdRasName))){
         TB2 <- TB[Year == Y, ]
         TB2[, c("Mean", "SD") := list(mean(val),
@@ -182,10 +183,11 @@ DT <- future_lapply(Species, function(BIRD){
       })
     # 2. Make the differences in density from 2011 to 2091 per pixel to put in boxplot -> This will be returned
     fileName <- file.path(Paths$outputPath,
-                          paste0(BIRD, "_", PV, "_plotTable.qs")) # <~~~~~ SHOULD REMOVE THESE
-    if (any(quick,
+                          paste0(BIRD, "_", PV, "_plotTable.qs"))
+    if (any(all(rewriteProvPlotTable,
+                PV %in% whichProvPlotTableToRewrite),
             !file.exists(fileName))) {
-      message(paste0(fileName, " doesn't exists. Creating."))
+      message(paste0(fileName, " doesn't exist or needs to be recreated. Creating."))
       tic(paste0("Elapsed Time for creating plot table for ", BIRD, " for ", PV, ": "))
       TB <- TB[Year %in% c(2011, 2091), ]
       TB[, Year := paste0("Year", Year)]
@@ -195,7 +197,8 @@ DT <- future_lapply(Species, function(BIRD){
         meanRasName <- paste0(BIRD, "_", PV, "_meanDiffDensity")
         sdRasName <- paste0(BIRD, "_", PV, "_sdDiffDensity")
         if (any(!file.exists(meanRasName),
-                !file.exists(sdRasName))){
+                !file.exists(sdRasName),
+                rewriteDensityRasters)){
           TB2 <- copy(TB)
           TB2[, c("Mean", "SD") := list(mean(diffDensity),
                                         sd(diffDensity)), by = "pixelID"]
@@ -258,11 +261,13 @@ DT <- future_lapply(Species, function(BIRD){
       qs::qsave(x = DT, file = fileName)
       toc()
     } else {
+      message(paste0(fileName, " exists. Loading..."))
       DT <- qs::qread(fileName)
     }
 return(DT)
   }
   })
+  plan("sequential")
   # Here you have the lists of all provinces for BIRD species
   # Need to collate all different lists together and save the tables
   # as a lists file
@@ -291,7 +296,6 @@ qs::qsave(x = DTorganized, file = fileName)
   message(paste0(fileName, " exists. Returning."))
   DTorganized <- qs::qread(fileName)
 }
-plan("sequential")
 
 DTtoSave <- DTorganized[["summaryDT"]]
 DTtoSave <- DTtoSave[, c("Species", "Province", "changedN")]
@@ -309,7 +313,6 @@ drive_upload(fNam, as_id("1iOqbk1cr8vldm-doo5wUgcCsluG3Odmu"))
 ##########################
 #  P R E P A R E  PLOT   #
 ##########################
-
 
 lapply(unique(DTorganized[["summaryDT"]][, Province]), function(PV){
 
@@ -345,14 +348,21 @@ lapply(unique(DTorganized[["summaryDT"]][, Province]), function(PV){
   }))
   # setkey(DTplot, "Mean")
   # levs <- DTplot[["Species"]]
-  levs <- c("GCKI", "CHSP", "BBWA", "CMWA", "HOWR", "CEDW", "AMRE", "BRCR",
-            "CAWA", "BCCH", "BBWO", "ATTW", "CCSP", "CONW", "BHVI", "BTNW",
-            "HAFL", "CSWA", "HAWO", "COYE", "EVGR", "BAWW", "GCSP", "BLJA",
-            "BLBW", "BBCU", "GCFL", "GRCA", "BOBO", "HOSP", "AMGO", "EAKI",
-            "EAPH", "COGR", "HOLA", "BEKI", "DOWO", "KILL", "BBMA", "EUST",
-            "FOSP", "ALFL", "BRBL", "BAOR", "GCTH", "BARS", "AMCR", "BHCO",
-            "CORA", "ATSP", "GRYE", "AMRO", "BOCH", "GRAJ", "BOWA", "BLPW",
-            "DEJU") # Levels based in AB
+  levs <- c("YRWA", "TEWA", "SWTH", "WWCR", "GCKI", "OVEN", "WAVI", "CHSP",
+            "WETA", "BBWA", "CMWA", "RCKI", "RBNU", "HOWR", "TOWA", "YHBL",
+            "CEDW", "MAWA", "AMRE", "BRCR", "WIWA", "RECR", "CAWA", "VATH",
+            "BCCH", "BBWO", "WEWP", "ATTW", "PHVI", "MOWA", "CCSP", "CONW",
+            "RBGR", "LEFL", "BHVI", "BTNW", "WIWR", "HAFL", "CSWA", "REVI",
+            "HAWO", "COYE", "EVGR", "SOSA", "YBSA", "NOFL", "PIWO", "NAWA",
+            "RUGR", "BAWW", "WBNU", "PUFI", "GCSP", "OSFL", "TOSO", "WTSP",
+            "MODO", "BLJA", "BLBW", "BBCU", "GCFL", "GRCA", "LCSP", "LISP",
+            "SEWR", "VEER", "SWSP", "LALO", "BOBO", "HOSP", "WIPT", "AMGO",
+            "EAKI", "EAPH", "COGR", "VESP", "HOLA", "BEKI", "DOWO", "KILL",
+            "BBMA", "EUST", "RUBL", "FOSP", "ALFL", "BRBL", "WCSP", "BAOR",
+            "GCTH", "SPSA", "PIGR", "TRES", "BARS", "AMCR", "WISN", "BHCO",
+            "PAWA", "CORA", "NOWA", "ATSP", "GRYE", "LEYE", "YBFL", "AMRO",
+            "BOCH", "GRAJ", "SOSP", "BOWA", "SAVS", "BLPW", "RWBL", "OCWA",
+            "YEWA", "PISI", "DEJU") # Levels based in AB
   DTplot[, Species := factor(Species, levels = levs)]
   DTplot[, Direction := as.factor(fifelse(changedN > 0,
                                           "Positive", "Negative"))]
@@ -378,23 +388,21 @@ lapply(unique(DTorganized[["summaryDT"]][, Province]), function(PV){
     geom_vline(xintercept = 0, linetype = "dashed") +
     theme_classic() +
     theme(legend.position = "bottom",
-          legend.text = element_text(size = 12),
-          axis.text = element_text(size = 12)) +
+          legend.text = element_text(size = 16),
+          axis.text = element_text(size = 16)) +
     coord_flip(ylim = c(-0.2, 0.2))
   plot1
   fileName <- file.path(Paths$outputPath,
                         paste0(PV,
                                "_changeInMeanAbundance.png"))
   ggsave(device = "png", filename = fileName,
-         width = 10, height = 32)
+         width = 10, height = 27)
   drive_upload(fileName, as_id(folderID))
 })
-
 
 ##########################
 # P R E P A R E  M A P S #
 ##########################
-
 
 library("rasterVis")
 library("gridExtra")
@@ -402,7 +410,7 @@ library("viridis")
 
 Provinces <- c("AB", "BC", "SK", "MB", "YT", "NT")
 Years <- seq(2011, 2091, by = 20)
-overwriteMaps <- TRUE
+overwriteMaps <- FALSE
 lapply(Species, function(BIRD){
   lapply(Provinces, function(PV){
     meanFigPath <- paste0("Fig_", paste0(BIRD, "_", PV, "_meanDiffDensity"), ".png")
@@ -445,13 +453,13 @@ lapply(Species, function(BIRD){
                      axes=FALSE, box=FALSE,
                      zlim = c(minValM, maxValM))
         dev.off()
-      }
-      if (!is.null(folderID))
+        if (!is.null(folderID))
       drive_upload(FigPath, as_id(folderID))
+      }
+
     })
   })
 })
-
 
 # Once everything is ready, we upload the following to "1iOqbk1cr8vldm-doo5wUgcCsluG3Odmu":
 # 1. Full tables and template maps for each bird and province: paste0(PV, "_", BIRD, "_summary.qs"); file.path(Paths$inputPath, paste0(PV, "_birdTemplate.tif"))
