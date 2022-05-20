@@ -60,7 +60,7 @@ options(future.globals.maxSize = maxLimit*1024^2) # Extra option for this specif
 source("05-google-ids.R")
 source("R/makeStudyArea_WBI.R")
 do.call(setPaths, summaryPaths)
-
+#
 Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
              "BARS", "BAWW", "BBCU", "BBMA", "BBWA", "BBWO", "BCCH", "BEKI",
              "BHCO", "BHVI", "BLBW", "BLJA", "BLPW", "BOBO", "BOCH", "BOWA",
@@ -77,13 +77,24 @@ Species <- c("ALFL", "AMCR", "AMGO", "AMRE", "AMRO", "ATSP", "ATTW", "BAOR",
              "WIPT", "WISN", "WIWA", "WIWR", "WTSP", "WWCR", "YBFL", "YBSA",
              "YEWA", "YHBL", "YRWA")
 
+# DELETED:
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/NT_ATSP_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/YT_WISN_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/NT_WISN_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/NT_WTSP_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/SK_YBFL_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/NT_YBFL_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/NT_YBSA_summary.qs
+# /mnt/wbi_data/WBI_forecasts/outputs/summary/MB_WTSP_summary.qs
+
 # Anything to Cleanup?
 # Data.table of the
 # alternative: NULL
-doCleanup <- data.table(climateModel = "CanESM5",
-                        SSP = c("SSP370", "SSP585"),
-                        Province = "NT",
-                        Run = "run01")
+doCleanup <- NULL
+# doCleanup <- data.table(climateModel = "CanESM5",
+#                         SSP = c("SSP370", "SSP585"),
+#                         Province = "NT",
+#                         Run = "run01")
 
 tic("Total elapsed time: ")
 allBirds <- lapply(Species, function(BIRD){
@@ -97,6 +108,7 @@ allBirds <- lapply(Species, function(BIRD){
                which(Species == BIRD), " of ", length(Species),
                "). ELAPSED TIME: "))
     if (!file.exists(fileName)){
+      message(paste0(fileName, " doesn't exist. Creating..."))
       allRuns <- rbindlist(lapply(c(paste0("run0", 1:5)), function(RP) {
         allCS <- rbindlist(lapply(c("CanESM5", "CNRM-ESM2-1"), function(CS) {
           allSS <- rbindlist(lapply(c("SSP370", "SSP585"), function(SS) {
@@ -155,6 +167,7 @@ allBirds <- lapply(Species, function(BIRD){
     } else {
      if (all(!is.null(doCleanup),
              P %in% unique(doCleanup[["Province"]]))){
+       message(paste0(fileName, " Exists but re-running is necessary. Processing..."))
        whatToCleanup <- doCleanup[Province == P, ]
        # 1. Cleanup any wrong runs
        # 1.2. Use the table whatToCleanup to remove specific rows
@@ -231,15 +244,15 @@ allBirds <- lapply(Species, function(BIRD){
        setkey(newRuns, "climateModel", "SSP", "Year", "Run", "pixelID")
        qs::qsave(newRuns, file = fileName)
        gc()
+       allRuns <- NA
      } else allRuns <- NA
     }
     toc()
     gc()
     return(allRuns)
-}),
+},
 future.seed = NULL)
-  plan("sequential")
+plan("sequential")
   toc()
 })
 toc()
-
