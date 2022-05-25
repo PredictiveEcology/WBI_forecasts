@@ -1,5 +1,3 @@
-moduleDir <- "modules"
-
 years <- c(2011, 2100)
 Nreps <- 5 ## adjust as needed
 studyAreaNames <- c("AB", "BC", "MB", "NT", "SK", "YT")

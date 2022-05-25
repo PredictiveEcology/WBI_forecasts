@@ -23,7 +23,7 @@ cache
 
 # simulation files + directories
 config_db.yml
-inputs/
+inputs*/
 inputs
 outputs*/
 outputs*

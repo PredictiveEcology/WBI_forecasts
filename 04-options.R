@@ -1,8 +1,4 @@
-################################################################################
-## Options
-################################################################################
-
-cacheDBconn <- if (config::get("cachedb") == "sqlite") {
+cache_conn <- if (config::get("cachedb") == "sqlite") {
   NULL ## default to sqlite
 } else if (config::get("cachedb") == "postgresql") {
   Require("RPostgres", require = FALSE)
@@ -18,6 +14,7 @@ cacheDBconn <- if (config::get("cachedb") == "sqlite") {
 
 maxMemory <- 5e+12
 
+terra::terraOptions(tempdir = checkPath(file.path(scratchDir, "terra"), create = TRUE))
 raster::rasterOptions(default = TRUE)
 opts <- options(
   "encoding" = "UTF-8",
@@ -27,7 +24,7 @@ opts <- options(
   "rasterTmpDir" = file.path(scratchDir, "raster"),
   "reproducible.cachePath" = file.path(scratchDir, "cache"),
   "reproducible.cacheSaveFormat" = cacheFormat,
-  "reproducible.conn" = cacheDBconn,
+  "reproducible.conn" = cache_conn,
   "reproducible.destinationPath" = normPath(defaultPaths[["inputPath"]]),
   "reproducible.inputPaths" = userInputPaths,
   "reproducible.nThreads" = 2,
