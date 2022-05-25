@@ -9,7 +9,7 @@ if (!require("Require", quietly = TRUE)) {
 
 Require("PredictiveEcology/SpaDES.install@development")
 
-installSpaDES(dontUpdate = .spatialPkgs)
+#installSpaDES(dontUpdate = .spatialPkgs, upgrade = "never")
 
 if (FALSE) {
   installSpatialPackages()
@@ -19,7 +19,7 @@ if (FALSE) {
 
 out <- makeSureAllPackagesInstalled(modulePath = "modules")
 
-Require(c("config", "RCurl", "RPostgres", "XML"), require = FALSE)
+Require(c("config", "RCurl", "RPostgres", "tictoc", "XML"), require = FALSE)
 
 ## NOTE: always load packages LAST, after installation above;
 ##       ensure plyr loaded before dplyr or there will be problems
