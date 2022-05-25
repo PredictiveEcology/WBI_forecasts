@@ -42,4 +42,4 @@ posthocPaths[["scratchPath"]] <- checkPath(file.path(scratchDir, "posthoc"), cre
 summaryPaths <- defaultPaths
 summaryPaths[["cachePath"]] <- file.path(cacheDir, "cache_summary")
 summaryPaths[["outputPath"]] <- checkPath(file.path(dirname(defaultPaths[["outputPath"]]), "summary"), create = TRUE)
-posthocPaths[["scratchPath"]] <- checkPath(file.path(scratchDir, "summary"), create = TRUE)
+summaryPaths[["scratchPath"]] <- checkPath(file.path(scratchDir, "summary"), create = TRUE)
