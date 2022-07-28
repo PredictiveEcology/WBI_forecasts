@@ -1,30 +1,65 @@
 #!/bin/bash
 
+#------------------------------------------------------------------------------#
+# NWT
+#------------------------------------------------------------------------------#
+
+cd /mnt/wbi_data/borealBirdsAndForestry
+tar -vc --use-compress-program="pigz -p 16" -f - inputs | split -b 10G - inputs.tar.gz.
+tar -vc --use-compress-program="pigz -p 16" -f - outputs | split -b 10G - outputs.tar.gz.
+
+rsync -avP /mnt/wbi_data_orig/borealBirdsAndForestry/*.tar.gz.* narval:/home/achubaty/projects/rrg-stevec/achubaty/nwt_data/borealBirdsAndForestry/
+
+cd /mnt/wbi_data/caribouRSF
+
+tar -vc --use-compress-program="pigz -p 4" -f inputs.tar.gz inputs
+tar -vc --use-compress-program="pigz -p 4" -f outputs.tar.gz outputs
+
+rsync -avP /mnt/wbi_data_orig/caribouRSF/*.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/nwt_data/caribouRSF/
+
+cd /mnt/wbi_data/NWT
+tar -vc --use-compress-program="pigz -p 16" -f - inputs | split -b 10G - inputs.tar.gz.
+
+rsync -avP /mnt/wbi_data_orig/NWT/*.tar.gz.* narval:/home/achubaty/projects/rrg-stevec/achubaty/nwt_data/NWT/
+
+cd /mnt/wbi_data/NWT/outputs
+tar -vc --use-compress-program="pigz -p 4" -f caribou.tar.gz caribou
+tar -vc --use-compress-program="pigz -p 4" -f factorialExperiment.tar.gz factorialExperiment
+tar -vc --use-compress-program="pigz -p 16" -f - landscapeRuns | split -b 10G - landscapeRuns.tar.gz.
+tar -vc --use-compress-program="pigz -p 16" -f - PAPER_EffectsOfClimateChange | split -b 10G - PAPER_EffectsOfClimateChange.tar.gz.
+
+rsync -avP /mnt/wbi_data_orig/NWT/outputs/*.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/nwt_data/NWT/outputs/
+rsync -avP /mnt/wbi_data_orig/NWT/outputs/*.tar.gz.* narval:/home/achubaty/projects/rrg-stevec/achubaty/nwt_data/NWT/outputs/
+
+#------------------------------------------------------------------------------#
+# WBI
+#------------------------------------------------------------------------------#
+
 ## BAM
 cd /mnt/wbi_data/BAM
 tar -vc --use-compress-program="pigz -p 16" -f stacks2001.tar.gz stacks2001
 tar -vc --use-compress-program="pigz -p 16" -f stacks2011.tar.gz stacks2011
 
-rsync -avP /mnt/wbi_data_orig/BAM/*.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/BAM/
-
+rsync -avP /mnt/wbi_data/BAM/*.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/BAM/
 
 cd /mnt/wbi_data/BAM/bootstrap_rasters
 tar -vc --use-compress-program="pigz -p 16" -f mean.tar.gz mean
 tar -vc --use-compress-program="pigz -p 16" -f var.tar.gz var
 
-rsync -avP /mnt/wbi_data_orig/BAM/bootstrap_rasters/*.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/BAM/bootstrap_rasters/
+rsync -avP /mnt/wbi_data/BAM/bootstrap_rasters/*.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/BAM/bootstrap_rasters/
 
-## Harvesting
+## Harvesting [completed]
 cd /mnt/wbi_data/
 tar -vc --use-compress-program="pigz -p 4" -f Harvesting.tar.gz Harvesting
 
-rsync -avP /mnt/wbi_data_orig/Harvesting.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/
+rsync -avP /mnt/wbi_data/Harvesting.tar.gz narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/
 
 ## posthocBirds
-cd /mnt/wbi_data_orig/posthocBirds
+cd /mnt/wbi_data/posthocBirds
+tar -vc --use-compress-program="pigz -p 4" -f - inputs | split -b 10G - inputs.tar.gz.
 tar -vc --use-compress-program="pigz -p 4" -f - outputs | split -b 10G - outputs.tar.gz.
 
-rsync -avP /mnt/wbi_data_orig/posthocBirds/outputs.tar.gz.* narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/posthocBirds/
+rsync -avP /mnt/wbi_data/posthocBirds/outputs.tar.gz.* narval:/home/achubaty/projects/rrg-stevec/achubaty/wbi_data/posthocBirds/ ## TODO
 
 ## WBI_forecasts
 cd /mnt/wbi_data_orig/WBI_forecasts
