@@ -1,5 +1,3 @@
-moduleDir <- "modules"
-
 source("01-packages.R")
 
 source("02-init.R")

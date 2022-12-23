@@ -94,7 +94,6 @@ cores <-  if (peutils::user("ieddy")) {
 
 spreadFitParams <- list(
   fireSense_SpreadFit = list(
-    # cacheId_DE = paste0("DEOptim_", studyAreaName), # This is NWT DEoptim Cache
     cloudFolderID_DE = cloudCacheFolderID,
     cores = cores,
     DEoptimTests = if (peutils::user("emcintir")) "snll_fs" else c("adTest", "snll_fs"), # Can be one or both of c("adTest", "snll_fs")
@@ -116,12 +115,11 @@ spreadFitParams <- list(
     SNLL_FS_thresh = NULL, # NULL means 'autocalibrate' to find suitable threshold value
     upper = upper,
     # urlDEOptimObject = if (peutils::user("emcintir")) "spreadOut_2021-02-11_Limit4_150_SNLL_FS_thresh_BQS16t" else NULL,
-    "useCache_DE" = FALSE,
-    "useCloud_DE" = useCloudCache,
-    "verbose" = TRUE,
-    "visualizeDEoptim" = FALSE,
-    ".plot" = FALSE, # TRUE,
-    ".plotSize" = list(height = 1600, width = 2000)
+    useCloud_DE = useCloudCache,
+    verbose = TRUE,
+    visualizeDEoptim = FALSE,
+    .plot = FALSE, # TRUE,
+    .plotSize = list(height = 1600, width = 2000)
   )
 )
 
