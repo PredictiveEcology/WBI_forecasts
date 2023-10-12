@@ -12,7 +12,7 @@ form <- fSsimDataPrep[["fireSense_ignitionFormula"]]
 nCores <- if (studyAreaName == "NT") {
   2 ## 450+ GB RAM with just 2 cores
 } else {
-  pmin(14, pemisc::optimalClusterNum(biggestObj)/2 - 6)
+  pmin(8, pemisc::optimalClusterNum(biggestObj)/2 - 6)
 }
 
 ignitionFitParams <- list(
@@ -58,7 +58,7 @@ if (isTRUE(usePrerun) & isFALSE(upload_ignitionOut)) {
   saveSimList(sim = ignitionOut, filename = fignitionOut, fileBackend = 2)
 
   if (isTRUE(upload_ignitionOut)) {
-    fdf <- googledrive::drive_put(media = fignitionOut, path = gdriveURL, name = basename(fignitionOut))
+    fdf <- googledrive::drive_put(media = fignitionOut, path = as_id(gdriveURL), name = basename(fignitionOut))
     gid_ignitionOut <- as.character(fdf$id)
     rm(fdf)
     gdriveSims <- update_googleids(

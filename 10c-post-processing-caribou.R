@@ -4,8 +4,6 @@
 #                                         #
 ###########################################
 
-moduleDir <- "modules"
-
 usrEmail <- ifelse(Sys.info()[["user"]] == "tmichele",
                    "tati.micheletti@gmail.com",
                    NULL)

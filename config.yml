@@ -11,11 +11,13 @@ default:
     googledrivecache: null
   codechecks: true
   delaystart: 0
-  inputpaths: null
   messagingNumCharsModule: 21
+  nreps: 5
   paths:
     cachedir: "cache"
-    scratchdir: "/tmp/scratch/WBI_fireSense"
+    inputpaths: null
+    libpathdeoptim: !expr Require::checkPath(ifelse(nzchar(Sys.getenv("PRJ_PKG_DIR")), Sys.getenv("PRJ_PKG_DIR"), "packages"))
+    scratchdir: !expr file.path(dirname(tempdir()), "scratch", "WBI_forecasts")
   plot: true
   reproduciblealgorithm: 2
   reupload: false
@@ -43,8 +45,10 @@ alex:
     googleuser: "achubaty@for-cast.ca"
     usecloud: false ## TODO: use cloud cache
   codechecks: false ## TODO: set false after all fixed
+  messagingNumCharsModule: 36
   nreps: 5
   paths:
+    libpathdeoptim: "~/GitHub/WBI_forecasts/packages"
     scratchdir: !expr if (grepl("for-cast[.]ca", Sys.info()[["nodename"]])) "/mnt/scratch/WBI_forecasts" else "/tmp/scratch/WBI_forecasts"
   reupload: !expr if (grepl("picea", Sys.info()[["nodename"]])) TRUE else FALSE
   simfileformat: "qs"
@@ -57,7 +61,7 @@ ian:
   cacheformat: "qs"
   cloud:
     #cachedir: ""
-    googleuser: 'ianmseddy@gmail.com'
+    googleuser: "ianmseddy@gmail.com"
     usecloud: false
   codechecks: true ## TODO: set false after all fixed
   reproduciblealgorithm: 2 #use old digest
@@ -69,20 +73,20 @@ eliot:
   cacheformat: "qs"
   cloud:
     #cachedir: ""
-    googleuser: 'eliotmcintire@gmail.com'
+    googleuser: "eliotmcintire@gmail.com"
     usecloud: false
     googledrivecache: ".secret"
   codechecks: false
-  inputpaths: ~/data
   messagingNumCharsModule: 24
+  paths:
+    inputpaths: "~/data"
+    scratchdir: "~/data/scratch/WBI_forecasts"
   reproduciblealgorithm: 2
   studyarea: "YT" ## AB, BC, SK, MB, YT, NT, NU, RIA
   usememoise: false
   useprerun: false
   userequire: false
   useterra: true
-  paths:
-    scratchdir: "~/data/scratch/WBI_forecasts"
 
 tati:
   inherits: production

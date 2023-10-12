@@ -11,6 +11,25 @@ switch(Sys.info()[["user"]],
 )
 #Sys.getenv("R_CONFIG_ACTIVE") ## verify
 
+## TODO: use this below
+runNameExtract <- function(runName, name, default) {
+  runNameCaptured <- substitute(runName)
+  origRunName <- quote(runName)
+  runNameTxt <- as.character(runNameCaptured)
+  if (exists(runNameTxt, envir = parent.frame())) {
+    runName <- eval(origRunName)
+    chunks <- strsplit(runName, "_")[[1]]
+    climateSSP <- as.numeric(substr(chunks[length(chunks) - 1], 4, 6))
+    climateGCM <- if (grepl("ensemble", runName)) paste0(chunks[2], "_", chunks[3]) else chunks[2]
+    studyAreaName <- chunks[1]
+    run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
+  } else {
+    assign(name, default)
+  }
+  ret <- eval(parse(text = name))
+  return(ret)
+}
+
 cacheDir <- config::get("paths")[["cachedir"]]
 cacheFormat <- config::get("cacheformat")
 climateGCM <- config::get("climategcm")
@@ -19,6 +38,8 @@ cloudCacheFolderID <- config::get("cloud")[["cachedir"]]
 codeChecks <- config::get("codechecks")
 delayStart <- config::get("delaystart")
 fitUsing <- if (grepl("for-cast[.]ca", Sys.info()[["nodename"]])) 3 else 0
+libPathDEoptim <- file.path(config::get("paths")[["libpathdeoptim"]], version$platform,
+                            paste0(version$major, ".", strsplit(version$minor, "[.]")[[1]][1]))
 messagingNumCharsModule <- config::get("messagingNumCharsModule")
 newGoogleIDs <- FALSE ## gets rechecked/updated for each script (06, 07x, 08x) based on script 05
 nReps <- config::get("nreps")
@@ -26,28 +47,20 @@ reproducibleAlgorithm <- config::get("reproduciblealgorithm")
 reupload <- config::get("reupload")
 run <- config::get("run")
 scratchDir <- config::get("paths")[["scratchdir"]]
-simFileFormat <- config::get()[["simfileformat"]]
+simFileFormat <- config::get("simfileformat")
 studyAreaName <- config::get("studyarea")
 if (studyAreaName == "NU") studyAreaName <- "NT" ## NU and NT are joined
 useCloudCache <- config::get("cloud")[["usecloud"]]
 useLandR.CS <- config::get("uselandrcs")
 useMemoise <- config::get("usememoise")
 usePlot <- config::get("plot")
-userInputPaths <- config::get("inputpaths")
+userInputPaths <- config::get("paths")[["inputpaths"]]
 usePrerun <- config::get("useprerun")
 useRequire <- config::get("userequire")
 useTerra <- config::get("useterra")
 .plotInitialTime <- if (isTRUE(usePlot)) 2011 else NA
 
-if (!exists("runName")) {
-  runName <- sprintf("%s_%s_SSP%03d_run%02d", studyAreaName, climateGCM, climateSSP, run)
-} else {
-  chunks <- strsplit(runName, "_")[[1]]
-  climateSSP <- substr(chunks[length(chunks) - 1], 4, 6)
-  climateGCM <- if (grepl("ensemble", runName)) paste0(chunks[2], "_", chunks[3]) else chunks[2]
-  studyAreaName <- chunks[1]
-  run <- as.numeric(substr(chunks[length(chunks)], 4, 5))
-}
+runName <- sprintf("%s_%s_SSP%03d_run%02d", studyAreaName, climateGCM, climateSSP, run)
 
 firstRunMDCplots <- if (run == 1 && reupload) TRUE else FALSE
 firstRunIgnitionFit <- if (run == 1) TRUE else FALSE
