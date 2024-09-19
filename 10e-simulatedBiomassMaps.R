@@ -1,38 +1,47 @@
+library(terra)
+library(reproducible)
+library(SpaDES.tools)
+
 years <- 2011:2100
 Nreps <- 5 ## adjust as needed
 studyAreaNames <- c("AB", "BC", "MB", "NT", "SK", "YT")
 climateScenarios <- c("CanESM5_SSP370", "CanESM5_SSP585", "CNRM-ESM2-1_SSP370", "CNRM-ESM2-1_SSP585")
 
-library(raster)
-library(reproducible)
-library(SpaDES.core)
+## re-create simulatedBiomass maps from cohortData -------------------------------------------------
 
-# create timeSinceFire maps -------------------------------------------------------------------
+ncores <- min(length(years), parallel::detectCores() / 2)
 
-options(mc.cores = length(studyAreaNames))
+options(mc.cores = ncores)
 
-parallel::mclapply(studyAreaNames, function(sAN) {
-  simOutputPath <- "outputs"
+parallel::mclapply(years, function(yr) {
+  simOutputPath <- "~/GitHub/WBI_forecasts/outputs"
   resultsDir0 <- file.path(simOutputPath, sAN)
 
-  lapply(climateScenarios, function(cs) {
-    lapply(seq_len(Nreps), function(run) {
-      lapply(years, function(year) {
-        runName <- sprintf("%s_%s_run%02d", sAN, cs, run)
+  lapply(studyAreaNames, function(sAN) {
+    lapply(climateScenarios, function(cs) {
+      lapply(seq_len(Nreps), function(run) {
+          runName <- sprintf("%s_%s_run%02d", sAN, cs, run)
         resultsDir <- file.path(simOutputPath, runName)
         resultsDirOut <- checkPath(file.path(resultsDir, "postprocess"), create = TRUE)
-        fBmap <- file.path(resultsDirOut, paste0("simulatedBiomassMap_redux_", year, ".tif"))
+        fBmap <- file.path(resultsDirOut, paste0("simulatedBiomassMap_redux_", yr, ".tif"))
 
-        if (!file.exists(fBmap)) {
-          sim <- loadSimList(file.path(resultsDir, paste0(runName, ".qs")))
-          writeRaster(sim$simulatedBiomassMap, filename = fBmap, datatype = "FLT4S", overwrite = TRUE)
-          rm(sim)
-        }
+        cd <- file.path(resultsDir, paste0("cohortData_", yr, "_year", yr, ".qs")) |>
+          qs::qread()
+        cdr <- cd[, .(uniqueSumB = as.integer(sum(B, na.rm = TRUE))), by = pixelGroup]
+
+        pgm <- file.path(resultsDir, paste0("pixelGroupMap_", yr, "_year", yr, ".tif")) |>
+          terra::rast()
+        set.names(pgm, "pixelGroup")
+
+        Bmap <- rasterizeReduced(cdr, pgm, "uniqueSumB")
+        set.names(Bmap, "Biomass")
+
+        writeRaster(Bmap, filename = fBmap, datatype = "FLT4S", overwrite = TRUE)
 
         invisible(runName)
       })
     })
   })
 
-  invisible(sAN)
+  invisible(yr)
 })
