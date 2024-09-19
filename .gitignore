@@ -4,7 +4,7 @@
 .RData
 .Ruserdata
 .Rproj.user/
-.Renviron
+*.Renviron
 Rplots*.pdf
 
 ## R package libraries
@@ -34,4 +34,3 @@ spreadOut*
 # googledrive/gargle auth
 .secret
 western-boreal-initiative-*.json
-

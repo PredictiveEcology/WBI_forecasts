@@ -1,4 +1,18 @@
+if (file.exists("~/.Renviron")) readRenviron("~/.Renviron") ## GITHUB_PAT
+if (file.exists("WBI_forecasts.Renviron")) readRenviron("WBI_forecasts.Renviron") ## database credentials
+
+prjDir <- "~/GitHub/WBI_forecasts"
+
+stopifnot(identical(normalizePath(prjDir), getwd()))
+
 source("01-packages.R")
+
+options(
+  Ncpus = .ncores,
+  repos = c(CRAN = "https://cran.rstudio.com")
+)
+
+## TODO: update below
 
 source("02-init.R")
 source("03-paths.R")

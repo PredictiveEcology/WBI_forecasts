@@ -1,18 +1,10 @@
-if (file.exists(".Renviron")) readRenviron(".Renviron")
+prjName <- "WBI_forecasts"
+prjDir <- file.path("~", "GitHub", prjName) ## TODO: make more general
 
-pkgDir <- Sys.getenv("PRJ_PKG_DIR")
-if (!nzchar(pkgDir)) {
-  pkgDir <- "packages" ## default: use subdir within project directory
-}
-pkgDir <- normalizePath(
-  file.path(pkgDir, version$platform, paste0(version$major, ".", strsplit(version$minor, "[.]")[[1]][1])),
-  winslash = "/",
-  mustWork = FALSE
-)
+message(paste("initializing", prjName, "project...\n"))
 
-if (!dir.exists(pkgDir)) {
-  dir.create(pkgDir, recursive = TRUE)
-}
-
-.libPaths(pkgDir)
+pkgDir <- file.path(tools::R_user_dir(basename(prjDir), "data"), "packages",
+                    version$platform, getRversion()[, 1:2])
+dir.create(pkgDir, recursive = TRUE, showWarnings = FALSE)
+.libPaths(pkgDir, include.site = FALSE)
 message("Using libPaths:\n", paste(.libPaths(), collapse = "\n"))
